@@ -1,0 +1,17 @@
+// Slicing now has almost a linear behavior
+@import '../mendeleev/prelude/functions/list';
+
+$N: 100;
+$M: 9;
+$lst: 1 2 3 4 5 6 7 8 9 10;
+@for $i from 0 to $M {
+    $lst: join($lst, $lst);
+}
+@warn 'List length: #{length($lst)}';
+
+@for $i from 0 to $N {
+    $do: list-tail($lst);
+}
+
+//$r: list-slice($lst, 1, 120);
+//@warn $r, length($r);

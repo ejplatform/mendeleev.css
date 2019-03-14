@@ -1,0 +1,90 @@
+@import '../mendeleev/preflight';
+
+//
+// CONFIG
+//
+$do: assert-eq(config(palette), ());
+$do: assert-eq(config(typography typeface), null);
+$do: assert-eq(config(typography invalid-property, some), some);
+
+//
+// LINKED LIST
+//
+$do: assert-eq(linked-list(1 2 3), (1 (2 (3 null))));
+$do: assert-eq(link-reverse((1 (2 (3 null)))), (3 (2 (1 null))));
+$do: assert-eq(link-to-list((1 (2 (3 null)))), (1, 2, 3));
+$do: assert-eq(link-to-list((1 (2 (3 (4, (5, (6, (7, (8, (9, (10, null))))))))))), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+
+//
+// LIST FUNCTIONS
+//
+$do: assert-eq(list-reverse(1 2 3), 3 2 1);
+$do: assert-eq(list-reverse(()), ());
+
+$do: assert-eq(list-head(1 2 3), 1);
+
+$do: assert-eq(list-tail(1 2 3), 2 3);
+$do: assert-eq(list-tail(1 2), singleton(2));
+$do: assert-eq(list-tail((1,)), ());
+$do: assert-eq(list-tail(()), ());
+
+$do: assert-eq(list-apply(1 2 3 4, negate), -1 -2 -3 -4);
+$do: assert-eq(list-apply(1 2 3 4, op-add, 1), 2 3 4 5);
+
+//
+// MAP FUNCTIONS
+//
+$do: assert-eq(map-has-keys((foo: bar, ham: spam), foo ham), true);
+$do: assert-eq(map-has-keys((foo: bar, ham: spam), foo ham baz), false);
+
+$do: assert-eq(map-path((foo: bar), singleton(foo)), bar);
+$do: assert-eq(map-path((foo: (bar: spam)), singleton(foo)), (bar: spam));
+$do: assert-eq(map-path((foo: (bar: (ham: spam))), foo bar ham), spam);
+$do: assert-eq(map-path((foo: (bar: (ham: spam))), foo bar eggs, eggs), eggs);
+
+$do: assert-eq(map-get-first((foo: bar, ham: spam), eggs ham), spam);
+$do: assert-eq(map-get-first((foo: bar, ham: spam), ham eggs), spam);
+$do: assert-eq(map-get-first((foo: bar, ham: spam), foo ham), bar);
+$do: assert-eq(map-get-first((foo: bar, ham: spam), ham foo), spam);
+
+//
+// NUMERIC FUNCTIONS
+//
+$do: assert-eq(pc(50%), 50%);
+$do: assert-eq(pc(0.5), 50%);
+$do: assert-eq(pow(3, 0), 1);
+$do: assert-eq(pow(3, 1), 3);
+$do: assert-eq(pow(2, 8), 256);
+$do: assert-eq(pow(2, -1), 0.5);
+$do: assert-eq(pow(2, -2), 0.25);
+
+$do: assert-simeq(sqrt(2), 1.414213562);
+$do: assert-simeq(sqrt(4), 2.0);
+
+$do: assert-eq(exponential-progression(2, 4, 2), 2 4 8 16);
+$do: assert-eq(exponential-progression(0.5, 4, 16), 16 8 4 2);
+
+$do: assert-eq(sign(42), 1);
+$do: assert-eq(sign(-42), -1);
+$do: assert-eq(sign(0), 0);
+
+//
+// SIZES
+//
+$do: assert-eq(size-scale('3'), 1.5rem);
+$do: assert-eq(size-scale(3), 1.5rem);
+$do: assert-eq(size-scale(-2), -0.75rem);
+$do: assert-eq(size-scale('5p'), 9rem);
+$do: assert-eq(size-scale(3rem), 3rem);
+
+//
+// STRING FUNCTIONS
+//
+$do: assert-eq(str-starts-with(foobar, foo), true);
+$do: assert-eq(str-starts-with(foobar, bar), false);
+
+$do: assert-eq(str-ends-with(foobar, bar), true);
+$do: assert-eq(str-ends-with(foobar, foo), false);
+
+$do: assert-eq(str-split('foo.bar', '.'), foo bar);
+$do: assert-eq(str-split('foo', '.'), singleton(foo));
