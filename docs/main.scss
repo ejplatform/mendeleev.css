@@ -1,0 +1,25 @@
+// CONFIGURATION
+// ======================================== //
+
+// Set configuration
+$config: ();
+
+// Import mendeleev
+@import '../mendeleev/prelude';
+
+// Define element styles
+@import '../mendeleev/elements';
+
+// Import and define components
+// @import '../mendeleev/components';
+
+.markdown {
+    @for $i from 1 through 6 {
+        h#{$i} {
+            //@extend .uppercase, .text-brand, .text-#{$i + 2};
+        }
+    }
+}
+
+// Import utilities
+@import '../mendeleev/utilities';
