@@ -1,0 +1,72 @@
+////////////////////////////////////////////////////////////////////////////////
+/// MIXINS THAT HELP CREATING UTILITY CLASSES
+/// @group Sizes
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+@import '../functions/sizes';
+
+/// Include some sizing property.
+///
+/// Value can be a size or a map from directions to sizes. It understands the
+/// following directions: top, bottom, left and right and the pseudo directions:
+/// horizontal, x, vertical, y, and all.
+///
+/// @arg $property - Property name.
+/// @arg $value - Size or mapping of sizes.
+/// @arg $suffix - Suffix to add to property declaration (e.g.. !important);
+@mixin sizing($property, $value, $suffix: null) {
+    $data: sizing($property, $value);
+    //noinspection SassScssResolvedByNameOnly
+    @include raw-map($data, $suffix: $suffix);
+}
+
+@mixin sizing-scale($property, $value, $suffix: null) {
+    $data: sizing-scale($property, $value);
+    //noinspection SassScssResolvedByNameOnly
+    @include raw-map($data, $suffix: $suffix);
+}
+
+/// A sizing function for widths.
+@mixin width($value, $suffix: null) {
+    @include sizing(width, $value, $suffix);
+}
+
+@mixin width-scale($value, $suffix: null) {
+    @include sizing-scale(width, $value, $suffix);
+}
+
+/// A sizing function for heights.
+@mixin height($value, $suffix: null) {
+    @include sizing(height, $value, $suffix);
+}
+
+@mixin height-scale($value, $suffix: null) {
+    @include sizing-scale(height, $value, $suffix);
+}
+
+/// A sizing function for margins.
+@mixin margin($value, $suffix: null) {
+    @include sizing(margin, $value, $suffix);
+}
+
+@mixin margin-scale($value, $suffix: null) {
+    @include sizing-scale(margin, $value, $suffix);
+}
+
+/// A sizing function for pads.
+@mixin pad($value, $suffix: null) {
+    @include sizing(padding, $value, $suffix);
+}
+
+@mixin pad-scale($value, $suffix: null) {
+    @include sizing-scale(padding, $value, $suffix);
+}
+
+/// Alias to the pad mixin.
+@mixin padding($value, $suffix: null) {
+    @include pad($value, $suffix);
+}
+
+@mixin padding-scale($value, $suffix: null) {
+    @include pad-scale($value, $suffix);
+}

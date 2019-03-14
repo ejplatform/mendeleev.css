@@ -1,0 +1,43 @@
+//------------------------------------------------------------------------------
+// FONT STACKS
+//------------------------------------------------------------------------------
+
+// FONT NAMES
+
+// System fonts
+$font-stack-system-font: -apple-system, BlinkMacSystemFont, “Segoe UI”, “Oxygen”, “Ubuntu”, “Cantarell”, “Roboto”, “Fira Sans”, “Droid Sans”, “Helvetica Neue”, sans-serif !default;
+
+// Sans-serif
+$font-stack-system-sans: sans-serif !default;
+$font-stack-roboto: "Roboto", -apple-system, BlinkMacSystemFont, “Segoe UI”, “Oxygen”, “Ubuntu”, “Cantarell”, “Fira Sans”, “Droid Sans”, “Helvetica Neue”, $font-stack-system-sans !default;
+$font-stack-open-sans: "Open Sans", $font-stack-system-sans !default;
+$font-stack-exo: "Exo", $font-stack-system-sans !default;
+$font-stack-raleway: "Raleway", $font-stack-system-sans !default;
+$font-stack-lato: "Lato", $font-stack-system-sans !default;
+$font-stack-patua-one: "Patua One", $font-stack-system-sans !default;
+$font-stack-ibm-plex-sans: 'IBM Plex Sans', $font-stack-system-sans !default;
+
+// Sans Condensed
+$font-stack-system-sans-condensed: $font-stack-system-sans !default;
+$font-stack-open-sans-condensed: "Open Sans Condensed", $font-stack-system-sans-condensed !default;
+$font-stack-ibm-plex-sans-condensed: 'IBM Plex Sans Consensed', $font-stack-system-sans !default;
+
+// Serif
+$font-stack-system-serif: serif !default;
+$font-stack-georgia: "Georgia", $font-stack-system-serif !default;
+$font-stack-times: "Times New Roman", $font-stack-system-serif !default;
+$font-stack-ibm-plex-serif: 'IBM Plex Serif', $font-stack-system-serif !default;
+
+// Cursive
+$font-stack-system-cursive: cursive !default;
+$font-stack-comic-sans: "Comic Sans", $font-stack-system-cursive !default;
+
+// Monospace
+$font-stack-system-monospace: monospace !default;
+$font-stack-ibm-plex-mono: "IBM Plex Mono", $font-stack-system-monospace !default;
+
+// Icons
+$font-stack-font-awesome: "Font Awesome 5 Free" !default;
+$font-stack-material-icons: "Material Icons" !default;
+
+$MENDELEEV_TYPEFACE: null !default;

@@ -1,0 +1,19 @@
+//------------------------------------------------------------------------------
+// CONTROL VISIBILITY, OPACITY AND Z-VALUES
+//------------------------------------------------------------------------------
+
+// Remove list styles
+%mendeleev-remove-list-styles, .list-inline, .list-reset {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+%mendeleev-list-inline, .list-inline {
+    > li {
+        display: inline;
+    }
+}
+
+$do: register-utilities(list-style, (decimal circluze disc square roman), 'list-', $emit: true);
+

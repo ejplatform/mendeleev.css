@@ -1,0 +1,101 @@
+.row {
+    align-items: stretch;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    > * {
+        min-width: 0;
+    }
+}
+
+.row-inline {
+    align-items: stretch;
+    display: inline-flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.row-expand > * {
+    flex: 1;
+}
+
+.col {
+    align-items: stretch;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    > * {
+        min-width: 0;
+    }
+}
+
+.col-inline {
+    align-items: stretch;
+    display: inline-flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.col-expand > * {
+    flex: 1;
+}
+
+$_idx: 0;
+@each $r in (0.125, 0.25, 0.375, 0.5) {
+    $_idx: $_idx + 1;
+    $size: size($r);
+
+    .gutter-#{$_idx} {
+        margin: #{$size} -#{$size};
+        > * {
+            margin: $size;
+        }
+    }
+
+    .gutter-#{$_idx} + .gutter-#{$_idx} {
+        margin-top: -#{$size};
+    }
+}
+
+//------------------------------------------------------------------------------
+// UTILITY CLASSES
+//------------------------------------------------------------------------------
+
+// Control direction
+$_emit: true;
+$do: register-utilities('flex-direction', row row-reverse column column-reverse, "flex-", $emit: $_emit);
+
+// Control alignment along the flex axis
+$_emit: true;
+$do: register-utilities('justify-content', (start: flex-start, center: center, end: flex-end, between: space-between, around: space-around, evenly: space-evenly), 'flex-', $emit: $_emit);
+
+// Control alignment perpendicularly to the flex axis
+$_emit: true;
+$do: register-utilities('align-items', (stretch: stretch, start: flex-start, center: center, end: flex-end, baseline: baseline), 'items-', $emit: $_emit);
+
+// Control alignment of flex content lines in the available area
+$_emit: true;
+$do: register-utilities('align-content', (start: flex-start, center: center, end: flex-end, between: space-between, around: space-around, evenly: space-evenly), 'content-', $emit: $_emit);
+
+// Control wrapping
+$_emit: true;
+$do: register-utilities('flex-wrap', wrap nowrap wrap-reverse, $emit: $_emit);
+
+// Control align-self
+$_emit: true;
+$do: register-utilities('align-self', (stretch: stretch, start: flex-start, center: center, end: flex-end, baseline: baseline), 'self-', $emit: $_emit);
+
+// Flex grow and shrink
+$_emit: true;
+$do: register-utilities('flex', (initial auto none), 'flex-', $emit: $_emit);
+$do: register-utilities('flex-grow', (grow: 1, nogrow: 0), 'flex-', $emit: $_emit);
+$do: register-utility('flex-shrink', (shrink: 1, noshrink: 0), $emit: $_emit);
+
+@for $n from 1 through 12 {
+    $do: register-utility('flex-#{$n}', (flex: $n), $emit: $_emit);
+}
+
+// Flex order
+@for $n from 1 through 12 {
+    $do: register-utility('order-#{$n}', (order: $n), $emit: $_emit);
+}

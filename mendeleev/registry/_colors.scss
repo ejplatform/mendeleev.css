@@ -1,0 +1,47 @@
+//------------------------------------------------------------------------------
+// COLORS
+//------------------------------------------------------------------------------
+
+// Special lists
+@function _color-list() {
+    $suffixes: map-keys(config('color.variants.color'));
+    $variants: config('color.roles.variants');
+    $extra: null;
+    @each $suffix in $suffixes {
+        @each $variant in $variants {
+            $extra: cons('#{$variant}-#{$suffix}', $extra);
+        }
+    }
+    $extra: link-to-list($extra);
+    @return join(join(config('color.roles.simple'), $variants), $extra);
+}
+
+//------------------------------------------------------------------------------
+// UTILITY CLASSES
+//------------------------------------------------------------------------------
+
+// Create all .color-* classes
+$_color-list: _color-list();
+$_emit: true;
+@each $name in $_color-list {
+    $color: map-get($MENDELEEV_COLORS, $name);
+    $contrast: map-get($MENDELEEV_CONTRAST, $color);
+    $do: register-utility('color-#{$name}', (
+        color: $contrast,
+        background-color: $color,
+    ), $emit: $_emit);
+}
+
+// Create the .bg-* classes that changes only the background
+$_emit: true;
+@each $name in $_color-list {
+    $color: map-get($MENDELEEV_COLORS, $name);
+    $do: register-utility('bg-#{$name}', (background-color: $color), $emit: $_emit);
+}
+
+// Create the .text-* classes that changes only the text
+$_emit: true;
+@each $name in $_color-list {
+    $color: map-get($MENDELEEV_COLORS, $name);
+    $do: register-utility('text-#{$name}', (color: $color), $emit: $_emit);
+}

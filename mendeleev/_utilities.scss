@@ -1,0 +1,7 @@
+@import 'prelude';
+
+@if not global-variable-exists(MENDELEEV_INCLUDED_UTILITIES) {
+    @include all-registered-utilities;
+}
+
+$MENDELEEV_INCLUDED_UTILITIES: true !default;

@@ -1,0 +1,281 @@
+@import '../preflight';
+
+$_label-margin-bottom: size(1);
+$MENDELEEV_INPUT_ELEMENT_FORM_COLOR: color('brand') !default;
+
+// 1-3. Change the font styles in all browsers
+// 4. Remove the margin in Firefox and Safari.
+input,
+optgroup,
+select {
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.15;
+    margin: 0;
+}
+
+// 1. Add the correct box sizing in IE 10.
+// 2. Remove the padding in IE 10.
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+// Correct the cursor style of increment and decrement buttons in Chrome.
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+// 1. Correct the odd appearance in Chrome and Safari.
+// 2. Correct the outline style in Safari.
+[type="search"] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
+
+// Remove the inner padding in Chrome and Safari on macOS.
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+// 1. Correct the inability to style clickable types in iOS and Safari.
+// 2. Change font properties to `inherit` in Safari.
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+input[type='email' i],
+input[type='number' i],
+input[type='password' i],
+input[type='search' i],
+input[type='tel' i],
+input[type='text' i],
+input[type='url' i],
+input[type='color' i],
+input[type='date' i],
+input[type='month' i],
+input[type='week' i],
+input[type='datetime' i],
+input[type='datetime-local' i],
+input:not([type]),
+textarea,
+select {
+    @extend %mendeleev-input;
+
+    &:hover, &:focus {
+        background-color: #fafafa;
+    }
+    &:focus {
+        box-shadow: inset 0 0 0.5rem 2px rgba(0, 0, 0, 0.08), 0 0 0 2px adjust-color($MENDELEEV_INPUT_ELEMENT_FORM_COLOR, $alpha: 50%);
+        filter: none;
+        outline: 0;
+    }
+}
+
+%mendeleev-input {
+    @include map(config('input'));
+    display: block;
+    font-size: 1rem;
+    font-family: inherit;
+    height: size(1.75);
+    line-height: config('typography.lead');
+    margin: size(0.25) 0 $_label-margin-bottom 0;
+    padding: 0 size(0.75);
+
+}
+
+input[type='color' i] {
+    padding: size(0.25) size(0.75);
+}
+
+input[type='date' i],
+input[type='month' i],
+input[type='week' i],
+input[type='datetime-local' i],
+textarea {
+    font-size: var(--rem-px);
+}
+
+input[type='checkbox' i],
+input[type='radio' i] {
+    display: inline;
+    margin-right: 1em;
+}
+
+$_style-controls: true;
+@if $_style-controls {
+    $color: $MENDELEEV_INPUT_ELEMENT_FORM_COLOR;
+    $color-dark: mix($color, color('black'), 75%);
+    $color-light: adjust-color(mix($color, color('white'), 75%), $saturation: -50%);
+    $size: 1em;
+    $check-mark-width: 0.2em;
+
+    // Hide controls
+    input[type='checkbox' i],
+    input[type='radio' i] {
+        z-index: -1;
+        transform: scale(1.5);
+        outline: none;
+    }
+
+    // Default input button styles
+    input[type='checkbox' i]::after,
+    input[type='radio' i]::after {
+        // Display
+        display: block;
+        content: "";
+        z-index: 1;
+        cursor: pointer;
+
+        // Sizing
+        box-sizing: border-box;
+        width: $size;
+        height: $size;
+        position: relative;
+
+        // Color
+        background-color: white;
+        box-shadow: inset 0 0 ($size / 2) rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.20);
+        outline-color: $color;
+    }
+
+    input[type='checkbox' i]::after {
+        bottom: 0.9em;
+        right: 0.15em;
+        border-radius: 0.2em;
+    }
+
+    input[type='checkbox' i]::before {
+        // Display
+        content: "";
+        display: block;
+        z-index: 2;
+
+        // Border
+        border: solid transparent;
+        border-width: 0 $check-mark-width $check-mark-width 0;
+        transform: rotate(45deg);
+
+        // Position
+        width: 0.4em;
+        height: 0.7em;
+        position: relative;
+        right: -0.2em;
+        bottom: 0.1em;
+    }
+
+    input[type='radio' i]::after {
+        border-radius: 50%;
+        bottom: 0.25em;
+        right: 0.1em;
+    }
+
+    // Checked state
+    input[type='checkbox' i]:checked::before {
+        border-color: white;
+    }
+    input[type='checkbox' i]:checked::after {
+        background-color: $color;
+        transition: background-color 0ms;
+    }
+    input[type='radio' i]:checked::after {
+        border: ($size / 3) solid $color;
+        box-shadow: none;
+    }
+
+    // Hover effect
+    input[type='checkbox' i]:hover:not(:disabled)::after,
+    input[type='radio' i]:hover:not(:disabled)::after {
+        background-color: #eee;
+    }
+
+    // Checked hover effect
+    input[type='checkbox' i]:checked:hover:not(:disabled)::after {
+        background-color: $color-dark;
+    }
+    input[type='radio' i]:checked:hover:not(:disabled)::after {
+        background-color: white;
+        border-color: $color-dark;
+    }
+
+    // Disabled
+    input[type='radio' i]:disabled::after {
+        filter: brightness(110%);
+    }
+
+    // Checked and disabled
+    input[type='checkbox' i]:checked:disabled::after {
+        background-color: $color-light;
+    }
+    input[type='radio' i]:checked:disabled::after {
+        border: ($size / 3) solid mix(white, grayscale($color), 50%);
+    }
+}
+
+select {
+    // background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23d1d1d1" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
+    padding-right: 3rem;
+
+    &:focus {
+        //background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%239b4dca" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>');
+    }
+}
+
+// 1. Remove the default vertical scrollbar in IE 10+.
+textarea {
+    overflow: auto;
+    padding: size(0.5) size(0.75);
+    min-height: size(5);
+}
+
+// 1-3. Correct the text wrapping in Edge and IE.
+// 4. Correct the color inheritance from `fieldset` elements in IE.
+// 5. Remove the padding so developers are not caught out when they zero out
+//   `fieldset` elements in all browsers.
+legend {
+    display: table;
+    max-width: 100%;
+    white-space: normal;
+    color: inherit;
+    padding: 0;
+    text-align: right;
+    max-width: 30rem;
+    font-size: 0.875rem;
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: $_label-margin-bottom;
+}
+
+label + %mendeleev-input {
+    margin-top: size(0.25) - $_label-margin-bottom;
+}
+
+%mendeleev-input + legend,
+label + legend {
+    margin-top: size(0.25) - $_label-margin-bottom;
+    margin-bottom: size(1);
+}
+
+// Correct the padding in Firefox.
+fieldset {
+    //border-width: 0;
+    padding: 0.35em 0.75em 0.625em;
+    padding: 0;
+}
+
+// Add the correct vertical alignment in Chrome, Firefox, and Opera.
+progress {
+    vertical-align: baseline;
+}
+
+.label-inline {
+    display: inline-block;
+    font-weight: normal;
+    margin-left: 0.5rem;
+}

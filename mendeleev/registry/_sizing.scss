@@ -1,0 +1,182 @@
+//------------------------------------------------------------------------------
+// DEFINE THE DEFAULT SIZING SCALE
+//------------------------------------------------------------------------------
+@import '../preflight';
+
+// Extract the default sizing scale
+$_mendeleev-sizes: ();
+@each $key in ('0', '1', '2', '3', '3p', '4', '4p', '5', '5p', '6', '6p', '7', '7p', '8') {
+    $value: size-scale($key);
+    $_mendeleev-sizes: map-merge($_mendeleev-sizes, ($key: $value));
+}
+
+//------------------------------------------------------------------------------
+// PADDING SCALE
+$_emit: responsive;
+
+// Full padding
+@each $key, $value in $_mendeleev-sizes {
+    $data: sizing(padding, $value);
+    $name: unquote('pad-#{$key}');
+    $do: register-utility($name, $data, $emit: $_emit);
+}
+
+// Horizontal and vertical
+@each $direction in (x y) {
+    @each $key, $value in $_mendeleev-sizes {
+        $data: sizing(padding, ($direction: $value));
+        $do: register-utility(pad-#{$direction}#{$key}, $data, $emit: $_emit);
+    }
+}
+
+// Top, bottom, left, right
+@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
+    @each $key, $value in $_mendeleev-sizes {
+        $data: (padding-#{$direction}: $value);
+        $do: register-utility(pad-#{$prefix}#{$key}, $data, $emit: $_emit);
+    }
+}
+
+//------------------------------------------------------------------------------
+// MARGIN SCALE
+$_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
+
+// Full margins
+$_emit: true;
+@each $key, $value in $_mendeleev-full-sizes {
+    $do: register-utility(margin-#{$key}, (margin: $value), $emit: $_emit);
+}
+
+$_emit: true;
+@each $key, $value in $_mendeleev-full-sizes {
+    @if $value != 0 {
+        $do: register-utility(margin-n#{$key}, (margin: -$value), $emit: $_emit);
+    }
+}
+
+
+// Horizontal and vertical
+$_emit: true;
+@each $direction in (x y) {
+    @each $key, $value in $_mendeleev-full-sizes {
+        $data: sizing(margin, ($direction: $value));
+        $do: register-utility(margin-#{$direction}#{$key}, $data, $emit: $_emit);
+    }
+}
+
+$_emit: true;
+@each $direction in (x y) {
+    @each $key, $value in $_mendeleev-full-sizes {
+        @if $value != 0 {
+            $data: sizing(margin, ($direction: -$value));
+            $do: register-utility(margin-n#{$direction}#{$key}, $data, $emit: $_emit);
+        }
+    }
+}
+
+// Top, bottom, left, right
+$_emit: true;
+@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
+    @each $key, $value in $_mendeleev-full-sizes {
+        $data: (margin-#{$direction}: $value);
+        $do: register-utility(margin-#{$prefix}#{$key}, $data, $emit: $_emit);
+    }
+}
+
+$_emit: true;
+@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
+    @each $key, $value in $_mendeleev-full-sizes {
+        @if $value != 0 and value != auto {
+            $data: (margin-#{$direction}: -#{$value});
+            $do: register-utility(margin-n#{$prefix}#{$key}, $data, $emit: $_emit);
+        }
+    }
+}
+
+
+//------------------------------------------------------------------------------
+// SIZES
+$_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
+
+// Full sizes
+@each $key, $value in $_mendeleev-full-sizes {
+    $do: register-utility(size-#{$key}, (width: $value, height: $value), $emit: $_emit);
+}
+
+// Horizontal and vertical
+@each $key, $value in $_mendeleev-full-sizes {
+    $do: register-utility(size-x#{$key}, (width: $value), $emit: $_emit);
+    $do: register-utility(size-y#{$key}, (height: $value), $emit: $_emit);
+}
+
+// Line height
+@each $key, $value in $_mendeleev-sizes {
+    $do: register-utility(line-height-#{$key}, (line-height: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// RELATIVE SIZING (WIDTHS and HEIGHTS)
+//------------------------------------------------------------------------------
+
+$_mendeleev-grid-systems: ();
+
+// Let us define all useful grid system from the trivial grid-1 up to grid-12.
+@function _mendeleev-make-grid-systems() {
+    $grid-1: ('0': 0, 'full': 100);
+    $grid-2: map-merge($grid-1, ('1/2': 50));
+    $grid-3: map-merge($grid-1, ('1/3': 100 / 3, '2/3': 200 / 3));
+    $grid-4: map-merge($grid-2, ('1/4': 25, '3/4': 75));
+    $grid-5: map-merge($grid-1, ('1/5': 20, '2/5': 40, '3/5': 60, '4/5': 80));
+    $grid-6: map-merge(map-merge($grid-2, $grid-3), ('1/6': 50 / 3, '5/6': 250 / 3));
+    $grid-8: map-merge($grid-4, ('1/8': 100 / 8, '3/8': 300 / 8, '5/8': 500 / 8, '7/8': 700 / 8));
+    $grid-7: 'Really?!';
+    $grid-9: map-merge($grid-3, ('1/9': 100 / 9, '2/9': 200 / 9, '4/9': 400 / 9, '5/9': 500 / 9, '7/9': 700 / 9, '8/9': 800 / 9));
+    $grid-10: map-merge(map-merge($grid-2, $grid-5), ('1/10': 10, '3/10': 30, '7/10': 70, '9/10': 90));
+    $grid-11: $grid-7;
+    $grid-12: map-merge(map-merge($grid-4, $grid-6), ('1/12': 100 / 12, '5/12': 500 / 12, '7/12': 700 / 12, '11/12': 1100 / 12));
+    $grid-15: map-merge(map-merge($grid-3, $grid-5), ('1/15': 100 / 15, '2/15': 200 / 15, '4/15': 400 / 15, '7/15': 700 / 15, '8/15': 800 / 15, '11/15': 1100 / 15, '13/15': 1300 / 15, '14/15': 1400 / 15));
+    @return (
+        2: $grid-2,
+        3: $grid-3,
+        4: $grid-4,
+        5: $grid-5,
+        6: $grid-6,
+        8: $grid-8,
+        9: $grid-9,
+        10: $grid-10,
+        12: $grid-12,
+        15: $grid-15,
+    );
+}
+
+/// Creates a grid system based on a pre-defined set of sub-divisions
+@function compound-grid-system($lst) {
+    $grid-systems: _mendeleev-make-grid-systems();
+    $result: ();
+    @each $n in $lst {
+        $result: map-merge(map-get($grid-systems, $n), $result);
+    }
+    @return $result;
+}
+
+// Register utility classes for width, height and friends
+@each $prop in (width, max-width, min-width, height, max-height, min-height) {
+    $_emit: true;
+    @each $key, $value in compound-grid-system((5, 12)) {
+        $do: register-utility(#{$prop}-#{$key}, ($prop: $value * 1%), $emit: $_emit)
+    }
+}
+
+// Register utility classes for width, height and friends in absolute screen
+// proportions values
+@each $prop in (width, max-width, min-width, height, max-height, min-height) {
+    $_emit: true;
+    $unit: if(str-ends-with($prop, width), 1vw, 2vh);
+    @each $key, $value in compound-grid-system((5, 12)) {
+        @if $value != 0 {
+            $key: if($key == full, '', $key);
+            $do: register-utility(#{$prop}-#{$key}screen, ($prop: $value * $unit), $emit: $_emit)
+        }
+    }
+}
+

@@ -1,0 +1,26 @@
+//------------------------------------------------------------------------------
+// CONTROL VISIBILITY, OPACITY AND Z-VALUES
+//------------------------------------------------------------------------------
+@import '../preflight';
+
+$_MENDELEEV-OPACITY-VALUES: (5%, 10%, 25%, 50%, 75%, 90%, 95%);
+
+// .visible and .hidden utility classes
+$_emit: true;
+$do: register-utility(visible, (visibility: visible), $emit: $_emit);
+$do: register-utility(hidden, (visibility: hidden), $emit: $_emit);
+
+// Opacity scale
+@for $i from 1 through length($_MENDELEEV-OPACITY-VALUES) {
+    $data: (opacity: nth($_MENDELEEV-OPACITY-VALUES, $i) / 100%);
+    $do: register-utility(opacity-#{$i}, $data, $emit: $_emit);
+}
+
+// Z-values
+$_mendeleev-z-scale: (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+$_emit: true;
+$do: register-utility(z-0, (z-index: 0), $emit: $_emit);
+@for $i from 1 through length($_mendeleev-z-scale) {
+    $data: (z-index: nth($_mendeleev-z-scale, $i));
+    $do: register-utility(z-#{$i}, $data, $emit: $_emit);
+}

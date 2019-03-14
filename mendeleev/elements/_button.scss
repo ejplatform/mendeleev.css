@@ -1,0 +1,117 @@
+// Button
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+@import '../preflight';
+
+// Show the overflow in IE and in Edge.
+button, input {
+    overflow: visible;
+}
+
+// Remove the inheritance of text transform in Edge, Firefox, and IE.
+button,
+select {
+    text-transform: none;
+}
+
+// Correct the inability to style clickable types in iOS and Safari.
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+}
+
+// Remove the inner border and padding in Firefox.
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+// Restore the focus styles unset by the previous rule.
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+.button,
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+    @include map(config('button'));
+
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.75rem;
+    font-family: config('typography.typeface') or config('typography.sans-serif');
+    letter-spacing: 0.05em;
+    line-height: 2.25rem;
+    height: 2.25rem;
+    margin: 0 0 size(0.5) 0;
+    padding: 0 size(1);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: filter 250ms;
+
+    &:focus, &:hover {
+        box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.12), inset 0 0 16px rgba(230, 225, 132, 0.1);
+    }
+    &[disabled], &.is-disabled {
+        filter: saturate(25%);
+        cursor: default;
+        opacity: 0.75;
+    }
+    &.is-small {
+        line-height: size(1);
+        height: size(1);
+        //margin: 0 0 size(0.5) 0;
+        padding: 0 size(0.25);
+    }
+    &.is-primary {
+        @include color('primary', $border: true);
+    }
+    &.is-secondary {
+        @include color('secondary', $border: true);
+    }
+    &.is-positive {
+        @include color('positive', $border: true);
+    }
+    &.is-warning {
+        @include color('warning', $border: true);
+    }
+    &.is-negative {
+        @include color('negative', $border: true);
+    }
+    &.is-clear {
+        background-color: transparent;
+        border-color: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+        height: initial;
+        margin: initial;
+        padding: 0;
+        text-align: inherit;
+        text-decoration: inherit;
+        text-transform: inherit;
+        white-space: nowrap;
+
+        &:focus, &:hover {
+            box-shadow: none;
+            text-decoration: underline;
+        }
+    }
+    &.is-ghost {
+        background-color: transparent;
+        color: color(config('button.color', $default: config('input.color', $default: 'action')));
+    }
+}

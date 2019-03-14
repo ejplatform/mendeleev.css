@@ -1,0 +1,159 @@
+////////////////////////////////////////////////////////////////////////////////
+/// TYPOGRAPHY
+/// @group Typography
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+@import '../preflight';
+
+$_MENDELEEV-TYPE-SCALES: (
+    minor-second: 16/15,
+    major-second: 9/8,
+    minor-third: 6/5,
+    major-third: 5/4,
+    perfect-fourth: 4/3,
+    augmented-fourth: sqrt(2),
+    perfect-fifth: 3/2,
+    golden-ratio: (1 + sqrt(5)) / 2,
+);
+
+/// Return a type scale mapping from the argument.
+///
+/// If argument is a number provides a ratio-based scale.
+/// If argument is a list, convert to a map with the progression:
+/// ('1': first, '2': second, '3': third, ...etc)
+/// Argument can be one of the pre-defined type scales: very-narrow, narrow, medium, wide, very-wide.
+@function type-scale($scale) {
+    @if type-of($scale) == number {
+        @if $scale < 1 {
+            @error 'Progression in type scale must be a number larger than 1';
+        }
+        $headings: list-reverse(exponential-progression($scale, 5));
+        $raw: join($headings, 0.875 0.75 0.625);
+        $scale: ();
+        @for $i from 1 through length($raw) {
+            $n: nth($raw, $i);
+            $scale: map-merge($scale, (inspect($i): round($n * 16) / 16));
+        }
+        @return type-scale($scale);
+    } @else if type-of($scale) == list {
+        $result: ();
+        $key: null;
+        @for $i from 1 through length($scale) {
+            $key: quote(inspect($i));
+            $result: map-merge($result, ($key: nth($scale, $i)))
+        }
+        @return $result;
+    } @else if type-of($scale) == map {
+        @if not map-has-keys($scale, ('1', '2', '3', '4', '5', '6')) {
+            @error 'Map must show progression from 1, 3, up to at least 6';
+        }
+        @return $scale;
+    } @else if map-has-key($_MENDELEEV-TYPE-SCALES, $scale) {
+        @return type-scale(map-get($_MENDELEEV-TYPE-SCALES, $scale));
+    } @else {
+        @error 'Wrong argument for get-type-scale: #{$scale}';
+    }
+}
+
+/// Responsive type scale
+@function make-type-scale($emit) {
+    $utilities: ();
+    @each $bp, $scale in config(typography scale) {
+        @each $suffix, $value in type-scale($scale) {
+            $name: text-#{$suffix};
+            $data: map-read($utilities, $name, ());
+            $data: map-merge($data, ($bp: (font-size: $value * 1rem)));
+            $utilities: map-merge($utilities, ($name: $data));
+        }
+    }
+    @each $utility, $data in $utilities {
+        $do: register-utility($utility, $data, $emit: $emit, $type: responsive);
+    }
+    @return null;
+}
+
+/// Return a font property like family, line-height, letter-spacing, size,
+/// transform, or weight.
+///
+/// @arg $prop - Property name
+/// @arg $which - If given, must be either headings or paragraph and denotes
+///               which section to look for the property
+@function font-property($prop, $which: paragraph) {
+    $conf: config(typography, $which);
+    @if map-has-key($conf, $prop) {
+        @return map-get($conf, $prop);
+    }
+    @return config(typography $prop);
+}
+
+@function get-default-type-scale-ratio() {
+    $ratio: config(typography scale);
+    @if type-of($ratio) == 'map' {
+        $ratio: list-reduce(map-values($ratio), min);
+
+    } @else {
+        @error 'Scale must be a mapping from breakpoints to ratios.'
+    }
+    @return $ratio;
+}
+
+@function get-responsive-type-scale-ratios() {
+    $ratio: config(typography scale);
+    @if type-of($ratio) == 'map' {
+        $min: get-default-type-scale-ratio();
+        $result: ();
+        @each $k, $v in $ratio {
+            @if $v != $min {
+                $result: map-merge($result, ($k: $v));
+            }
+        }
+        @return $result;
+    } @else {
+        @error 'Scale must be a mapping from breakpoints to ratios.'
+    }
+}
+
+//------------------------------------------------------------------------------
+// MIXINS
+//------------------------------------------------------------------------------
+
+@mixin _heading-vertical-rhythm($ratio) {
+    $lead: config('typography.lead');
+    $h-lead: config(typography heading-lead);
+    $descender: 0.1;
+    $margin-bottom: 0.5 * (1.2 - $ratio * $descender);
+    $height-units: $margin-bottom + $ratio * $h-lead / $lead;
+    $delta: ceil($height-units) - $height-units;
+    font-size: $ratio * 1rem;
+    line-height: $h-lead;
+    margin: ($lead * (1 + $delta) * 1rem) 0 ($lead * $margin-bottom * 1rem) 0;
+}
+
+@mixin _headings-type-scale($r: null) {
+    @if $r == null {
+        $r: get-default-type-scale-ratio();
+    }
+    h1, .h1 {
+        @include _heading-vertical-rhythm($r * $r * $r * $r);
+    }
+    h2, .h2 {
+        @include _heading-vertical-rhythm($r * $r * $r);
+    }
+    h3, .h3 {
+        @include _heading-vertical-rhythm($r * $r);
+    }
+    h4, .h4 {
+        @include _heading-vertical-rhythm($r);
+    }
+}
+
+@mixin scale($prop, $scale, $name: null, $important: false, $unit: 1rem) {
+    $suffix: if($important, !important, null);
+    @each $k, $v in $scale {
+        #{concat-second($name, $k)} {
+            #{$prop}: $v * $unit $suffix;
+        }
+    }
+}
+
+

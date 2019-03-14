@@ -1,0 +1,32 @@
+/// Mixin that decorates a given element to shape it as a triangular arrow.
+///
+/// @arg $direction - One of up, down, left, right
+/// @arg $size - Size of the arrow element
+/// @arg $color - Color of the arrow element
+@mixin create-arrow($direction, $size: 1rem, $color: black) {
+    @if $direction == up or $direction == down {
+        border-left: 2rem solid transparent;
+        border-right: 2rem solid transparent;
+    }
+    @if $direction == left or $direction == right {
+        border-top: 2rem solid transparent;
+        border-bottom: 2rem solid transparent;
+    }
+    @if $direction == up {
+        border-bottom: 2rem solid;
+    } @else if $direction == down {
+        border-top: 2rem solid;
+    } @else if $direction == left {
+        border-right: 2rem solid;
+    } @else if $direction == right {
+        border-left: 2rem solid;
+    } @else {
+        @error "Invalid direction: #{$direction}!";
+    }
+    color: $color;
+    height: 0;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    width: 0;
+}

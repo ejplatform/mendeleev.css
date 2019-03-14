@@ -1,0 +1,77 @@
+////////////////////////////////////////////////////////////////////////////////
+/// MIXINS THAT HELP CREATING UTILITY CLASSES
+/// @group Utilities
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+@import 'color';
+@import 'sizes';
+
+$MENDELEEV_SPECIAL_PROPERTIES: (
+    // Sizing
+    border-radius: (make-pair, 'border-radius', size),
+    margin: (sizing, margin),
+    height: (sizing, height),
+    pad: (sizing, padding),
+    padding: (sizing, padding),
+    width: (sizing, width),
+    // Colors
+    color-role: (include-color,),
+    color: (make-pair, 'color', 'color'),
+    background-color: (make-pair, 'background-color', 'color'),
+    border-color: (make-pair, 'border-color', 'color'),
+);
+
+@function make-pair($prop, $func, $value) {
+    @return ($prop: call(as-func($func), $value));
+}
+
+@function map-mixin($map) {
+    $result: ();
+    @each $key, $value in $map {
+        // Handle special properties: sizes
+        $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
+        @if $special {
+            $func: as-func(nth($special, 1));
+            $args: list-tail($special);
+            $args: append($args, $value);
+            $result: map-merge($result, call($func, $args...))
+        } @else {
+            $result: map-merge($result, (#{$key}: $value));
+        }
+    }
+    @return $result;
+}
+
+/// Include all items on map as pairs of `property: value`.
+/// Some properties have a special treatment:
+///  * padding/pad: converted in
+@mixin map($map, $suffix: null) {
+    @each $key, $value in $map {
+        // Handle special properties: sizes
+        $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
+        @if $special {
+            $func: as-func(nth($special, 1));
+            $args: list-tail($special);
+            $args: append($args, $value);
+            //noinspection SassScssUnresolvedMixin
+            @include raw-map(call($func, $args...), $suffix);
+        } @else {
+            // Everything else
+            @if $value != null {
+                #{$key}: $value $suffix;
+            }
+        }
+    }
+}
+
+@mixin raw-map($map, $suffix: null) {
+    @each $key, $value in $map {
+        @if $value != null {
+            #{$key}: $value $suffix;
+        }
+    }
+}
+
+@mixin classes($list) {
+
+}

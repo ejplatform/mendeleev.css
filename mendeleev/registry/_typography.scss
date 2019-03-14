@@ -1,0 +1,104 @@
+//------------------------------------------------------------------------------
+// TYPOGRAPHY
+//------------------------------------------------------------------------------
+@import 'typography-functions';
+
+$_emit: config('typography.scale');
+$do: make-type-scale($_emit);
+
+//------------------------------------------------------------------------------
+// Simple system font styles: font-sans, font-serif, font-mono, font-cursive
+
+$_emit: config(typography modules fonts);
+@each $family in (sans-serif, serif, cursive, monospace) {
+    $props: (font-family: config('typography.#{$family}'));
+    $do: register-utility($family, $props, $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Font weight
+
+$_emit: config(typography modules weights);
+@each $utility, $value in (thin: 100, extra-light: 200, light: 300, regular: 400, medium: 500, semi-bold: 600, bold: 700, extra-bold: 800, black: 900) {
+    $do: register-utility($utility, (font-weight: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Styles, decorations and text transform
+
+$_emit: config(typography modules styles);
+@each $utility, $value in (italic: italic, roman: normal) {
+    $do: register-utility($utility, (font-style: $value), $emit: $_emit);
+}
+
+@each $utility, $value in (uppercase: uppercase, lowercase: lowercase, capitalize: capitalize, normalcase: none) {
+    $do: register-utility($utility, (text-transform: $value), $emit: $_emit);
+}
+
+@each $utility, $value in (underline: underline, line-through: line-through, no-underline: none) {
+    $do: register-utility($utility, (text-decoration: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Text alignment
+
+$_emit: config(typography modules alignment);
+@each $value in (left center right justify) {
+    $do: register-utility(text-#{$value}, (text-align: $value), $emit: $_emit);
+}
+
+@each $value in (baseline top middle bottom text-top text-bottom) {
+    $do: register-utility(align-#{$value}, (vertical-align: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Whitespace
+$_emit: config(typography modules white-space);
+@each $value in (normal nowrap pre pre-line pre-wrap) {
+    $do: register-utility(white-space-#{$value}, (white-space: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Leading
+
+$_emit: config(typography modules leading);
+@each $name, $value in (
+    leading: config('typography.lead'),
+    leading-title: config('typography.heading-lead'),
+    leading-solid: 1,
+    leading-loose: 2,
+) {
+    $do: register-utility($name, (line-height: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Measure
+
+$_emit: config('typography.modules.measure');
+@each $name, $value in (
+    measure: 29em, // ~ 65 characters
+    measure-wide: 38em, // ~ 85 characters
+    measure-narrow: 20em, // ~ 45 characters
+) {
+    $do: register-utility($name, (max-width: $value), $emit: $_emit);
+}
+
+//------------------------------------------------------------------------------
+// Indentation
+
+$_emit: config('typography.modules.indent');
+@each $name, $value in (
+    indent: 1.5em,
+    indent-punctuation: -0.3em,
+) {
+    $do: register-utility($name, (text-indent: $value), $emit: $_emit);
+}
+
+$do: register-utility(truncate, (white-space: nowrap, overflow: hidden, text-overflow: ellipsis), $emit: $_emit);
+
+//------------------------------------------------------------------------------
+// Direction
+
+$_emit: config('typography.modules.direction');
+$do: register-utilities(direction, rtl ltr, $emit: $_emit);
+

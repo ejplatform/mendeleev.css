@@ -1,0 +1,322 @@
+////////////////////////////////////////////////////////////////////////////////
+/// Define the main configuration maps
+/// @author Fábio Macêdo Mendes
+/// @group Config
+////////////////////////////////////////////////////////////////////////////////
+@import 'font-stacks';
+@import 'colors';
+@import '../functions/linked-list';
+@import '../mixins/utilities';
+
+//------------------------------------------------------------------------------
+// CONFIGURATION DICTIONARY
+//------------------------------------------------------------------------------
+
+/// Main configuration dictionary. You customize Mendeleev by setting values
+/// to this dictionary.
+$config: () !default;
+
+/// Default configuration options.
+/// This maps contains all default values for configurations that can be
+/// overridden by the `$config` or `$config-defaults` mappings.
+$mendeleev-config: (
+    // GLOBAL
+    'breakpoints': (
+        'sm': 30rem,
+        'md': 50rem,
+        'lg': 75rem,
+    ),
+    'utilities': (
+        'important': true,
+        'emit': 'respect',
+    ),
+    // TYPOGRAPHY
+    'typography': (
+        // Generic
+        'modules': (
+            'headings': true,
+            'paragraph': true,
+            'scale': true,
+            'leading': true,
+            'measure': true,
+            'indent': true,
+            'alignment': true,
+            'styles': true,
+            'weights': true,
+            'fonts': true,
+            'direction': true,
+            'white-space': true,
+        ),
+        // Typefaces
+        'typeface': $MENDELEEV_TYPEFACE,
+        'cursive': $font-stack-system-cursive,
+        'monospace': $font-stack-ibm-plex-mono,
+        'sans-serif': $font-stack-exo,
+        'serif': $font-stack-ibm-plex-serif,
+        // Vertical rhythm and modular scale
+        'size': (
+            'start': 16,
+            'sm': 17,
+            'md': 18,
+            'lg': 20,
+        ),
+        'lead': 1.5,
+        'heading-lead': 1.250,
+        'scale': (
+            'start': 9/8,
+            'sm': (9/4 + 5/4) / 3,
+            'md': (9/8 + 5/2) / 3,
+            'lg': 5/4,
+        ),
+        // Overridden properties
+        'body': (),
+        'paragraph': (),
+        'headings': (
+            'letter-spacing': -0.03em,
+            'font-weight': 900,
+            'color': $color-brand,
+        ),
+    ),
+    // COLORS
+    'palette': $MENDELEEV_COLORS,
+    'contrast': $MENDELEEV_CONTRAST,
+    'color': (
+        'contrast-bias': 0.125,
+        'roles': (
+            'simple': (
+                'primary', 'secondary', 'action',
+                'positive', 'negative', 'warning',
+                'black', 'white', 'grey', 'red', 'orange', 'yellow', 'olive',
+                'green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
+            ),
+            'variants': (
+                'brand', 'accent',
+            ),
+            'text': (
+                'inverse', 'muted',
+            )
+        ),
+        'variants': (
+            'color': (
+                'lighter': ('white', 75%),
+                'light': ('white', 33%),
+                'dark': ('black', 33%),
+                'darker': ('black', 75%),
+            ),
+            'text': (
+                'light': ('light', 97.5%),
+                'dark': ('dark', 97.5%),
+            ),
+        ),
+    ),
+    // ANIMATIONS
+    'animation': (
+        'duration': 300ms,
+        'timing-function': ease,
+    ),
+    // FORM ITEMS
+    'input': (
+        'color-role': 'white',
+        'border': 1px solid,
+        'border-color': 'action',
+        'border-radius': 0.25,
+    ),
+    'button': (
+        'color-role': 'action',
+        'border': 1px solid,
+        'border-color': 'action',
+        'border-radius': 0.25,
+        'font-weight': bold,
+    ),
+    // ELEMENT OVERRIDES
+    'elements': (),
+) !default;
+
+$_config-not-given: unique-id() !default;
+
+/// Fetch configuration value from default config dictionary.
+///
+/// @arg $path - List with the path to configuration
+/// @arg $default - Default result if data is not found in path.
+/// @arg $merge - If true, assume a mapping result and merges configurations
+///               from all configuration maps
+/// @example scss
+///     config(palette black)
+///     // #1a1a1a
+@function config($path, $default: $_config-not-given, $merge: false) {
+    @if type-of($path) == list {
+        @if $merge {
+            $map1: map-path($config, $path, ());
+            $map2: map-path($mendeleev-config, $path, ());
+            @return map-merge($map2, $map1);
+        }
+        $result: map-path($config, $path, $_config-not-given);
+        @if $result == $_config-not-given {
+            $result: map-path($mendeleev-config, $path, $_config-not-given);
+        }
+        @if $result == $_config-not-given {
+            @if $default == $_config-not-given {
+                @error 'Could not find global config for "#{$path}"';
+            }
+            $result: $default;
+        }
+        @return $result;
+    } @else if type-of($path) == string {
+        @return config(str-split($path, '.'), $default, $merge);
+    } @else {
+        @error 'Invalid path type #{$path} = #{type-of($path)}';
+    }
+}
+
+/// Write value into the given path in the global Mendeleev config.
+@function set-mendeleev-config($path, $value, $merge: false) {
+    @if type-of($path) == string {
+        $path: str-split($path, '.');
+    }
+    @if $merge {
+        $value: map-merge(map-path($mendeleev-config, $path, ()), $value);
+    }
+    $n: length($path);
+    $last: nth($path, $n);
+
+    @if $n == 1 {
+        $mendeleev-config: map-merge($mendeleev-config, ($last: $value)) !global;
+    } @else {
+        $intro: list-slice($path, 1, $n - 1);
+        $data: map-path($mendeleev-config, $intro);
+        $data: map-merge($data, ($last: $value));
+        $do: set-mendeleev-config($intro, $data);
+    }
+    @return $value;
+}
+
+/// Include a configuration.
+@mixin config($path, $default: $_config-not-given, $for: null, $extra: ()) {
+    @if $for != null {
+        #{$for}: config($path, $default);
+    } @else {
+        @each $k, $v in map-merge($extra, config($path, $default, true)) {
+            #{$k}: #{$v};
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+// SETTING UP UTILITY CLASSES
+//------------------------------------------------------------------------------
+
+// Default dictionary with Mendeleev state.
+$MENDELEEV_UTILITIES: null !default;
+
+@function register-raw-utilities($map) {
+    $MENDELEEV_UTILITIES: cons($map, $MENDELEEV_UTILITIES) !global;
+    @return $map;
+}
+
+/// Register utility class
+///
+/// @arg $name - Class name
+/// @arg $data - Map with the class content
+/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
+@function register-utility($name, $data, $emit: true, $type: map) {
+    $info: (name: $name, data: $data, emit: $emit, type: $type);
+    @if not contains(map responsive, $type) {
+        @error 'Invalid type: #{$type}';
+    }
+    $do: register-raw-utilities($info);
+    @return $info;
+}
+
+/// Register group of utility classes
+///
+/// @arg $property - Name of controlled property
+/// @arg $categories - List of values or mapping from name to value
+/// @arg $prefix - If given, will prefix the name of each class with this value
+/// @arg $emit, $where - Same as register-utility
+@function register-utilities($property, $categories, $prefix: '', $emit: true) {
+    @if type-of($categories) == list {
+        $categories: zip($categories, $categories);
+    }
+    @each $category, $value in $categories {
+        $do: register-utility(#{$prefix}#{$category}, ($property: $value), $emit: $emit);
+    }
+    @return null;
+}
+
+/// Include a pre-registered utility
+@mixin _utility-from-data($data, $suffix: null, $prefix: '.') {
+    $name: map-get($data, name);
+    $type: map-get($data, type);
+    $name: str-replace(if(type-of($name) == string, $name, inspect($name)), '\/', '\\\/');
+    $emit: map-get($data, emit);
+
+    @if $emit {
+        @if $type == map {
+            $props: map-get($data, data);
+            #{$prefix}#{$name} {
+                @include map($props, $suffix: $suffix);
+            }
+            @if $emit == responsive {
+                @each $bp, $size in config('breakpoints') {
+                    @media screen and (min-width: $size) {
+                        #{$prefix}#{$bp}\:#{$name} {
+                            @include map($props, $suffix: $suffix);
+                        }
+                    }
+                }
+            }
+        } @else if $type == responsive {
+            @each $bp, $props in map-get($data, data) {
+                @if $bp == 'start' {
+                    #{$prefix}#{$name} {
+                        @include map($props, $suffix: $suffix);
+                    }
+                } @else {
+
+                    @include breakpoint($bp) {
+                        #{$prefix}#{$name} {
+                            @include map($props, $suffix: $suffix);
+                        }
+                    }
+                }
+            }
+        } @else {
+            @error 'Invalid utility type: #{$type}'
+        }
+    }
+}
+
+/// Include declarations only for the given breakpoint.
+@mixin breakpoint($bp, $properties: (), $suffix: null) {
+    @if $bp == 'start' {
+        @content;
+        @include map($properties, $suffix: $suffix);
+    } @else {
+        @media screen and (min-width: config('breakpoints.#{$bp}')) {
+            @content;
+            @include map($properties, $suffix: $suffix);
+        }
+    }
+}
+
+/// Mixin that includes all registered utilities
+@mixin all-registered-utilities() {
+    // FIXME: We are creating duplicates for some reason
+    //$lst: link-reverse($MENDELEEV_UTILITIES);
+    //@while $lst != null {
+    //    $suffix: null;
+    //    @include _utility-from-data(car($lst), $suffix);
+    //    $lst: cdr($lst);
+    //}
+    $lst: $MENDELEEV_UTILITIES;
+    $new: null;
+    @while $lst != null {
+        $data: car($lst);
+        $lst: cdr($lst);
+        $new: cons(map-get($data, name) $data, $new);
+    }
+    $suffix: null;
+    @each $key, $value in link-to-map($new) {
+        @include _utility-from-data($value, $suffix);
+    }
+}

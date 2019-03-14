@@ -1,0 +1,102 @@
+////////////////////////////////////////////////////////////////////////////////
+/// UTILITY FUNCTIONS
+/// @group utility functions
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+
+/// Convert function or string to a function handle.
+@function as-func($key) {
+    @if type-of($key) == string {
+        //noinspection CssInvalidFunction
+        @return get-function($key);
+    } @else {
+        @return $key;
+    }
+}
+
+/// Return its argument
+@function identity($x) {
+    @return $x;
+}
+
+/// Return first element of a list
+@function first($lst) {
+    @return nth($lst, 1);
+}
+
+/// Return second element of a list
+@function second($lst) {
+    @return nth($lst, 2);
+}
+
+/// Return true if $a > $b
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-gt($a, $b) {
+    @return $a > $b;
+}
+
+/// Return true if $a >= $b
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-ge($a, $b) {
+    @return $a >= $b;
+}
+
+/// Return true if $a < $b
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-lt($a, $b) {
+    @return $a < $b;
+}
+
+/// Return true if $a <= $b
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-le($a, $b) {
+    @return $a <= $b;
+}
+
+/// Return true if $a != $b
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-ne($a, $b) {
+    @return $a != $b;
+}
+
+/// Return true if $a == $b
+
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function cmp-eq($a, $b) {
+    @return $a == $b;
+}
+
+/// Add two numbers
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function op-add($a, $b) {
+    @return $a + $b;
+}
+
+/// Multiply two numbers
+/// @arg $a - First argument
+/// @arg $b - Second argument
+@function op-mul($a, $b) {
+    @return $a * $b;
+}
+
+/// Return true for non-null values
+@function not-null($x) {
+    @return $x != null;
+}
+
+/// Multiply number by -1 or invert boolean values
+@function negate($x) {
+    @if $x == true {
+        @return false;
+    } @else if $x == false {
+        @return true;
+    }
+    @return -1 * $x;
+}
