@@ -3,21 +3,9 @@
 /// @group list functions
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
-@import 'utilities';
 
 $_list-not-given: unique-id() !default;
 
-/// Return true if list contains value.
-/// @arg $list
-/// @arg $value
-@function contains($lst, $value) {
-    @each $item in $lst {
-        @if $item == $value {
-            @return true;
-        }
-    }
-    @return false;
-}
 
 /// Map function to list.
 /// Function handlers in Sass are obtained by using the `get-function(function-name)`
@@ -32,36 +20,6 @@ $_list-not-given: unique-id() !default;
         $result: append($result, call($function, $elem, $args...));
     }
     @return $result;
-}
-
-/// Return a list slice
-@function list-slice($lst, $start, $end: null) {
-    $n: length($lst);
-    $end: if($end == null, $n, $end);
-    $size: $end - $start + 1;
-
-    @if $size <= 32 {
-        $result: ();
-        @while $size > 8 {
-            $result: join($result, (
-                nth($lst, $start), nth($lst, $start + 1), nth($lst, $start + 2),
-                nth($lst, $start + 3), nth($lst, $start + 4), nth($lst, $start + 5),
-                nth($lst, $start + 6), nth($lst, $start + 7)
-            ));
-            $size: $size - 8;
-            $start: $start + 8;
-        }
-        @for $i from $start through $end {
-            $result: append($result, nth($lst, $i));
-        }
-        @return $result;
-    } @else {
-        $first-end: $start + floor($size / 2) - 1;
-        @return join(
-                list-slice($lst, $start, $first-end),
-                list-slice($lst, $first-end + 1, $end)
-        );
-    }
 }
 
 /// Create a list with $n repetitions of $x
@@ -88,44 +46,10 @@ $_list-not-given: unique-id() !default;
     @if $n <= 1 {
         @return ();
     }
-    @return list-slice($lst, 2, $n);
+    @return slice($lst, 2, $n);
 }
 
-/// Return a singleton list
-@function singleton($x, $separator: space) {
-    @return append((), $x, $separator);
-}
 
-/// Convert value to list.
-/// Lists are returned as-is, maps become list of 2-tuples and other elements
-/// become a list with a single value
-///
-/// @author - https://hugogiraudel.com/2014/04/28/casting-map-into-list/
-/// @arg $value - object to be converted
-/// @arg $keep - can be 'keys', 'values' or 'both' (default). It affects conversion of maps.
-@function to-list($value, $keep: 'both') {
-    $keep: if(index('keys' 'values', $keep), $keep, 'both');
-
-    @if type-of($value) == 'map' {
-        $keys: ();
-        $values: ();
-
-        @each $key, $val in $value {
-            $keys: append($keys, $key);
-            $values: append($values, $val);
-        }
-
-        @if $keep == 'keys' {
-            @return $keys;
-        } @else if $keep == 'values' {
-            @return $values;
-        } @else {
-            @return zip($keys, $values);
-        }
-    }
-
-    @return if(type-of($value) != 'list', ($value,), $value);
-}
 
 /// Reverse a list
 @function list-reverse($lst) {
@@ -137,37 +61,8 @@ $_list-not-given: unique-id() !default;
     @return $result;
 }
 
-/// Filter list keeping only the elements that compare positively with the
-/// given value.
-///
-/// Obs: You probably will want to use one of the functions defined in this
-/// library like cmp-eq, cmp-gt, cmp-lt, etc.
-///
-/// @arg $lst - Input list
-/// @arg $value - Reference value
-/// @arg $op - Name of function that performs the comparison.
-/// @arg $key - Optional function that is applied to all elements before comparison.
-@function list-cmp-filter($lst, $value, $op: op-eq, $key: identity) {
-    $value: call($key, $value);
-    $result: ();
-    @each $x in $lst {
-        @if call($op, call($key, $x), $value) {
-            $result: append($result, $x);
-        }
-    }
-    @return $result;
-}
 
-/// Sort list
-/// @arg $lst - Value
-/// @arg $key - Function
-@function list-sort($lst, $key: identity) {
-    $head: nth($lst, 1);
-    $tail: list-tail($lst);
-    $ge: list-cmp-filter($lst, $head, cmp-gt, $key);
-    $lt: list-cmp-filter($lst, $head, cmp-lt, $key);
-    @return join(append(list-sort($lt, $key), $head), list-sort($ge $key));
-}
+
 
 /// Reduce list by function
 @function list-reduce($lst, $func, $initial: $_list-not-given) {

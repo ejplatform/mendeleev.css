@@ -5,7 +5,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 @import 'font-stacks';
 @import 'colors';
-@import '../functions/linked-list';
 @import '../mixins/utilities';
 
 //------------------------------------------------------------------------------
@@ -141,7 +140,7 @@ $_config-not-given: unique-id() !default;
 /// @arg $merge - If true, assume a mapping result and merges configurations
 ///               from all configuration maps
 /// @example scss
-///     config(palette black)
+///     config('palette.black')
 ///     // #1a1a1a
 @function config($path, $default: $_config-not-given, $merge: false) {
     @if type-of($path) == list {
@@ -182,7 +181,7 @@ $_config-not-given: unique-id() !default;
     @if $n == 1 {
         $mendeleev-config: map-merge($mendeleev-config, ($last: $value)) !global;
     } @else {
-        $intro: list-slice($path, 1, $n - 1);
+        $intro: slice($path, 1, $n - 1);
         $data: map-path($mendeleev-config, $intro);
         $data: map-merge($data, ($last: $value));
         $do: set-mendeleev-config($intro, $data);
@@ -316,7 +315,7 @@ $MENDELEEV_UTILITIES: null !default;
         $new: cons(map-get($data, name) $data, $new);
     }
     $suffix: null;
-    @each $key, $value in link-to-map($new) {
+    @each $key, $value in lst-to-map($new) {
         @include _utility-from-data($value, $suffix);
     }
 }

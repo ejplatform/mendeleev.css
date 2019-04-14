@@ -1,4 +1,4 @@
 @import '../mendeleev/prelude/functions';
-@import '../mendeleev/modules/typography/type-scale';
+@import '../mendeleev/registry/typography';
 
 $do: assert-eq(type-scale(2), ("1": 16, "2": 8, "3": 4, "4": 2, "5": 1, "6": 0.875, "7": 0.75, "8": 0.625));

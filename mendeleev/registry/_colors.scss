@@ -12,7 +12,7 @@
             $extra: cons('#{$variant}-#{$suffix}', $extra);
         }
     }
-    $extra: link-to-list($extra);
+    $extra: lst-to-array($extra);
     @return join(join(config('color.roles.simple'), $variants), $extra);
 }
 

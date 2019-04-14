@@ -27,8 +27,8 @@ $_MENDELEEV-TYPE-SCALES: (
         @if $scale < 1 {
             @error 'Progression in type scale must be a number larger than 1';
         }
-        $headings: list-reverse(exponential-progression($scale, 5));
-        $raw: join($headings, 0.875 0.75 0.625);
+        $headings: exponential-progression($scale, 5, $reverse: true);
+        $raw: join(lst-to-array($headings), 0.875 0.75 0.625);
         $scale: ();
         @for $i from 1 through length($raw) {
             $n: nth($raw, $i);

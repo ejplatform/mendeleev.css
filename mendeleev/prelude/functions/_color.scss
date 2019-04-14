@@ -15,7 +15,7 @@ $MENDELEEV_VARIANTS: () !default;
 /// @arg $alpha - Apply alpha adjustment to color, if given.
 /// @arg $default - If given, uses this value if color name is not found in the
 ///                 palette dictionary.
-@function color($name, $variant: null, $alpha: null, $default: $not-given) {
+@function color($name, $variant: null, $alpha: null, $default: $_mendeleev-color-not-given) {
     $result: $name;
     @if $name == null {
         @return null;

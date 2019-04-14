@@ -54,9 +54,9 @@ $MENDELEEV_VARIANTS: () !default;
         }
         $result: cons(($name $registered), $result);
     }
-    $MENDELEEV_COLORS: map-merge(link-to-map($colors), $MENDELEEV_COLORS) !global;
-    $MENDELEEV_CONTRAST: map-merge(link-to-map($contrast), $MENDELEEV_CONTRAST) !global;
-    @return link-to-map($result);
+    $MENDELEEV_COLORS: map-merge(lst-to-map($colors), $MENDELEEV_COLORS) !global;
+    $MENDELEEV_CONTRAST: map-merge(lst-to-map($contrast), $MENDELEEV_CONTRAST) !global;
+    @return lst-to-map($result);
 }
 
 // Register contrasts for all colors
@@ -77,7 +77,7 @@ $MENDELEEV_VARIANTS: () !default;
     }
 
     // Register all colors
-    @return link-to-map($colors);
+    @return lst-to-map($colors);
 }
 
 //------------------------------------------------------------------------------

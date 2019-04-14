@@ -1,13 +1,10 @@
 // FUNCTIONS
+@import '../node_modules/fn.sass/src/fn';
 @import
     'prelude/functions/color',        // imported by mixins/color
     'prelude/functions/list',         // imported by map
-    'prelude/functions/map',          // imported by sizes
-    'prelude/functions/numbers',      // imported by sizes
     'prelude/functions/string',       // imported by sizes
-    'prelude/functions/sizes',        // imported by mixins/sizing
-    'prelude/functions/linked-list',
-    'prelude/functions/testing';
+    'prelude/functions/sizes';        // imported by mixins/sizing
 
 // MIXINS
 @import

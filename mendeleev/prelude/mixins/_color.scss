@@ -4,16 +4,17 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 @import '../functions/color';
-@import '../functions/map';
+
+$_mendeleev-color-not-given: unique-id() !default;
 
 // Implements the color mixin.
 @function include-color($color, $border: false, $flip: false) {
     $bg: color(nth($color, 1));
-    $fg: $not-given;
+    $fg: $_mendeleev-color-not-given;
     @if type-of($color) == list {
         $fg: nth($color, 2);
     }
-    @if $fg == $not-given {
+    @if $fg == $_mendeleev-color-not-given {
         $fg: color($bg, contrast);
     } @else {
         $fg: color($fg);
