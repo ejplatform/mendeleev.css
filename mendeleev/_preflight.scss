@@ -1,5 +1,6 @@
 // FUNCTIONS
 @import '../node_modules/fn.sass/src/fn';
+@import 'fn/index';
 @import
     'prelude/functions/color',        // imported by mixins/color
     'prelude/functions/list',         // imported by map
@@ -17,4 +18,5 @@
 @import
     'prelude/config/font-stacks', // imported by config
     'prelude/config/colors',      // imported by config
-    'prelude/config/config';
+    'prelude/config/config-data',
+    'prelude/config/config-functions';

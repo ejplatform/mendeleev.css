@@ -71,6 +71,7 @@
     "node": ">=4"
   },
   "scripts": {
+    "sassc": "sassc src/mendeleev.scss dist/mendeleev.css",
     "start": "run-p build watch serve",
     "build": "run-s clean sass autoprefixer banner",
     "clean": "rimraf dist",

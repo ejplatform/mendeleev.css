@@ -133,72 +133,7 @@ $mendeleev-config: (
 
 $_config-not-given: unique-id() !default;
 
-/// Fetch configuration value from default config dictionary.
-///
-/// @arg $path - List with the path to configuration
-/// @arg $default - Default result if data is not found in path.
-/// @arg $merge - If true, assume a mapping result and merges configurations
-///               from all configuration maps
-/// @example scss
-///     config('palette.black')
-///     // #1a1a1a
-@function config($path, $default: $_config-not-given, $merge: false) {
-    @if type-of($path) == list {
-        @if $merge {
-            $map1: map-path($config, $path, ());
-            $map2: map-path($mendeleev-config, $path, ());
-            @return map-merge($map2, $map1);
-        }
-        $result: map-path($config, $path, $_config-not-given);
-        @if $result == $_config-not-given {
-            $result: map-path($mendeleev-config, $path, $_config-not-given);
-        }
-        @if $result == $_config-not-given {
-            @if $default == $_config-not-given {
-                @error 'Could not find global config for "#{$path}"';
-            }
-            $result: $default;
-        }
-        @return $result;
-    } @else if type-of($path) == string {
-        @return config(str-split($path, '.'), $default, $merge);
-    } @else {
-        @error 'Invalid path type #{$path} = #{type-of($path)}';
-    }
-}
 
-/// Write value into the given path in the global Mendeleev config.
-@function set-mendeleev-config($path, $value, $merge: false) {
-    @if type-of($path) == string {
-        $path: str-split($path, '.');
-    }
-    @if $merge {
-        $value: map-merge(map-path($mendeleev-config, $path, ()), $value);
-    }
-    $n: length($path);
-    $last: nth($path, $n);
-
-    @if $n == 1 {
-        $mendeleev-config: map-merge($mendeleev-config, ($last: $value)) !global;
-    } @else {
-        $intro: slice($path, 1, $n - 1);
-        $data: map-path($mendeleev-config, $intro);
-        $data: map-merge($data, ($last: $value));
-        $do: set-mendeleev-config($intro, $data);
-    }
-    @return $value;
-}
-
-/// Include a configuration.
-@mixin config($path, $default: $_config-not-given, $for: null, $extra: ()) {
-    @if $for != null {
-        #{$for}: config($path, $default);
-    } @else {
-        @each $k, $v in map-merge($extra, config($path, $default, true)) {
-            #{$k}: #{$v};
-        }
-    }
-}
 
 //------------------------------------------------------------------------------
 // SETTING UP UTILITY CLASSES

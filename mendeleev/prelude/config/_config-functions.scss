@@ -1,0 +1,48 @@
+/// Fetch configuration value from default config dictionary.
+///
+/// @arg $path - List with the path to configuration
+/// @arg $default - Default result if data is not found in path.
+///
+/// @example scss
+///     config('palette.black')
+///     // #1a1a1a
+@function config($path, $default: $_config-not-given, $merge: false) {
+    @if not type-of($path) == string {
+        @error 'Path must be given as a string';
+    }
+    @return map-nested-multi-path(L($mendeleev-config, $config), str-split($path, '.'), $default);
+}
+
+
+/// Write value into the given path in the global Mendeleev config.
+@function set-mendeleev-config($path, $value, $merge: false) {
+    @if type-of($path) == string {
+        $path: str-split($path, '.');
+    }
+    @if $merge {
+        $value: map-merge(map-path($mendeleev-config, $path, ()), $value);
+    }
+    $n: length($path);
+    $last: nth($path, $n);
+
+    @if $n == 1 {
+        $mendeleev-config: map-merge($mendeleev-config, ($last: $value)) !global;
+    } @else {
+        $intro: slice($path, 1, $n - 1);
+        $data: map-path($mendeleev-config, $intro);
+        $data: map-merge($data, ($last: $value));
+        $do: set-mendeleev-config($intro, $data);
+    }
+    @return $value;
+}
+
+/// Include a configuration.
+@mixin config($path, $default: $_config-not-given, $for: null, $extra: ()) {
+    @if $for != null {
+        #{$for}: config($path, $default);
+    } @else {
+        @each $k, $v in map-merge($extra, config($path, $default, true)) {
+            #{$k}: #{$v};
+        }
+    }
+}
