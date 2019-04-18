@@ -4,9 +4,9 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$MENDELEEV_COLORS: () !default;
-$MENDELEEV_CONTRAST: () !default;
-$MENDELEEV_VARIANTS: () !default;
+$MENDELEEV_COLORS: map-remove((), null) !default;
+$MENDELEEV_CONTRAST: map-remove((), null) !default;
+$MENDELEEV_VARIANTS: map-remove((), null) !default;
 
 /// Return named color or a default value if color is not registered
 ///

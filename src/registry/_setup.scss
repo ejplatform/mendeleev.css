@@ -86,8 +86,8 @@ $MENDELEEV_VARIANTS: () !default;
 
 @if not global-variable-exists(MENDELEEV_REGISTRY_SETUP) {
     // Include all registered palette colors, contrasts and variants
-    $MENDELEEV_COLORS: map-merge($MENDELEEV_COLORS, config('palette', $merge: true));
-    $MENDELEEV_CONTRAST: map-merge($MENDELEEV_CONTRAST, config('contrast', $merge: true));
+    $MENDELEEV_COLORS: map-merge($MENDELEEV_COLORS, config('palette'));
+    $MENDELEEV_CONTRAST: map-merge($MENDELEEV_CONTRAST, config('contrast'));
     $MENDELEEV_CONTRAST: map-merge(_color-register-contrasts(), $MENDELEEV_CONTRAST);
     $MENDELEEV_VARIANTS: map-merge-nested(_color-register-variants(), $MENDELEEV_VARIANTS);
 }

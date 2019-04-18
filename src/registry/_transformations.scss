@@ -9,7 +9,7 @@ $_grow-scale: (0: 1, 1: 1.05, 2: 1.10, 3: 1.25, 4: 1.50, 5: 2, 6: 3);
 
 // Origin location
 $_emit: true;
-$do: register-utilities('transform-origin', (
+$do: register-utilities('.transform-origin', (
     center: center center 0,
     top: center top 0,
     bottom: center bottom 0,
@@ -24,22 +24,22 @@ $do: register-utilities('transform-origin', (
 // Grow and shrink
 $_emit: true;
 @each $key, $value in $_grow-scale {
-    $do: register-utility('grow-#{$key}', (transform: unquote('scale(#{$value}, #{$value})')), $emit: $_emit);
+    $do: register-utility('.grow-#{$key}', (transform: unquote('scale(#{$value}, #{$value})')), $emit: $_emit);
 }
 
 @each $key, $value in $_grow-scale {
     $factor: 1 / $value;
-    $do: register-utility('shrink-#{$key}', (transform: unquote('scale(#{$factor}, #{$factor})')), $emit: $_emit);
+    $do: register-utility('.shrink-#{$key}', (transform: unquote('scale(#{$factor}, #{$factor})')), $emit: $_emit);
 }
 
 // Rotations
 $_emit: true;
 @each $angle in (30, 45, 60, 90) {
-    $do: register-utility('rotate-#{$angle}', (transform: unquote('rotate(#{$angle}deg)')), $emit: $_emit);
-    $do: register-utility('rotate-n#{$angle}', (transform: unquote('rotate(-#{$angle}deg)')), $emit: $_emit);
+    $do: register-utility('.rotate-#{$angle}', (transform: unquote('rotate(#{$angle}deg)')), $emit: $_emit);
+    $do: register-utility('.rotate-n#{$angle}', (transform: unquote('rotate(-#{$angle}deg)')), $emit: $_emit);
 }
 
-$do: register-utility('rotate-180', (transform: unquote('rotate(180deg)')), $emit: $_emit);
+$do: register-utility('.rotate-180', (transform: unquote('rotate(180deg)')), $emit: $_emit);
 
 //------------------------------------------------------------------------------
 // Filters
@@ -47,40 +47,40 @@ $do: register-utility('rotate-180', (transform: unquote('rotate(180deg)')), $emi
 // Grey scale
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('grayscale-#{$key}', (filter: unquote('grayscale(#{$value})')), $emit: $_emit);
+    $do: register-utility('.grayscale-#{$key}', (filter: unquote('grayscale(#{$value})')), $emit: $_emit);
 }
 
 // Sepia
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('sepia-#{$key}', (filter: unquote('sepia(#{$value})')), $emit: $_emit);
+    $do: register-utility('.sepia-#{$key}', (filter: unquote('sepia(#{$value})')), $emit: $_emit);
 }
 
 // Invert
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('invert-#{$key}', (filter: unquote('invert(#{$value})')), $emit: $_emit);
+    $do: register-utility('.invert-#{$key}', (filter: unquote('invert(#{$value})')), $emit: $_emit);
 }
 
 // Contrast
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('contrast-n#{$key}', (filter: unquote('contrast(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('contrast-#{$key}', (filter: unquote('contrast(#{100% + $value})')), $emit: $_emit);
+    $do: register-utility('.contrast-n#{$key}', (filter: unquote('contrast(#{100% - $value})')), $emit: $_emit);
+    $do: register-utility('.contrast-#{$key}', (filter: unquote('contrast(#{100% + $value})')), $emit: $_emit);
 }
 
 // Brightness
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('brightness-n#{$key}', (filter: unquote('brightness(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('brightness-#{$key}', (filter: unquote('brightness(#{100% + $value})')), $emit: $_emit);
+    $do: register-utility('.brightness-n#{$key}', (filter: unquote('brightness(#{100% - $value})')), $emit: $_emit);
+    $do: register-utility('.brightness-#{$key}', (filter: unquote('brightness(#{100% + $value})')), $emit: $_emit);
 }
 
 // Saturation
 $_emit: true;
 @each $key, $value in $_transform-scale {
-    $do: register-utility('saturate-n#{$key}', (filter: unquote('saturate(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('saturate-#{$key}', (filter: unquote('saturate(#{100% + $value})')), $emit: $_emit);
+    $do: register-utility('.saturate-n#{$key}', (filter: unquote('saturate(#{100% - $value})')), $emit: $_emit);
+    $do: register-utility('.saturate-#{$key}', (filter: unquote('saturate(#{100% + $value})')), $emit: $_emit);
 }
 
 

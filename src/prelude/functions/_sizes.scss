@@ -75,10 +75,10 @@ $_mendeleev-size-scale: (
         @return ($property: list-apply($value, size));
     } @else if type-of($value) == map {
         @return map-apply-values(map-filter-values((
-            #{$property}-left: map-get-first($value, left l x horizontal all, null),
-            #{$property}-right: map-get-first($value, right r x horizontal all, null),
-            #{$property}-top: map-get-first($value, top t y vertical all, null),
-            #{$property}-bottom: map-get-first($value, bottom b y vertical all, null),
+            #{$property}-left: map-get-first($value, L(left, l, x, horizontal, all)),
+            #{$property}-right: map-get-first($value, L(right, r, x, horizontal, all)),
+            #{$property}-top: map-get-first($value, L(top, t, y, vertical, all)),
+            #{$property}-bottom: map-get-first($value, L(bottom, b, y, vertical, all)),
         ), not-null), size);
     } @else {
         @return ($property: $value);

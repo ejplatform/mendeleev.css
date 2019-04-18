@@ -3,24 +3,24 @@
 //------------------------------------------------------------------------------
 
 $_emit: true;
-$do: register-utility(shadow, (
+$do: register-utility('.shadow', (
     box-shadow: unquote('0 0 4px 0 rgba(0, 0, 0, 0.25), 0 2px 8px -2px rgba(0, 0, 0, 0.15)')
 ), $emit: $_emit);
 
-$do: register-utility(shadow-1, (
+$do: register-utility('.shadow-1', (
     box-shadow: unquote('0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08)')
 ), $emit: $_emit);
 
-$do: register-utility(shadow-2, (
+$do: register-utility('.shadow-2', (
     box-shadow: unquote('0 8px 16px 0 rgba(0, 0, 0, 0.11), 0 4px 8px 0 rgba(0, 0, 0, 0.08)')
 ), $emit: $_emit);
 
-$do: register-utility(shadow-3, (
+$do: register-utility('.shadow-3', (
     box-shadow: unquote('0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08)')
 ), $emit: $_emit);
 
-$do: register-utility(inner-shadow, (
+$do: register-utility('.inner-shadow', (
     box-shadow: unquote('inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)')
 ), $emit: $_emit);
 
-$do: register-utility(no-shadow, (box-shadow: none), $emit: $_emit);
+$do: register-utility('.no-shadow', (box-shadow: none), $emit: $_emit);

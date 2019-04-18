@@ -8,19 +8,19 @@ $_BORDER_SIZES: (1, 2, 4, 8);
 // Border size (px)
 $_emit: true;
 @each $size in $_BORDER_SIZES {
-    $do: register-utility('border-#{$size}', (border: #{$size}px solid), $emit: $_emit);
+    $do: register-utility('.border-#{$size}', (border: #{$size}px solid), $emit: $_emit);
 }
 
 @each $direction, $prefix in (left: l, right:r, top: t, bottom: b) {
     @each $size in $_BORDER_SIZES {
-        $do: register-utility('border-#{$prefix}#{$size}', (border-#{$direction}: #{$size}px solid), $emit: $_emit);
+        $do: register-utility('.border-#{$prefix}#{$size}', (border-#{$direction}: #{$size}px solid), $emit: $_emit);
     }
 }
 
 //------------------------------------------------------------------------------
 // Border style (solid, dashed, etc)
 $_emit: true;
-$do: register-utilities('border-style', solid dashed dotted none, "border-", $emit: $_emit);
+$do: register-utilities('.border-style', solid dashed dotted none, "border-", $emit: $_emit);
 
 //------------------------------------------------------------------------------
 // Rounded corners
@@ -28,35 +28,35 @@ $do: register-utilities('border-style', solid dashed dotted none, "border-", $em
 // All directions
 $_emit: true;
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('rounded-#{$key}', (border-radius: $value / 2), $emit: $_emit);
+    $do: register-utility('.rounded-#{$key}', (border-radius: $value / 2), $emit: $_emit);
 }
 
-$do: register-utility('rounded-full', (border-radius: 9999px), $emit: $_emit);
+$do: register-utility('.rounded-full', (border-radius: 9999px), $emit: $_emit);
 
 // Directional rounded corners
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('border-t#{$key}', (
+    $do: register-utility('.border-t#{$key}', (
         border-top-left-radius: $value / 2,
         border-top-right-radius: $value / 2),
     $emit: $_emit);
 }
 
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('border-b#{$key}', (
+    $do: register-utility('.border-b#{$key}', (
         border-bottom-left-radius: $value / 2,
         border-bottom-right-radius: $value / 2),
     $emit: $_emit);
 }
 
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('border-l#{$key}', (
+    $do: register-utility('.border-l#{$key}', (
         border-bottom-left-radius: $value / 2,
         border-top-left-radius: $value / 2),
     $emit: $_emit);
 }
 
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('border-r#{$key}', (
+    $do: register-utility('.border-r#{$key}', (
         border-bottom-right-radius: $value / 2,
         border-top-right-radius: $value / 2),
     $emit: $_emit);

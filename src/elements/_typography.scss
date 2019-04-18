@@ -41,7 +41,7 @@ h6, .h6 {
 
 // Type scale for different ratios (probably we should join with the previous loop)
 @each $bp, $ratio in get-responsive-type-scale-ratios() {
-    $bp: config(breakpoints $bp);
+    $bp: config('breakpoints#{$bp}');
     @media screen and (min-width: nth($bp, 1)) {
         @include _headings-type-scale($ratio);
     }
@@ -59,7 +59,7 @@ b, strong {
 // Add the correct font size in all browsers.
 small {
     font-size: 75%;
-    @include config(elements small);
+    @include config('elements.small');
 }
 
 // Prevent `sub` and `sup` elements from affecting the line height in all browsers
@@ -72,12 +72,12 @@ sub, sup {
 
 sub {
     bottom: -0.25em;
-    @include config(elements sub);
+    @include config('elements.sub');
 }
 
 sup {
     top: -0.5em;
-    @include config(elements sup);
+    @include config('elements.sup');
 }
 
 // 1. Remove the bottom border in Chrome 57-
@@ -135,7 +135,7 @@ blockquote, .blockquote {
     //@include margin(map-get($blockquote, margin));
     //@include padding(map-get($blockquote, padding));
 
-    border-left: 0.25rem solid config(pallete, brand);
+    border-left: 0.25rem solid config('pallete.brand');
 
     *:last-child {
         margin-bottom: 0;

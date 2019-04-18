@@ -58,7 +58,7 @@ $_MENDELEEV-TYPE-SCALES: (
 /// Responsive type scale
 @function make-type-scale($emit) {
     $utilities: ();
-    @each $bp, $scale in config(typography scale) {
+    @each $bp, $scale in config('typography.scale') {
         @each $suffix, $value in type-scale($scale) {
             $name: text-#{$suffix};
             $data: map-read($utilities, $name, ());
@@ -67,7 +67,7 @@ $_MENDELEEV-TYPE-SCALES: (
         }
     }
     @each $utility, $data in $utilities {
-        $do: register-utility($utility, $data, $emit: $emit, $type: responsive);
+        $do: register-utility('.#{$utility}', $data, $emit: $emit, $type: responsive);
     }
     @return null;
 }
@@ -79,15 +79,15 @@ $_MENDELEEV-TYPE-SCALES: (
 /// @arg $which - If given, must be either headings or paragraph and denotes
 ///               which section to look for the property
 @function font-property($prop, $which: paragraph) {
-    $conf: config(typography, $which);
+    $conf: config('typography', $which);
     @if map-has-key($conf, $prop) {
         @return map-get($conf, $prop);
     }
-    @return config(typography $prop);
+    @return config('typography.#{$prop}');
 }
 
 @function get-default-type-scale-ratio() {
-    $ratio: config(typography scale);
+    $ratio: config('typography.scale');
     @if type-of($ratio) == 'map' {
         $ratio: list-reduce(map-values($ratio), min);
 
@@ -98,7 +98,7 @@ $_MENDELEEV-TYPE-SCALES: (
 }
 
 @function get-responsive-type-scale-ratios() {
-    $ratio: config(typography scale);
+    $ratio: config('typography.scale');
     @if type-of($ratio) == 'map' {
         $min: get-default-type-scale-ratio();
         $result: ();
@@ -119,7 +119,7 @@ $_MENDELEEV-TYPE-SCALES: (
 
 @mixin _heading-vertical-rhythm($ratio) {
     $lead: config('typography.lead');
-    $h-lead: config(typography heading-lead);
+    $h-lead: config('typography.heading-lead');
     $descender: 0.1;
     $margin-bottom: 0.5 * (1.2 - $ratio * $descender);
     $height-units: $margin-bottom + $ratio * $h-lead / $lead;

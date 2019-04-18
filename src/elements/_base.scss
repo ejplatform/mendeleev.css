@@ -4,8 +4,10 @@
 
 // Set root variables
 $_mendeleev-root-defaults: (
+    //
     // Typography
     lead: config('typography.lead'),
+    //
     // Sizing
     unit: calc(var(--lead) * 1rem),
     rem-px: config('typography.size.start') * 1px,
@@ -13,16 +15,17 @@ $_mendeleev-root-defaults: (
 );
 
 :root {
-    @each $k, $v in map-merge($_mendeleev-root-defaults, config(root, $merge: true)) {
+    @each $k, $v in map-merge($_mendeleev-root-defaults, config('root')) {
         --#{$k}: #{$v};
     }
 }
 
 // Set box-sizing globally to handle padding and border widths
-$_animation: config(animation duration) config(animation timing-function);
+$_animation: config('animation.duration') config('animation.timing-function');
 *, *:after, *:before {
-    box-sizing: border-box;
-    box-sizing: var(--boxSizing);
+    @include var-fallback((
+        box-sizing: (border-box boxSizing)
+    ));
     @if config('animation.duration') > 0 {
         transition: (
             all $_animation,

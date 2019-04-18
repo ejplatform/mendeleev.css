@@ -18,14 +18,14 @@ $_emit: responsive;
 @each $key, $value in $_mendeleev-sizes {
     $data: sizing(padding, $value);
     $name: unquote('pad-#{$key}');
-    $do: register-utility($name, $data, $emit: $_emit);
+    $do: register-utility('.#{$name}', $data, $emit: $_emit);
 }
 
 // Horizontal and vertical
 @each $direction in (x y) {
     @each $key, $value in $_mendeleev-sizes {
         $data: sizing(padding, ($direction: $value));
-        $do: register-utility(pad-#{$direction}#{$key}, $data, $emit: $_emit);
+        $do: register-utility('.pad-#{$direction}#{$key}', $data, $emit: $_emit);
     }
 }
 
@@ -33,7 +33,7 @@ $_emit: responsive;
 @each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
     @each $key, $value in $_mendeleev-sizes {
         $data: (padding-#{$direction}: $value);
-        $do: register-utility(pad-#{$prefix}#{$key}, $data, $emit: $_emit);
+        $do: register-utility('.pad-#{$prefix}#{$key}', $data, $emit: $_emit);
     }
 }
 
@@ -44,13 +44,13 @@ $_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
 // Full margins
 $_emit: true;
 @each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility(margin-#{$key}, (margin: $value), $emit: $_emit);
+    $do: register-utility('.margin-#{$key}', (margin: $value), $emit: $_emit);
 }
 
 $_emit: true;
 @each $key, $value in $_mendeleev-full-sizes {
     @if $value != 0 {
-        $do: register-utility(margin-n#{$key}, (margin: -$value), $emit: $_emit);
+        $do: register-utility('.margin-n#{$key}', (margin: -$value), $emit: $_emit);
     }
 }
 
@@ -60,7 +60,7 @@ $_emit: true;
 @each $direction in (x y) {
     @each $key, $value in $_mendeleev-full-sizes {
         $data: sizing(margin, ($direction: $value));
-        $do: register-utility(margin-#{$direction}#{$key}, $data, $emit: $_emit);
+        $do: register-utility('.margin-#{$direction}#{$key}', $data, $emit: $_emit);
     }
 }
 
@@ -69,7 +69,7 @@ $_emit: true;
     @each $key, $value in $_mendeleev-full-sizes {
         @if $value != 0 {
             $data: sizing(margin, ($direction: -$value));
-            $do: register-utility(margin-n#{$direction}#{$key}, $data, $emit: $_emit);
+            $do: register-utility('.margin-n#{$direction}#{$key}', $data, $emit: $_emit);
         }
     }
 }
@@ -79,7 +79,7 @@ $_emit: true;
 @each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
     @each $key, $value in $_mendeleev-full-sizes {
         $data: (margin-#{$direction}: $value);
-        $do: register-utility(margin-#{$prefix}#{$key}, $data, $emit: $_emit);
+        $do: register-utility('.margin-#{$prefix}#{$key}', $data, $emit: $_emit);
     }
 }
 
@@ -88,7 +88,7 @@ $_emit: true;
     @each $key, $value in $_mendeleev-full-sizes {
         @if $value != 0 and value != auto {
             $data: (margin-#{$direction}: -#{$value});
-            $do: register-utility(margin-n#{$prefix}#{$key}, $data, $emit: $_emit);
+            $do: register-utility('.margin-n#{$prefix}#{$key}', $data, $emit: $_emit);
         }
     }
 }
@@ -100,18 +100,18 @@ $_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
 
 // Full sizes
 @each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility(size-#{$key}, (width: $value, height: $value), $emit: $_emit);
+    $do: register-utility('.size-#{$key}', (width: $value, height: $value), $emit: $_emit);
 }
 
 // Horizontal and vertical
 @each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility(size-x#{$key}, (width: $value), $emit: $_emit);
-    $do: register-utility(size-y#{$key}, (height: $value), $emit: $_emit);
+    $do: register-utility('.size-x#{$key}', (width: $value), $emit: $_emit);
+    $do: register-utility('.size-y#{$key}', (height: $value), $emit: $_emit);
 }
 
 // Line height
 @each $key, $value in $_mendeleev-sizes {
-    $do: register-utility(line-height-#{$key}, (line-height: $value), $emit: $_emit);
+    $do: register-utility('.line-height-#{$key}', (line-height: $value), $emit: $_emit);
 }
 
 //------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ $_mendeleev-grid-systems: ();
 @each $prop in (width, max-width, min-width, height, max-height, min-height) {
     $_emit: true;
     @each $key, $value in compound-grid-system((5, 12)) {
-        $do: register-utility(#{$prop}-#{$key}, ($prop: $value * 1%), $emit: $_emit)
+        $do: register-utility('.#{$prop}-#{$key}', ($prop: $value * 1%), $emit: $_emit)
     }
 }
 
@@ -175,7 +175,7 @@ $_mendeleev-grid-systems: ();
     @each $key, $value in compound-grid-system((5, 12)) {
         @if $value != 0 {
             $key: if($key == full, '', $key);
-            $do: register-utility(#{$prop}-#{$key}screen, ($prop: $value * $unit), $emit: $_emit)
+            $do: register-utility('.#{$prop}-#{$key}screen', ($prop: $value * $unit), $emit: $_emit)
         }
     }
 }

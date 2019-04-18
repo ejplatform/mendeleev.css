@@ -43,7 +43,7 @@
     "test"
   ],
   "dependencies": {
-    "fn.sass": "^0.1.0"
+    "fn.sass": "^0.2.1"
   },
   "optionalDependencies": {
     "mithril": "^1.1.6"
@@ -86,7 +86,7 @@
     "lint": "sass-lint -c .sasslintrc src --verbose --no-exit && eslint test -c styled && editorconfig-tools check .",
     "ava": "nyc ava",
     "test": "run-s build lint ava",
-    "precommit-bak": "run-p test"
+    "precommit_": "run-p test"
   },
   "resolutions": {
     "natives": "1.1.3"

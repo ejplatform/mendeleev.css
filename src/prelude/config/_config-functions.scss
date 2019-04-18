@@ -1,3 +1,5 @@
+@import 'config-data';
+
 /// Fetch configuration value from default config dictionary.
 ///
 /// @arg $path - List with the path to configuration
@@ -6,16 +8,15 @@
 /// @example scss
 ///     config('palette.black')
 ///     // #1a1a1a
-@function config($path, $default: $_config-not-given, $merge: false) {
+@function config($path, $default: null) {
     @if not type-of($path) == string {
         @error 'Path must be given as a string';
     }
-    @return map-nested-multi-path(L($mendeleev-config, $config), str-split($path, '.'), $default);
+    @return map-path-merge(L($mendeleev-config, $config), str-split($path, '.'), $default);
 }
 
-
 /// Write value into the given path in the global Mendeleev config.
-@function set-mendeleev-config($path, $value, $merge: false) {
+@function set-mendeleev-config($path, $value) {
     @if type-of($path) == string {
         $path: str-split($path, '.');
     }
