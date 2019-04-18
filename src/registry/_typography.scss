@@ -117,52 +117,76 @@ $do: mendeleev-utility-module(
 
 //------------------------------------------------------------------------------
 // Whitespace
-$_emit: config('typography.white-space');
-@each $value in (normal nowrap pre pre-line pre-wrap) {
-    $do: register-utility('.white-space-#{$value}', (white-space: $value), $emit: $_emit);
-}
+
+$do: mendeleev-utility-module(
+        'typography.modules.white-space', (
+        white-space:
+            ('.', (
+                normal,
+                nowrap,
+                pre,
+                pre-line,
+                pre-wrap,
+            ))
+    ));
 
 //------------------------------------------------------------------------------
 // Leading
 
-$_emit: config('typography.leading');
-@each $name, $value in (
-    leading: config('typography.lead'),
-    leading-title: config('typography.heading-lead'),
-    leading-solid: 1,
-    leading-loose: 2,
-) {
-    $do: register-utility('.#{$name}', (line-height: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.leading', (
+        leading-height:
+            ('.', (
+                leading: config('typography.lead'),
+                leading-title: config('typography.heading-lead'),
+                leading-solid: 1,
+                leading-loose: 2,
+            )),
+    ));
 
 //------------------------------------------------------------------------------
 // Measure
 
-$_emit: config('typography.measure');
-@each $name, $value in (
-    measure: 29em, // ~ 65 characters
-    measure-wide: 38em, // ~ 85 characters
-    measure-narrow: 20em, // ~ 45 characters
-) {
-    $do: register-utility('.#{$name}', (max-width: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.measure', (
+        max-width:
+            ('.', (
+                measure: 29em, // ~ 65 characters
+                measure-wide: 38em, // ~ 85 characters
+                measure-narrow: 20em, // ~ 45 characters
+            ))
+    ));
 
 //------------------------------------------------------------------------------
 // Indentation
 
-$_emit: config('typography.indent');
-@each $name, $value in (
-    indent: 1.5em,
-    indent-punctuation: -0.3em,
-) {
-    $do: register-utility('.#{$name}', (text-indent: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.indent', (
+        text-indent:
+            ('.', (
+                indent: 1.5em,
+                indent-punctuation: -0.3em,
+            )),
+    ));
 
-$do: register-utility('.truncate', (white-space: nowrap, overflow: hidden, text-overflow: ellipsis), $emit: $_emit);
+$do: mendeleev-module(
+        'typography.modules.indent', (
+        '.truncate': (
+            white-space: nowrap,
+            overflow: hidden,
+            text-overflow: ellipsis,
+        )
+    ));
 
 //------------------------------------------------------------------------------
 // Direction
 
-$_emit: config('typography.modules.direction');
-$do: register-utilities('.direction', (rtl, ltr), '.', $emit: $_emit);
+$do: mendeleev-utility-module(
+        'typography.modules.direction', (
+        direction:
+            ('.', (
+                rtl,
+                ltr,
+            )),
+    ));
 
