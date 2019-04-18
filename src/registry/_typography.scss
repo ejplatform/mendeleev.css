@@ -3,52 +3,12 @@
 //------------------------------------------------------------------------------
 @import 'typography-functions';
 
-//$_emit: config('typography.scale');
-//$do: make-type-scale($_emit);
+$_emit: config('typography.modules.scale');
+$do: make-type-scale($_emit);
 
 //------------------------------------------------------------------------------
 // Simple system font styles: font-sans, font-serif, font-mono, font-cursive
 
-@function mendeleev-module($cfg, $spec) {
-    $emit: config($cfg);
-    $res: null;
-
-    @each $selector, $data in $spec {
-        @if type-of($data) == map {
-            $res: cons(register-utility($selector, $data, $emit), $res);
-        } @else {
-            @error "Invalid content for #{$selector}"
-        }
-    }
-    @return $res;
-}
-
-@function mendeleev-utility-module($cfg, $spec) {
-    $emit: config($cfg);
-    $res: null;
-
-    @each $prop, $data in $spec {
-        $prefix: nth($data, 1);
-        $content: nth($data, 2);
-
-        @if type-of($content) == map {
-            @each $suffix, $value in $content {
-                $name: '#{$prefix}#{$suffix}';
-                $data: (#{$prop}: $value);
-                $res: cons(register-utility($name, $data, $emit), $res);
-            }
-        } @else if type-of($content) == list {
-            @each $value in $content {
-                $name: '#{$prefix}#{$value}';
-                $data: (#{$prop}: $value);
-                $res: cons(register-utility($name, $data, $emit), $res);
-            }
-        } @else {
-            @error "Invalid content"
-        }
-    }
-    @return $res;
-}
 
 $do: mendeleev-utility-module(
         'typography.modules.fonts', (
