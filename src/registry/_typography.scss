@@ -3,41 +3,88 @@
 //------------------------------------------------------------------------------
 @import 'typography-functions';
 
-$_emit: config('typography.scale');
-$do: make-type-scale($_emit);
+//$_emit: config('typography.scale');
+//$do: make-type-scale($_emit);
 
 //------------------------------------------------------------------------------
 // Simple system font styles: font-sans, font-serif, font-mono, font-cursive
 
-$_emit: config('typography.fonts');
-@each $family in (sans-serif, serif, cursive, monospace) {
-    $props: (font-family: config('typography.#{$family}'));
-    $do: register-utility('.#{$family}', $props, $emit: $_emit);
+@function mendeleev-utility-module($cfg, $spec) {
+    $emit: config($cfg);
+    $res: null;
+
+    @each $prop, $data in $spec {
+        $prefix: nth($data, 1);
+        $content: nth($data, 2);
+
+        @if type-of($content) == map {
+            @each $suffix, $value in $content {
+                $name: '#{$prefix}#{$suffix}';
+                $data: (#{$prop}: $value);
+                $res: cons(register-utility($name, $data, $emit), $res);
+            }
+        } @else {
+            @error "Invalid content"
+        }
+    }
+    @return $res;
 }
+
+$do: mendeleev-utility-module(
+        'typography.modules.fonts', (
+        font-family:
+            ('.', (
+                sans-serif: config('typography.#{sans-serif}'),
+                serif: config('typography.#{serif}'),
+                cursive: config('typography.#{cursive}'),
+                monospace: config('typography.#{monospace}'),
+            )),
+    )
+);
 
 //------------------------------------------------------------------------------
 // Font weight
 
-$_emit: config('typography.weights');
-@each $utility, $value in (thin: 100, extra-light: 200, light: 300, regular: 400, medium: 500, semi-bold: 600, bold: 700, extra-bold: 800, black: 900) {
-    $do: register-utility('.#{$utility}', (font-weight: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.weights', (
+        font-weight:
+            ('.', (
+                thin: 100,
+                extra-light: 200,
+                light: 300,
+                regular: 400,
+                medium: 500,
+                semi-bold: 600,
+                bold: 700,
+                extra-bold: 800,
+                black: 900,
+            )),
+    ));
 
 //------------------------------------------------------------------------------
 // Styles, decorations and text transform
 
-$_emit: config('typography.styles');
-@each $utility, $value in (italic: italic, roman: normal) {
-    $do: register-utility('.#{$utility}', (font-style: $value), $emit: $_emit);
-}
-
-@each $utility, $value in (uppercase: uppercase, lowercase: lowercase, capitalize: capitalize, normalcase: none) {
-    $do: register-utility('.#{$utility}', (text-transform: $value), $emit: $_emit);
-}
-
-@each $utility, $value in (underline: underline, line-through: line-through, no-underline: none) {
-    $do: register-utility('.#{$utility}', (text-decoration: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.styles', (
+        font-style:
+            ('.', (
+                italic: italic,
+                roman: norma
+            )),
+        text-transform:
+            ('.', (
+                uppercase: uppercase,
+                lowercase: lowercase,
+                capitalize: capitalize,
+                normalcase: none,
+            )),
+        text-decoration:
+            ('.', (
+                underline: underline,
+                line-through: line-through,
+                no-underline: none
+            ))
+    ));
 
 //------------------------------------------------------------------------------
 // Text alignment
