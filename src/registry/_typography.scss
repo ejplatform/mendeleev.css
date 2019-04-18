@@ -23,6 +23,12 @@
                 $data: (#{$prop}: $value);
                 $res: cons(register-utility($name, $data, $emit), $res);
             }
+        } @else if type-of($content) == list {
+            @each $value in $content {
+                $name: '#{$prefix}#{$value}';
+                $data: (#{$prop}: $value);
+                $res: cons(register-utility($name, $data, $emit), $res);
+            }
         } @else {
             @error "Invalid content"
         }
@@ -89,14 +95,25 @@ $do: mendeleev-utility-module(
 //------------------------------------------------------------------------------
 // Text alignment
 
-$_emit: config('typography.alignment');
-@each $value in (left center right justify) {
-    $do: register-utility('.text-#{$value}', (text-align: $value), $emit: $_emit);
-}
-
-@each $value in (baseline top middle bottom text-top text-bottom) {
-    $do: register-utility('.align-#{$value}', (vertical-align: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'typography.modules.alignment', (
+        text-align:
+            ('.', (
+                left,
+                center,
+                right,
+                justify,
+            )),
+        vertical-align:
+            ('.', (
+                baseline,
+                top,
+                middle,
+                bottom,
+                text-top,
+                text-bottom
+            ))
+    ));
 
 //------------------------------------------------------------------------------
 // Whitespace
