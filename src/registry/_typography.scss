@@ -9,6 +9,20 @@
 //------------------------------------------------------------------------------
 // Simple system font styles: font-sans, font-serif, font-mono, font-cursive
 
+@function mendeleev-module($cfg, $spec) {
+    $emit: config($cfg);
+    $res: null;
+
+    @each $selector, $data in $spec {
+        @if type-of($data) == map {
+            $res: cons(register-utility($selector, $data, $emit), $res);
+        } @else {
+            @error "Invalid content for #{$selector}"
+        }
+    }
+    @return $res;
+}
+
 @function mendeleev-utility-module($cfg, $spec) {
     $emit: config($cfg);
     $res: null;
