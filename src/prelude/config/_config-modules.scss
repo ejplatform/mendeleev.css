@@ -1,0 +1,56 @@
+/// Declare a Mendeleev module of CSS declarations.
+///
+/// @arg $cfg - String path for the configuration option in the global
+///             Mendeleev config
+/// @arg $spec - Dictionary of declarations mapping CSS selector with CSS
+///              definitions
+@function mendeleev-module($cfg, $spec) {
+    $emit: config($cfg);
+    $res: null;
+
+    @each $selector, $data in $spec {
+        @if type-of($data) == map {
+            $res: cons(register-utility($selector, $data, $emit), $res);
+        } @else {
+            @error "Invalid content for #{$selector}."
+        }
+    }
+    @return $res;
+}
+
+/// Declare a Mendeleev module of CSS utilities. A utility is understood as a
+/// CSS declaration that defines a single CSS property.
+///
+/// This function makes it easier to declare lots of classes in batch, but is
+/// far less flexible on the kind of declarations that can be made.
+///
+/// @arg $cfg - String path for the configuration option in the global
+///             Mendeleev config
+/// @arg $spec - Dictionary of declarations mapping CSS selector with CSS
+///              definitions
+@function mendeleev-utility-module($cfg, $spec) {
+    $emit: config($cfg);
+    $res: null;
+
+    @each $prop, $data in $spec {
+        $prefix: nth($data, 1);
+        $content: nth($data, 2);
+
+        @if type-of($content) == map {
+            @each $suffix, $value in $content {
+                $name: '#{$prefix}#{$suffix}';
+                $data: (#{$prop}: $value);
+                $res: cons(register-utility($name, $data, $emit), $res);
+            }
+        } @else if type-of($content) == list {
+            @each $value in $content {
+                $name: '#{$prefix}#{$value}';
+                $data: (#{$prop}: $value);
+                $res: cons(register-utility($name, $data, $emit), $res);
+            }
+        } @else {
+            @error "Invalid specification for #{$prop}."
+        }
+    }
+    @return $res;
+}

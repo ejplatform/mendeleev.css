@@ -1,0 +1,81 @@
+/// Include a pre-registered utility
+///
+/// @arg $data - A mapping describing the declaration of a utility.
+/// @arg $suffix - A suffix that is included on each CSS value. Useful to add
+///                things like "!important"
+@mixin _utility-from-data($data, $suffix: null) {
+    $name: map-get($data, name);
+    $type: map-get($data, type);
+    $name: str-replace(if(type-of($name) == string, $name, inspect($name)), '\/', '\\\/');
+    $emit: map-get($data, emit);
+
+    @if $emit {
+        @if $type == map {
+            $props: map-get($data, data);
+            #{$name} {
+                @include map($props, $suffix: $suffix);
+            }
+            @if $emit == responsive {
+                @each $bp, $size in config('breakpoints') {
+                    @media screen and (min-width: $size) {
+                        #{_bp-selector($bp, $name)} {
+                            @include map($props, $suffix: $suffix);
+                        }
+                    }
+                }
+            }
+        } @else if $type == responsive {
+            @each $bp, $props in map-get($data, data) {
+                @if $bp == 'start' {
+                    #{$name} {
+                        @include map($props, $suffix: $suffix);
+                    }
+                } @else {
+
+                    @include breakpoint($bp) {
+                        #{$name} {
+                            @include map($props, $suffix: $suffix);
+                        }
+                    }
+                }
+            }
+        } @else {
+            @error 'Invalid utility type: #{$type}'
+        }
+    }
+}
+
+/// Include declarations only for the given breakpoint.
+@mixin breakpoint($bp, $properties: (), $suffix: null) {
+    @if $bp == 'start' {
+        @content;
+        @include map($properties, $suffix: $suffix);
+    } @else {
+        @media screen and (min-width: config('breakpoints.#{$bp}')) {
+            @content;
+            @include map($properties, $suffix: $suffix);
+        }
+    }
+}
+
+/// Mixin that includes all registered utilities
+@mixin all-registered-utilities() {
+    // FIXME: We are creating duplicates for some reason
+    //$lst: link-reverse($MENDELEEV_UTILITIES);
+    //@while $lst != null {
+    //    $suffix: null;
+    //    @include _utility-from-data(car($lst), $suffix);
+    //    $lst: cdr($lst);
+    //}
+    $lst: $MENDELEEV_UTILITIES;
+    $new: null;
+    @while $lst != null {
+        $data: car($lst);
+        $lst: cdr($lst);
+        $new: cons(map-get($data, name) $data, $new);
+    }
+    $suffix: null;
+    @each $key, $value in lst-to-map($new) {
+        @include _utility-from-data($value, $suffix);
+    }
+}

@@ -4,52 +4,140 @@
 @import '../preflight';
 
 // Display
-$_emit: true;
-$do: register-utilities('.display', (block, inline, inline-block, table, table-cell, inline-flex), $emit: $_emit);
-$do: register-utility('.hidden', (display: none), $emit: $_emit);
-$do: register-utility('[hidden]', (display: none), $emit: $_emit);
+$do: mendeleev-utility-module(
+        'layout.display', (
+        display:
+            ('.', (
+                block,
+                inline,
+                inline-block,
+                table,
+                table-cell,
+                inline-flex,
+            )),
+    ));
 
-// Floats (float-left, float-right, etc)
-$_emit: true;
-$do: register-utilities('.float', left right none, "float-", $emit: $_emit);
+$do: mendeleev-module(
+        'layout.float', (
+        float:
+            ('float-', (
+                left,
+                right,
+                none,
+            )),
+    ));
 
-// Clear a float with .clearfix
-$do: register-utilities('.clearfix:after', (
-    clear: both,
-    content: " ",
-    display: table,
-));
+$do: mendeleev-module(
+        'layout.visibility', (
+        '.hidden': (
+            display: none,
+        ),
+        '[hidden]': (
+            display: none,
+        ),
+        '.clearfix:after': (
+            clear: both,
+            content: " ",
+            display: table,
+        ),
+    ));
 
 // Position (absolute, relative, etc)
-$_emit: true;
-$do: register-utilities('.position', absolute fixed relative static sticky, $emit: $_emit);
+$do: mendeleev-utility-module(
+        'layout.position', (
+        position:
+            ('.', (
+                absolute,
+                fixed,
+                relative,
+                static,
+                sticky,
+            ))
+    ));
 
 // Position (pin, pin-left, pin-top, etc)
-$_emit: true;
-$do: register-utility('.pin', (top: 0, bottom: 0, right: 0, left: 0), $emit: $_emit);
-$do: register-utility('.pin-none', (top: auto, bottom: auto, left: auto, right: auto), $emit: $_emit);
-$do: register-utility('.pin-x', (right: 0, left: 0), $emit: $_emit);
-$do: register-utility('.pin-y', (top: 0, bottom: 0), $emit: $_emit);
-@each $direction in (left right top bottom) {
-    $do: register-utility('.pin-#{$direction}', ($direction: 0), $emit: $_emit);
-}
+$do: mendeleev-module(
+        'layout.visibility', (
+        '.pin': (
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
+        ),
+        '.pin-none': (
+            top: auto,
+            bottom: auto,
+            left: auto,
+            right: auto,
+        ),
+        '.pin-x': (
+            right: 0,
+            left: 0,
+        ),
+        '.pin-y': (
+            top: 0,
+            bottom: 0,
+        ),
+        '.pin-left': (
+            left: 0,
+        ),
+        '.pin-right': (
+            right: 0,
+        ),
+        '.pin-top': (
+            top: 0,
+        ),
+        '.pin-bottom': (
+            bottom: 0,
+        ),
+    ));
 
 // Overflow
-$_emit: true;
-$do: register-utilities('.overflow', auto hidden visible scroll, "overflow-", $emit: $_emit);
-$do: register-utilities('.overflow-x', auto hidden visible scroll, "overflow-x-", $emit: $_emit);
-$do: register-utilities('.overflow-y', auto hidden visible scroll, "overflow-y-", $emit: $_emit);
+$do: mendeleev-module(
+        'layout.overflow', (
+        '.overflow':
+            ("overflow-", (
+                auto,
+                hidden,
+                visible,
+                scroll,
+            )),
+        '.overflow-x':
+            ("overflow-x-", (
+                auto,
+                hidden,
+                visible,
+                scroll,
+            )),
+        '.overflow-y':
+            ("overflow-y-", (
+                auto,
+                hidden,
+                visible,
+                scroll,
+            )),
+    ));
 
 // Container
-$do: register-utilities('.container-1, .container-2, .container-3, .container', (
-    margin: 0 auto,
-    position: relative,
-    width: 100%,
-    max-width: 50rem,
-    padding: 0 size-scale(3),
-));
-
-$do: register-utilities('.container-1', (max-width: 38rem + size-scale(4)));
-$do: register-utilities('.container-2', (max-width: 29rem + size-scale(4)));
-$do: register-utilities('.container-3', (max-width: 20rem + size-scale(4)));
-$do: register-utilities('.raise-first > *:first-child', (margin-top: 0));
+$do: mendeleev-module(
+        'layout.overflow', (
+        '.container-1, .container-2, .container-3, .container': (
+            margin: 0 auto,
+            position: relative,
+            width: 100%,
+            max-width: 50rem,
+            padding: 0 size-scale(3),
+        ),
+        '.container-1': (
+            max-width: 38rem + size-scale(4),
+        ),
+        '.container-2': (
+            max-width: 29rem + size-scale(4),
+        ),
+        '.container-3': (
+            max-width: 20rem + size-scale(4),
+        ),
+        '.raise-first > *:first-child': (
+            margin-top: 0,
+        ),
+    ));
