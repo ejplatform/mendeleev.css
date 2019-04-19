@@ -1,87 +1,111 @@
 //------------------------------------------------------------------------------
 // TRANSFORMATIONS
 //------------------------------------------------------------------------------
+@import '../_preflight';
 
-//------------------------------------------------------------------------------
-// Transforms
-$_transform-scale: (0: 0%, 1: 5%, 2: 10%, 3: 25%, 4: 50%, 5: 75%, 6: 90%, 7: 95%, 8: 100%);
-$_grow-scale: (0: 1, 1: 1.05, 2: 1.10, 3: 1.25, 4: 1.50, 5: 2, 6: 3);
+// Scales
+$mendeleev-transform-scale: (
+    0: 0%, 1: 5%, 2: 10%, 3: 25%, 4: 50%, 5: 75%, 6: 90%, 7: 95%, 8: 100%,
+);
+$mendeleev-transform-double-scale: (
+    n0: 100%, n1: 95%, n2: 90%, n3: 75%, n4: 50%, n5: 25%, n6: 10%, n7: 5%, n8: 0%,
+    0: 100%, 1: 105%, 2: 110%, 3: 125%, 4: 150%, 5: 175%, 6: 190%, 7: 195%, 8: 200%,
+);
+$mendeleev-grow-scale: (
+    0: 1, 1: 1.05, 2: 1.10, 3: 1.25, 4: 1.50, 5: 2, 6: 3,
+);
+$mendeleev-shrink-scale: (
+    0: 1, 1: 1 / 1.05, 2: 1 / 1.10, 3: 1 / 1.25, 4: 1 / 1.50, 5: 1 / 2, 6: 1 / 3,
+);
 
-// Origin location
-$_emit: true;
-$do: register-utilities('.transform-origin', (
-    center: center center 0,
-    top: center top 0,
-    bottom: center bottom 0,
-    left: left center 0,
-    right: right center 0,
-    ne: right top 0,
-    nw: left top 0,
-    se: right bottom 0,
-    sw: left bottom 0,
-), 'origin-', $emit: $_emit);
+// Modules
+$do: mendeleev-utility-module(
+        'transform', (
+        //
+        // Origin location
+        transform-origin:
+            ('.transform-', (
+                center: center center 0,
+                top: center top 0,
+                bottom: center bottom 0,
+                left: left center 0,
+                right: right center 0,
+                ne: right top 0,
+                nw: left top 0,
+                se: right bottom 0,
+                sw: left bottom 0,
+            )),
+    ));
 
-// Grow and shrink
-$_emit: true;
-@each $key, $value in $_grow-scale {
-    $do: register-utility('.grow-#{$key}', (transform: unquote('scale(#{$value}, #{$value})')), $emit: $_emit);
-}
-
-@each $key, $value in $_grow-scale {
-    $factor: 1 / $value;
-    $do: register-utility('.shrink-#{$key}', (transform: unquote('scale(#{$factor}, #{$factor})')), $emit: $_emit);
-}
-
-// Rotations
-$_emit: true;
-@each $angle in (30, 45, 60, 90) {
-    $do: register-utility('.rotate-#{$angle}', (transform: unquote('rotate(#{$angle}deg)')), $emit: $_emit);
-    $do: register-utility('.rotate-n#{$angle}', (transform: unquote('rotate(-#{$angle}deg)')), $emit: $_emit);
-}
-
-$do: register-utility('.rotate-180', (transform: unquote('rotate(180deg)')), $emit: $_emit);
-
-//------------------------------------------------------------------------------
-// Filters
-
-// Grey scale
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.grayscale-#{$key}', (filter: unquote('grayscale(#{$value})')), $emit: $_emit);
-}
-
-// Sepia
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.sepia-#{$key}', (filter: unquote('sepia(#{$value})')), $emit: $_emit);
-}
-
-// Invert
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.invert-#{$key}', (filter: unquote('invert(#{$value})')), $emit: $_emit);
-}
-
-// Contrast
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.contrast-n#{$key}', (filter: unquote('contrast(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('.contrast-#{$key}', (filter: unquote('contrast(#{100% + $value})')), $emit: $_emit);
-}
-
-// Brightness
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.brightness-n#{$key}', (filter: unquote('brightness(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('.brightness-#{$key}', (filter: unquote('brightness(#{100% + $value})')), $emit: $_emit);
-}
-
-// Saturation
-$_emit: true;
-@each $key, $value in $_transform-scale {
-    $do: register-utility('.saturate-n#{$key}', (filter: unquote('saturate(#{100% - $value})')), $emit: $_emit);
-    $do: register-utility('.saturate-#{$key}', (filter: unquote('saturate(#{100% + $value})')), $emit: $_emit);
-}
-
-
-
+$do: mendeleev-module(
+        'transform', (
+        //
+        // Grow and shrink
+        '.grow-$1': scale-of(
+            $scale: $mendeleev-grow-scale,
+            $css: (
+                transform: 'scale($1, $1)',
+            )),
+        '.shrink-$1': scale-of(
+            $scale: $mendeleev-shrink-scale,
+            $css: (
+                transform: 'scale($1, $1)',
+            )),
+        //
+        // Rotations
+        '.rotate-$1': scale-of(
+            $scale: (30: 30, 45: 45, 60: 60, 90: 90),
+            $css: (
+                transform: 'rotate($1deg)',
+            )),
+        '.rotate-n$1': scale-of(
+            $scale: (30: 30, 45: 45, 60: 60, 90: 90),
+            $css: (
+                transform: 'rotate(-$1deg)',
+            )),
+        '.rotate-180': (
+            transform: unquote('rotate(180deg)')
+        ),
+        //
+        // Grey scale
+        '.grayscale-$1': scale-of(
+            $scale: $mendeleev-transform-scale,
+            $css: (
+                filter: 'grayscale($1)'
+            )),
+        //
+        // Sepia
+        '.sepia-$1': scale-of(
+            $scale: $mendeleev-transform-scale,
+            $css: (
+                filter: 'sepia($1)'
+            )),
+        //
+        // Invert
+        '.invert-$1': scale-of(
+            $scale: $mendeleev-transform-scale,
+            $css: (
+                filter: 'invert($1)'
+            )),
+        //
+        // Contrast
+        '.contrast-$1': scale-of(
+            $scale: $mendeleev-transform-double-scale,
+            $css: (
+                filter: 'contrast($1)'
+            )),
+        //
+        // Brightness
+        '.brightness-$1': scale-of(
+            $scale: $mendeleev-transform-double-scale,
+            $css: (
+                filter: 'brightness($1)'
+            )),
+        //
+        // Saturation
+        '.saturation-$1': scale-of(
+            $scale: $mendeleev-transform-double-scale,
+            $css: (
+                filter: 'saturate($1)'
+            )),
+    ));
