@@ -19,6 +19,7 @@ $config: () !default;
 /// Default configuration options.
 /// This map contains all default values for configurations that can be
 /// overridden by the `$config` or `$config-defaults` mappings.
+$mendeleev-enabled: true !default;
 $mendeleev-config: (
     //
     // GLOBAL
@@ -37,18 +38,18 @@ $mendeleev-config: (
         //
         // Generic
         'modules': (
-            'headings': true,
-            'paragraph': true,
-            'scale': true,
-            'leading': true,
-            'measure': true,
-            'indent': true,
-            'alignment': true,
-            'styles': true,
-            'weights': true,
-            'fonts': true,
-            'direction': true,
-            'white-space': true,
+            'headings': $mendeleev-enabled,
+            'paragraph': $mendeleev-enabled,
+            'scale': $mendeleev-enabled,
+            'leading': $mendeleev-enabled,
+            'measure': $mendeleev-enabled,
+            'indent': $mendeleev-enabled,
+            'alignment': $mendeleev-enabled,
+            'styles': $mendeleev-enabled,
+            'weights': $mendeleev-enabled,
+            'fonts': $mendeleev-enabled,
+            'direction': $mendeleev-enabled,
+            'white-space': $mendeleev-enabled,
         ),
         //
         // Typefaces
@@ -136,6 +137,16 @@ $mendeleev-config: (
         'border-color': 'action',
         'border-radius': 0.25,
         'font-weight': bold,
+    ),
+    //
+    // LAYOUT
+    'layout': (
+        'display': $mendeleev-enabled,
+        'float': $mendeleev-enabled,
+        'visibility': $mendeleev-enabled,
+        'position': $mendeleev-enabled,
+        'container': $mendeleev-enabled,
+        'overflow': $mendeleev-enabled,
     ),
     //
     // ELEMENT OVERRIDES
