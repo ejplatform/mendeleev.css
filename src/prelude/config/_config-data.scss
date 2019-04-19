@@ -154,7 +154,8 @@ $mendeleev-config: (
     'flex': $mendeleev-enabled,
     'flex-grid': $mendeleev-enabled,
     'grid': $mendeleev-enabled,
-    'border': true,
+    'border': $mendeleev-enabled,
+    'visibility': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),

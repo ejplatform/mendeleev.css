@@ -112,6 +112,14 @@ $_mendeleev-module-special-decl: unique-id() !default;
     }
 }
 
+@function utility-scale-of($scale) {
+    @return fn-scale(_mendeleev-utility-scale-of, $scale);
+}
+
+@function _mendeleev-utility-scale-of($prop, $name, $value) {
+    @return ($name: ($prop: $value));
+}
+
 @function _mendeleev-scale-fetch-item($scale, $n) {
     $first: car($scale);
     @return if(length($first) == 1, $first, nth($first, $n));
@@ -129,31 +137,58 @@ $_mendeleev-module-special-decl: unique-id() !default;
 }
 
 @function _mendeleev-fn-scale-module-worker($emit, $template, $fn, $scale, $args...) {
+    $fn: as-func($fn);
     $res: null;
-    @while $scale != null {
-        $key: _mendeleev-scale-fetch-item($scale, 1);
-        $value: _mendeleev-scale-fetch-item($scale, 2);
-        $scale: cdr($scale);
-        $name: str-interpolate($template, $key);
-        @each $selector, $spec in call-fn($fn, $name, $value, $args...) {
-            $data: register-utility($selector, $spec, $emit);
-            $res: cons($data, $res);
+
+    @if type-of($scale) == map {
+        @each $key, $value in $scale {
+            $name: str-interpolate($template, $key);
+            @each $selector, $spec in call($fn, $name, $value, $args...) {
+                $data: register-utility($selector, $spec, $emit);
+                $res: cons($data, $res);
+            }
+        }
+
+    } @else {
+        @while $scale != null {
+            $key: _mendeleev-scale-fetch-item($scale, 1);
+            $value: _mendeleev-scale-fetch-item($scale, 2);
+            $scale: cdr($scale);
+            $name: str-interpolate($template, $key);
+            @each $selector, $spec in call($fn, $name, $value, $args...) {
+                $data: register-utility($selector, $spec, $emit);
+                $res: cons($data, $res);
+            }
         }
     }
     @return $res;
 }
 
 @function _mendeleev-fn-scale-utility-module-worker($emit, $prop, $prefix, $fn, $scale, $args...) {
+    $fn: as-func($fn);
     $res: null;
-    @while $scale != null {
-        $key: _mendeleev-scale-fetch-item($scale, 1);
-        $value: _mendeleev-scale-fetch-item($scale, 2);
-        $scale: cdr($scale);
-        $name: str-interpolate($prefix, L($key));
-        @each $selector, $spec in call-fn($fn, $prop, $name, $value, $args...) {
-            $data: register-utility($selector, $spec, $emit);
-            $res: cons($data, $res);
+
+    @if type-of($scale) == map {
+        @each $key, $value in $scale {
+            $name: str-interpolate($prefix, L($key));
+            @each $selector, $spec in call($fn, $prop, $name, $value, $args...) {
+                $data: register-utility($selector, $spec, $emit);
+                $res: cons($data, $res);
+            }
+        }
+
+    } @else {
+        @while $scale != null {
+            $key: _mendeleev-scale-fetch-item($scale, 1);
+            $value: _mendeleev-scale-fetch-item($scale, 2);
+            $scale: cdr($scale);
+            $name: str-interpolate($prefix, L($key));
+            @each $selector, $spec in call($fn, $prop, $name, $value, $args...) {
+                $data: register-utility($selector, $spec, $emit);
+                $res: cons($data, $res);
+            }
         }
     }
+
     @return $res;
 }

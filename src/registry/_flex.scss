@@ -20,7 +20,7 @@
 
 $do: mendeleev-module(
         'flex-grid', (
-        //Row definitions and modifiers
+         //Row definitions and modifiers
         '.row': (
             align-items: stretch,
             display: flex,
@@ -138,7 +138,7 @@ $do: mendeleev-utility-module(
                     utility-scale,
                     L(initial, auto, join, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
             )),
-        //Flex order scale
+         //Flex order scale
         order:
             ('.order-$1', fn-scale(
                     utility-scale,
