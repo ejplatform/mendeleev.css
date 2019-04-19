@@ -1,13 +1,64 @@
+//------------------------------------------------------------------------------
+// MISCELLANEOUS
+//------------------------------------------------------------------------------
+@import '../preflight';
+
 // Interactivity
-$_emit: true;
-$do: register-utilities('.cursor', auto default pointer wait move not-allowed, "cursor-", $emit: $_emit);
-$do: register-utilities('.pointer-events', (pointer-events: auto, no-pointer-events: none), $emit: $_emit);
-$do: register-utilities('.user-select', (select: text, no-select: none), $emit: $_emit);
+$do: mendeleev-utility-module(
+        'interactivity', (
+        cursor:
+            ('.cursor-', (
+                auto: auto,
+                default: default,
+                pointer: pointer,
+                wait: wait,
+                move: move,
+                not-allowed: not-allowed,
+            )),
+        pointer-events:
+            ('.', (
+                pointer-events: auto,
+                no-pointer-events: none,
+            )),
+        user-select:
+            ('.', (
+                select: text,
+                no-select: none,
+            )),
+    ));
 
 // Background
-$_emit: true;
-$do: register-utilities('.background-attachment', fixed local scroll, "bg-", $emit: $_emit);
-$do: register-utilities('.background-position-x', (left: left, right: right, center-x: center), "bg-", $emit: $_emit);
-$do: register-utilities('.background-position-y', (bottom: bottom, top:top, center-y: center), "bg-", $emit: $_emit);
-$do: register-utilities('.background-repeat', repeat no-repeat repeat-x repeat-y, "bg-", $emit: $_emit);
-$do: register-utilities('.background-size', auto cover contain, "bg-", $emit: $_emit);
+$do: mendeleev-utility-module(
+        'background', (
+        background-attachment:
+            ('.bg-', (
+                fixed: fixed,
+                local: local,
+                scroll: scroll,
+            )),
+        background-position-x:
+            ('.bg-', (
+                left: left,
+                right: right,
+                center-x: center,
+            )),
+        background-position-y:
+            ('.bg-', (
+                bottom: bottom,
+                top:top,
+                center-y: center,
+            )),
+        background-repeat:
+            ('.bg-', (
+                repeat: repeat,
+                no-repeat: no-repeat,
+                repeat-x: repeat-x,
+                repeat-y: repeat-y,
+            )),
+        background-size:
+            ('.bg-', (
+                auto: auto,
+                cover: cover,
+                contain: contain,
+            )),
+    ));
