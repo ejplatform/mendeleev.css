@@ -1,20 +1,26 @@
-@function _mendeleev-gutter($name, $idx, $size) {
+//------------------------------------------------------------------------------
+// FLEX BOXES
+//------------------------------------------------------------------------------
+@import '../preflight';
+
+@function _mendeleev-flex-grid-gutter($name, $idx) {
+    $size: size-scale($idx);
     @return (
         '#{$name}': (
-            margin: '#{$size} -#{$size}',
+            margin: unquote('#{$size} -#{$size}'),
         ),
         '#{$name} > *': (
             margin: $size,
         ),
-        '#{$name} + .#{$name}': (
-            margin-top: '-#{$size}'
+        '#{$name} + #{$name}': (
+            margin-top: unquote('-#{$size})'),
         ),
     )
 }
 
 $do: mendeleev-module(
-        'flex', (
-        // Row definitions and modifiers
+        'flex-grid', (
+         //Row definitions and modifiers
         '.row': (
             align-items: stretch,
             display: flex,
@@ -53,20 +59,17 @@ $do: mendeleev-module(
             flex: 1,
         ),
         // Gutter scale
-        //'.gutter-$1': scale-of(
-        //    lst-enumerate(lst-map(size, (0.125, 0.25, 0.375, 0.5))),
-        //    _mendeleev-gutter,
-        //),
+        '.gutter-$1': fn-scale(_mendeleev-flex-grid-gutter, L(1, 2, 3, 4)),
     ));
 
 //------------------------------------------------------------------------------
-// UTILITY CLASSES
+// FLEXBOX RELATED UTILITY CLASSES
 //------------------------------------------------------------------------------
 
 $do: mendeleev-utility-module(
         'flex', (
         // Direction
-        'flex-direction':
+        flex-direction:
             ('.flex-', (
                 row,
                 row-reverse,
@@ -74,7 +77,7 @@ $do: mendeleev-utility-module(
                 column-reverse,
             )),
         // Alignment along the flex axis
-        'justify-content':
+        justify-content:
             ('flex-', (
                 start: flex-start,
                 center: center,
@@ -84,7 +87,7 @@ $do: mendeleev-utility-module(
                 evenly: space-evenly,
             )),
         // Alignment perpendicularly to the flex axis
-        'align-items':
+        align-items:
             ('.items-', (
                 stretch: stretch,
                 start: flex-start,
@@ -93,7 +96,7 @@ $do: mendeleev-utility-module(
                 baseline: baseline,
             )),
         // Alignment of flex content lines in the available area
-        'align-content':
+        align-content:
             ('.content-', (
                 start: flex-start,
                 center: center,
@@ -103,14 +106,14 @@ $do: mendeleev-utility-module(
                 evenly: space-evenly,
             )),
         // Wrapping
-        'flex-wrap':
-            ('', (
+        flex-wrap:
+            ('.', (
                 wrap,
                 nowrap,
                 wrap-reverse,
             )),
         // Align a single element
-        'align-self':
+        align-self:
             ('.self-', (
                 stretch: stretch,
                 start: flex-start,
@@ -119,33 +122,27 @@ $do: mendeleev-utility-module(
                 baseline: baseline,
             )),
         // Flex grow and shrink
-        'flex':
-            ('.flex-', (
-                initial,
-                auto,
-                none,
-            )),
-        'flex-shrink':
+        flex-shrink:
             ('.flex-', (
                 shrink: 1,
                 noshrink: 0,
             )),
-        'flex-grow':
+        flex-grow:
             ('.flex-', (
                 grow: 1,
                 nogrow: 0,
             )),
         // Flex grow scale
-        //'flex':
-        //    ('.flex-$1', scale-of(
-        //        lst-range(1, 12),
-        //        utility, 'flex')
-        //    ),
-        // Flex order scale
-        //'order':
-        //    ('.order-$1', scale-of(
-        //        lst-range(1, 12),
-        //        utility, 'order')
-        //    ),
+        flex:
+            ('.flex-$1', fn-scale(
+                    utility-of,
+                    L(initial, auto, join, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+            )),
+         //Flex order scale
+        order:
+            ('.order-$1', fn-scale(
+                    utility-of,
+                    L(auto, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+            )),
     ));
 

@@ -1,3 +1,64 @@
+//------------------------------------------------------------------------------
+// DECLARE MENDELEEV MODULES
+//------------------------------------------------------------------------------
+
+$_mendeleev-module-special-decl: unique-id() !default;
+
+//
+// AUXILIARY FUNCTIONS
+//
+@function _mendeleev-module-is-special-decl($data) {
+    @return type-of($data) == list and nth($data, 1) == $_mendeleev-module-special-decl;
+}
+
+@function _mendeleev-fn-scale-module-worker($emit, $template, $fn, $scale, $args...) {
+    $res: null;
+    @while $scale != null {
+        $item: car($scale);
+        $scale: cdr($scale);
+
+        $key: $item;
+        $value: $item;
+        @if type-of($item) == list {
+            $key: nth($item, 1);
+            $value: nth($item, 2);
+        }
+
+        $name: str-interpolate($template, $key);
+        @each $selector, $spec in call-fn($fn, $name, $value, $args...) {
+            $data: register-utility($selector, $spec, $emit);
+            $res: cons($data, $res);
+        }
+    }
+    @return $res;
+}
+
+@function _mendeleev-fn-scale-utility-module-worker($emit, $prop, $prefix, $fn, $scale, $args...) {
+    $res: null;
+    @while $scale != null {
+        $item: car($scale);
+        $scale: cdr($scale);
+
+        $key: $item;
+        $value: $item;
+        @if type-of($item) == list {
+            $key: nth($item, 1);
+            $value: nth($item, 2);
+        }
+
+        $name: str-interpolate($prefix, L($key));
+        @each $selector, $spec in call-fn($fn, $prop, $name, $value, $args...) {
+            $data: register-utility($selector, $spec, $emit);
+            $res: cons($data, $res);
+        }
+    }
+    @return $res;
+}
+
+//------------------------------------------------------------------------------
+// PUBLIC API FUNCTIONS
+//------------------------------------------------------------------------------
+
 /// Declare a Mendeleev module of CSS declarations.
 ///
 /// @arg $cfg - String path for the configuration option in the global
@@ -10,8 +71,17 @@
 
     @each $selector, $data in $spec {
         @if type-of($data) == map {
+            // Simple utility
             $res: cons(register-utility($selector, $data, $emit), $res);
+
+        } @else if _mendeleev-module-is-special-decl($data) {
+            // Special declarations
+            $fn: as-func(nth($data, 2));
+            $args: nth($data, 4);
+            $res: call($fn, $emit, $selector, $args...);
+
         } @else {
+            // Invalid specification
             @error "Invalid content for #{$selector}."
         }
     }
@@ -36,13 +106,22 @@
         $prefix: nth($data, 1);
         $content: nth($data, 2);
 
-        @if type-of($content) == map {
+        @if _mendeleev-module-is-special-decl($content) {
+            // Special declarations
+            $fn: as-func(nth($content, 3));
+            $args: nth($content, 4);
+            $res: call($fn, $emit, $prop, $prefix, $args...);
+
+        } @else if type-of($content) == map {
+            // Simple map based declaration
             @each $suffix, $value in $content {
                 $name: '#{$prefix}#{$suffix}';
                 $data: (#{$prop}: $value);
                 $res: cons(register-utility($name, $data, $emit), $res);
             }
+
         } @else if type-of($content) == list {
+            // Simple list based declaration
             @each $value in $content {
                 $name: '#{$prefix}#{$value}';
                 $data: (#{$prop}: $value);
@@ -54,3 +133,17 @@
     }
     @return $res;
 }
+
+@function fn-scale($fn, $scale, $args...) {
+    @return (
+        $_mendeleev-module-special-decl,
+        _mendeleev-fn-scale-module-worker,
+        _mendeleev-fn-scale-utility-module-worker,
+        join(($fn, $scale), $args),
+    );
+}
+
+@function utility-of($prop, $name, $value) {
+    @return ($name: ($prop: $value));
+}
+

@@ -18,7 +18,7 @@
 /// Write value into the given path in the global Mendeleev config.
 @function set-mendeleev-config($path, $value) {
     @if type-of($path) == string {
-        $path: str-split($path, '.');
+        $path: str-split-to-array($path, '.');
     }
     @if $merge {
         $value: map-merge(map-path($mendeleev-config, $path, ()), $value);

@@ -151,6 +151,8 @@ $mendeleev-config: (
     //
     // OTHER MODULES
     'shadow': $mendeleev-enabled,
+    'flex': $mendeleev-enabled,
+    'flex-grid': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),
