@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-
 // .visible and .hidden utility classes
 $do: mendeleev-utility-module(
         'visibility', (
@@ -40,3 +39,18 @@ $do: mendeleev-utility-module(
             ))),
     ));
 
+// Visibility
+$do: mendeleev-module(
+        'visibility', (
+        '.hidden': (
+            display: none,
+        ),
+        '[hidden]': (
+            display: none,
+        ),
+        '.clearfix:after': (
+            clear: both,
+            content: " ",
+            display: table,
+        ),
+    ));

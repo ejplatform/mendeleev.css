@@ -37,21 +37,7 @@ $do: mendeleev-module(
         ),
     ));
 
-// Visibility
-$do: mendeleev-module(
-        'layout.visibility', (
-        '.hidden': (
-            display: none,
-        ),
-        '[hidden]': (
-            display: none,
-        ),
-        '.clearfix:after': (
-            clear: both,
-            content: " ",
-            display: table,
-        ),
-    ));
+
 
 // Position on page (pin, pin-left, pin-top, etc)
 $do: mendeleev-module(

@@ -4,115 +4,142 @@
 @import '../preflight';
 
 // Extract the default sizing scale
-$_mendeleev-sizes: ();
-@each $key in ('0', '1', '2', '3', '3p', '4', '4p', '5', '5p', '6', '6p', '7', '7p', '8') {
-    $value: size-scale($key);
-    $_mendeleev-sizes: map-merge($_mendeleev-sizes, ($key: $value));
-}
+$_mendeleev-sizes: (
+    '0': size-scale(0),
+    '1': size-scale(1),
+    '2': size-scale(2),
+    '3': size-scale(3),
+    '3p': size-scale(3.5),
+    '4': size-scale(4),
+    '4p': size-scale(4.5),
+    '5': size-scale(5),
+    '5p': size-scale(5.5),
+    '6': size-scale(6),
+    '6p': size-scale(6.5),
+    '7': size-scale(7),
+    '7p': size-scale(7.5),
+    '8': size-scale(8),
+) !default;
+
+$_mendeleev-neg-sizes: (
+    'n0': size-scale(0),
+    'n1': size-scale(1),
+    'n2': size-scale(2),
+    'n3': size-scale(3),
+    'n3p': size-scale(3.5),
+    'n4': size-scale(4),
+    'n4p': size-scale(4.5),
+    'n5': size-scale(5),
+    'n5p': size-scale(5.5),
+    'n6': size-scale(6),
+    'n6p': size-scale(6.5),
+    'n7': size-scale(7),
+    'n7p': size-scale(7.5),
+    'n8': size-scale(8),
+) !default;
+
+$_mendeleev-all-sizes: map-merge(
+        map-merge((auto: auto), $_mendeleev-neg-sizes),
+        $_mendeleev-sizes
+) !default;
+
+$_mendeleev-auto-sizes: map-merge((auto: auto), $_mendeleev-sizes);
 
 //------------------------------------------------------------------------------
 // PADDING SCALE
-$_emit: responsive;
 
-// Full padding
-@each $key, $value in $_mendeleev-sizes {
-    $data: sizing(padding, $value);
-    $name: unquote('pad-#{$key}');
-    $do: register-utility('.#{$name}', $data, $emit: $_emit);
-}
+$do: mendeleev-utility-module('padding', (padding: ('.pad-', $_mendeleev-sizes)));
 
-// Horizontal and vertical
-@each $direction in (x y) {
-    @each $key, $value in $_mendeleev-sizes {
-        $data: sizing(padding, ($direction: $value));
-        $do: register-utility('.pad-#{$direction}#{$key}', $data, $emit: $_emit);
-    }
-}
+$do: mendeleev-module(
+        'padding', (
+        '.pad-x': scale-of(
+            $scale: $_mendeleev-sizes,
+            $css: (
+                padding-left: '$1',
+                padding-right: '$1',
+            )
+        ),
+        '.pad-y': scale-of(
+            $scale: $_mendeleev-sizes,
+            $css: (
+                padding-top: '$1',
+                padding-bottom: '$1',
+            )
+        ),
+    ));
 
-// Top, bottom, left, right
-@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
-    @each $key, $value in $_mendeleev-sizes {
-        $data: (padding-#{$direction}: $value);
-        $do: register-utility('.pad-#{$prefix}#{$key}', $data, $emit: $_emit);
-    }
-}
+$do: mendeleev-utility-module(
+        'padding', (
+        padding-left:
+            ('.pad-l', $_mendeleev-sizes),
+        padding-right:
+            ('.pad-r', $_mendeleev-sizes),
+        padding-top:
+            ('.pad-t', $_mendeleev-sizes),
+        padding-bottom:
+            ('.pad-b', $_mendeleev-sizes),
+    ));
 
 //------------------------------------------------------------------------------
 // MARGIN SCALE
-$_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
 
-// Full margins
-$_emit: true;
-@each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility('.margin-#{$key}', (margin: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module('margin', (padding: ('.margin-', $_mendeleev-all-sizes)));
 
-$_emit: true;
-@each $key, $value in $_mendeleev-full-sizes {
-    @if $value != 0 {
-        $do: register-utility('.margin-n#{$key}', (margin: -$value), $emit: $_emit);
-    }
-}
+$do: mendeleev-module(
+        'margin', (
+        '.margin-x': scale-of(
+            $scale: $_mendeleev-all-sizes,
+            $css: (
+                margin-left: '$1',
+                margin-right: '$1',
+            )
+        ),
+        '.margin-y': scale-of(
+            $scale: $_mendeleev-all-sizes,
+            $css: (
+                margin-top: '$1',
+                margin-bottom: '$1',
+            )
+        ),
+    ));
 
-
-// Horizontal and vertical
-$_emit: true;
-@each $direction in (x y) {
-    @each $key, $value in $_mendeleev-full-sizes {
-        $data: sizing(margin, ($direction: $value));
-        $do: register-utility('.margin-#{$direction}#{$key}', $data, $emit: $_emit);
-    }
-}
-
-$_emit: true;
-@each $direction in (x y) {
-    @each $key, $value in $_mendeleev-full-sizes {
-        @if $value != 0 {
-            $data: sizing(margin, ($direction: -$value));
-            $do: register-utility('.margin-n#{$direction}#{$key}', $data, $emit: $_emit);
-        }
-    }
-}
-
-// Top, bottom, left, right
-$_emit: true;
-@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
-    @each $key, $value in $_mendeleev-full-sizes {
-        $data: (margin-#{$direction}: $value);
-        $do: register-utility('.margin-#{$prefix}#{$key}', $data, $emit: $_emit);
-    }
-}
-
-$_emit: true;
-@each $direction, $prefix in (top: t, bottom: b, left: l, right: r) {
-    @each $key, $value in $_mendeleev-full-sizes {
-        @if $value != 0 and value != auto {
-            $data: (margin-#{$direction}: -#{$value});
-            $do: register-utility('.margin-n#{$prefix}#{$key}', $data, $emit: $_emit);
-        }
-    }
-}
-
+$do: mendeleev-utility-module(
+        'margin', (
+        margin-left:
+            ('.margin-l', $_mendeleev-all-sizes),
+        margin-right:
+            ('.margin-r', $_mendeleev-all-sizes),
+        margin-top:
+            ('.margin-t', $_mendeleev-all-sizes),
+        margin-bottom:
+            ('.margin-b', $_mendeleev-all-sizes),
+    ));
 
 //------------------------------------------------------------------------------
 // SIZES
-$_mendeleev-full-sizes: map-merge($_mendeleev-sizes, (auto: auto));
 
-// Full sizes
-@each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility('.size-#{$key}', (width: $value, height: $value), $emit: $_emit);
-}
+$do: mendeleev-module(
+        'sizes', (
+        // Squared height
+        '.size-$1': scale-of(
+            $scale: $_mendeleev-auto-sizes,
+            $css: (width: '$1', height: '$1')
+        ),
+        // Line height
+        '.line-height-$1': scale-of(
+            $scale: $_mendeleev-sizes,
+            $css: (line-height: '$1')
+        ),
+    ));
 
 // Horizontal and vertical
-@each $key, $value in $_mendeleev-full-sizes {
-    $do: register-utility('.size-x#{$key}', (width: $value), $emit: $_emit);
-    $do: register-utility('.size-y#{$key}', (height: $value), $emit: $_emit);
-}
-
-// Line height
-@each $key, $value in $_mendeleev-sizes {
-    $do: register-utility('.line-height-#{$key}', (line-height: $value), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'sizes', (
+        width:
+            ('.size-x', $_mendeleev-auto-sizes),
+        height:
+            ('.size-y', $_mendeleev-auto-sizes),
+    ));
 
 //------------------------------------------------------------------------------
 // RELATIVE SIZING (WIDTHS and HEIGHTS)
@@ -122,19 +149,69 @@ $_mendeleev-grid-systems: ();
 
 // Let us define all useful grid system from the trivial grid-1 up to grid-12.
 @function _mendeleev-make-grid-systems() {
-    $grid-1: ('0': 0, 'full': 100);
-    $grid-2: map-merge($grid-1, ('1/2': 50));
-    $grid-3: map-merge($grid-1, ('1/3': 100 / 3, '2/3': 200 / 3));
-    $grid-4: map-merge($grid-2, ('1/4': 25, '3/4': 75));
-    $grid-5: map-merge($grid-1, ('1/5': 20, '2/5': 40, '3/5': 60, '4/5': 80));
-    $grid-6: map-merge(map-merge($grid-2, $grid-3), ('1/6': 50 / 3, '5/6': 250 / 3));
-    $grid-8: map-merge($grid-4, ('1/8': 100 / 8, '3/8': 300 / 8, '5/8': 500 / 8, '7/8': 700 / 8));
-    $grid-7: 'Really?!';
-    $grid-9: map-merge($grid-3, ('1/9': 100 / 9, '2/9': 200 / 9, '4/9': 400 / 9, '5/9': 500 / 9, '7/9': 700 / 9, '8/9': 800 / 9));
-    $grid-10: map-merge(map-merge($grid-2, $grid-5), ('1/10': 10, '3/10': 30, '7/10': 70, '9/10': 90));
-    $grid-11: $grid-7;
-    $grid-12: map-merge(map-merge($grid-4, $grid-6), ('1/12': 100 / 12, '5/12': 500 / 12, '7/12': 700 / 12, '11/12': 1100 / 12));
-    $grid-15: map-merge(map-merge($grid-3, $grid-5), ('1/15': 100 / 15, '2/15': 200 / 15, '4/15': 400 / 15, '7/15': 700 / 15, '8/15': 800 / 15, '11/15': 1100 / 15, '13/15': 1300 / 15, '14/15': 1400 / 15));
+    $grid-1: (
+        '0': 0,
+        'full': 100,
+    );
+    $grid-2: map-merge($grid-1, (
+        '1/2': 50,
+    ));
+    $grid-3: map-merge($grid-1, (
+        '1/3': 100 / 3,
+        '2/3': 200 / 3,
+    ));
+    $grid-4: map-merge($grid-2, (
+        '1/4': 25,
+        '3/4': 75,
+    ));
+    $grid-5: map-merge($grid-1, (
+        '1/5': 20,
+        '2/5': 40,
+        '3/5': 60,
+        '4/5': 80,
+    ));
+    $grid-6: map-merge(map-merge($grid-2, $grid-3), (
+        '1/6': 100 / 6,
+        '5/6': 500 / 6,
+    ));
+    $grid-8: map-merge($grid-4, (
+        '1/8': 100 / 8,
+        '3/8': 300 / 8,
+        '5/8': 500 / 8,
+        '7/8': 700 / 8,
+    ));
+    $grid-7: 'Grid 7, really?!';
+    $grid-9: map-merge($grid-3, (
+        '1/9': 100 / 9,
+        '2/9': 200 / 9,
+        '4/9': 400 / 9,
+        '5/9': 500 / 9,
+        '7/9': 700 / 9,
+        '8/9': 800 / 9,
+    ));
+    $grid-10: map-merge(map-merge($grid-2, $grid-5), (
+        '1/10': 10,
+        '3/10': 30,
+        '7/10': 70,
+        '9/10': 90,
+    ));
+    $grid-11: 'Grid 11, really?!';
+    $grid-12: map-merge(map-merge($grid-4, $grid-6), (
+        '1/12': 100 / 12,
+        '5/12': 500 / 12,
+        '7/12': 700 / 12,
+        '11/12': 1100 / 12,
+    ));
+    $grid-15: map-merge(map-merge($grid-3, $grid-5), (
+        '1/15': 100 / 15,
+        '2/15': 200 / 15,
+        '4/15': 400 / 15,
+        '7/15': 700 / 15,
+        '8/15': 800 / 15,
+        '11/15': 1100 / 15,
+        '13/15': 1300 / 15,
+        '14/15': 1400 / 15,
+    ));
     @return (
         2: $grid-2,
         3: $grid-3,
@@ -160,23 +237,36 @@ $_mendeleev-grid-systems: ();
 }
 
 // Register utility classes for width, height and friends
-@each $prop in (width, max-width, min-width, height, max-height, min-height) {
-    $_emit: true;
-    @each $key, $value in compound-grid-system((5, 12)) {
-        $do: register-utility('.#{$prop}-#{$key}', ($prop: $value * 1%), $emit: $_emit)
-    }
-}
 
-// Register utility classes for width, height and friends in absolute screen
-// proportions values
-@each $prop in (width, max-width, min-width, height, max-height, min-height) {
-    $_emit: true;
-    $unit: if(str-ends-with($prop, width), 1vw, 2vh);
-    @each $key, $value in compound-grid-system((5, 12)) {
-        @if $value != 0 {
-            $key: if($key == full, '', $key);
-            $do: register-utility('.#{$prop}-#{$key}screen', ($prop: $value * $unit), $emit: $_emit)
+//noinspection SassScssUnresolvedVariable
+@function _mendeleev-sizing-all() {
+    $res: null;
+    @each $k, $v in $_mendeleev-sizing-scale {
+        $res: cons(($k ($v * 1%)), $res);
+        @if $v != 0 {
+            $res: cons(('#{$k}vw' ($v * 1vw)), $res);
+            $res: cons(('#{$k}vh' ($v * 1vh)), $res);
         }
     }
+    @return lst-to-map($res);
 }
+
+$_mendeleev-sizing-scale: compound-grid-system((5, 12)) !default;
+$_mendeleev-sizing-scale-all: _mendeleev-sizing-all() !default;
+
+$do: mendeleev-utility-module(
+        'sizing', (
+        width:
+            ('.width-', $_mendeleev-sizing-scale-all),
+        max-width:
+            ('.max-width-', $_mendeleev-sizing-scale-all),
+        min-width:
+            ('.min-width-', $_mendeleev-sizing-scale-all),
+        height:
+            ('.height-', $_mendeleev-sizing-scale-all),
+        max-height:
+            ('.max-height-', $_mendeleev-sizing-scale-all),
+        min-height:
+            ('.min-height-', $_mendeleev-sizing-scale-all),
+    ));
 

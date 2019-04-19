@@ -143,7 +143,6 @@ $mendeleev-config: (
     'layout': (
         'display': $mendeleev-enabled,
         'float': $mendeleev-enabled,
-        'visibility': $mendeleev-enabled,
         'position': $mendeleev-enabled,
         'container': $mendeleev-enabled,
         'overflow': $mendeleev-enabled,
@@ -160,6 +159,10 @@ $mendeleev-config: (
     'transform': $mendeleev-enabled,
     'background': $mendeleev-enabled,
     'interactivity': $mendeleev-enabled,
+    'padding': $mendeleev-enabled,
+    'margin':  $mendeleev-enabled,
+    'sizes': $mendeleev-enabled,
+    'sizing': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),

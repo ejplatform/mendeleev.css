@@ -1,5 +1,6 @@
 @import 'registry/setup';
 @import 'registry/typography';
+@import 'registry/sizing'; // still buggy
 @import 'registry/layout';
 @import 'registry/shadow';
 @import 'registry/flex';
@@ -10,5 +11,4 @@
 @import 'registry/misc';
 
 //@import 'registry/colors';
-//@import 'registry/sizing';
 //@import 'registry/borders';
