@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------------
 // BORDERS
 //------------------------------------------------------------------------------
-
 @import '../preflight';
 
 $mendeleev-border-sizes: L(1, 2, 4, 8) !default;
@@ -33,41 +32,45 @@ $do: mendeleev-utility-module(
     ));
 
 //------------------------------------------------------------------------------
-// TODO: Rounded corners
+// Rounded corners
 
-//// All directions
-//$_emit: true;
-//@each $key, $value in $_mendeleev-sizes {
-//    $do: register-utility('.rounded-#{$key}', (border-radius: $value / 2), $emit: $_emit);
-//}
-//
-//$do: register-utility('.rounded-full', (border-radius: 9999px), $emit: $_emit);
-//
-//// Directional rounded corners
-//@each $key, $value in $_mendeleev-sizes {
-//    $do: register-utility('.border-t#{$key}', (
-//        border-top-left-radius: $value / 2,
-//        border-top-right-radius: $value / 2),
-//    $emit: $_emit);
-//}
-//
-//@each $key, $value in $_mendeleev-sizes {
-//    $do: register-utility('.border-b#{$key}', (
-//        border-bottom-left-radius: $value / 2,
-//        border-bottom-right-radius: $value / 2),
-//    $emit: $_emit);
-//}
-//
-//@each $key, $value in $_mendeleev-sizes {
-//    $do: register-utility('.border-l#{$key}', (
-//        border-bottom-left-radius: $value / 2,
-//        border-top-left-radius: $value / 2),
-//    $emit: $_emit);
-//}
-//
-//@each $key, $value in $_mendeleev-sizes {
-//    $do: register-utility('.border-r#{$key}', (
-//        border-bottom-right-radius: $value / 2,
-//        border-top-right-radius: $value / 2),
-//    $emit: $_emit);
-//}
+$_mendeleev-radius: map-apply-values(div, $_mendeleev-sizes, 2) !default;
+$_mendeleev-radius: map-merge($_mendeleev-radius, (full: 9999rem));
+
+$do: mendeleev-module(
+        'radius', (
+        //
+        // All directions
+        '.rounded-$1': scale-of(
+            $scale: $_mendeleev-radius,
+            $css: (
+                border-radius: '$1',
+            )),
+        //
+        // Directional rounded corners
+        '.rounded-t$1': scale-of(
+            $scale: $_mendeleev-radius,
+            $css: (
+                border-top-left-radius: '$1',
+                border-top-right-radius: '$1',
+            )),
+        '.rounded-b$1': scale-of(
+            $scale: $_mendeleev-radius,
+            $css: (
+                border-bottom-left-radius: '$1',
+                border-bottom-right-radius: '$1',
+            )),
+        '.rounded-r$1': scale-of(
+            $scale: $_mendeleev-radius,
+            $css: (
+                border-top-right-radius: '$1',
+                border-bottom-right-radius: '$1',
+            )),
+        '.rounded-l$1': scale-of(
+            $scale: $_mendeleev-radius,
+            $css: (
+                border-top-left-radius: '$1',
+                border-bottom-left-radius: '$1',
+            )),
+    ));
+
