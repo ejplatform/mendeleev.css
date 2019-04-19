@@ -1,114 +1,11 @@
-$do: register-utility('.grid', (display: grid));
-
-@each $n in (1 2 3 4 5 6 8 9 10 12 15) {
-    $do: register-utility('.grid-#{$n}, .hard-grid-#{$n}, .rows-#{$n}, .hard-rows-#{$n}', (
-        '--grid-gap': 0,
-        '--grid-size': $n,
-        'display': grid,
-    ));
-
-    $do: register-utility('.grid-#{$n}',
-        (grid-template-columns: 'repeat(#{$n}, 1fr)'));
-
-    $do: register-utility('.hard-grid-#{$n}',
-        (grid-template-columns: 'repeat(#{$n}, calc(#{100% / $n} - #{($n - 1) / $n} * var(--grid-gap)))'));
-
-    $do: register-utility('.rows-#{$n}',
-        (grid-template-rows: 'repeat(#{$n}, 1fr)'));
-
-    $do: register-utility('.hard-rows-#{$n}',
-        (grid-template-rows: 'repeat($n, calc(#{100% / $n} - #{($n - 1) / $n} * var(--grid-gap))'));
-}
-
-$do: register-utility('.grid-dense', (grid-auto-flow: dense), $emit: $_emit);
-
 //------------------------------------------------------------------------------
-// Global cell placement
-
-$_emit: true;
-$do: register-utility('.place-center', (place-items: center), $emit: $_emit);
-$do: register-utility('.place-stretch', (place-items: stretch), $emit: $_emit);
-$do: register-utilities('.justify-items', (
-    right: right, left: left,
-    start: start, end: end,
-    center-x: center, stretch-x: stretch,
-), 'place-', $emit: $_emit);
-$do: register-utilities('.align-items', (
-    top: start, bottom: end,
-    center-y: center, center: center,
-    stretch-y: stretch, stretch: stretch
-), 'place-', $emit: $_emit);
-
+// CSS GRID
 //------------------------------------------------------------------------------
-// Grid alignment on its container
+@import '../preflight';
 
-$_emit: true;
-$do: register-utility('.grid-center', (place-content: center), $emit: $_emit);
-$do: register-utility('.grid-stretch', (place-content: stretch), $emit: $_emit);
-$do: register-utility('.grid-around', (place-content: space-around), $emit: $_emit);
-$do: register-utility('.grid-between', (place-content: space-between), $emit: $_emit);
-$do: register-utility('.grid-evenly', (place-content: space-evenly), $emit: $_emit);
-$do: register-utilities('.justify-content', (
-    right: right,
-    left: left,
-    start: start,
-    end: end,
-    center-x: center,
-    stretch-x: stretch,
-    around-x: space-around,
-    between-x: space-between,
-    evenly-x: space-evenly,
-), 'grid-', $emit: $_emit);
-$do: register-utilities('.align-content', (
-    top: start,
-    bottom: end,
-    center-y: center,
-    stretch-y: stretch,
-    around-y: space-around,
-    between-y: space-between,
-    evenly-y: space-evenly,
-), 'grid-', $emit: $_emit);
-
-//------------------------------------------------------------------------------
-// Gap between cells
-
-$size: size(6 * 0.125);
-$_idx: 0;
-@each $r in (0.125, 0.25, 0.375, 0.5) {
-    $_idx: $_idx + 1;
-    $size: size($r);
-
-    $do: register-utility('.gap-#{$_idx}', (
-        '--grid-gap': $size,
-        'grid-gap': $size,
-        'gap': $size,
-    ));
-}
-
-//------------------------------------------------------------------------------
-// Individual cell alignment
-
-$_emit: true;
-$do: register-utility('.cell-center', (place-self: center), $emit: $_emit);
-$do: register-utility('.cell-stretch', (place-self: stretch), $emit: $_emit);
-$do: register-utilities('.justify-self', (
-    right: right, left: left,
-    start: start, end: end,
-    center-x: center, stretch-x: stretch,
-), 'cell-', $emit: $_emit);
-$do: register-utilities('.align-self', (
-    top: start, bottom: end,
-    center-y: center, stretch-y: stretch,
-), 'cell-', $emit: $_emit);
-
-//------------------------------------------------------------------------------
-// Individual cell positioning and span
-
-$_emit: true;
-$do: register-utilities('.grid-column-start', 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15, 'at-col-', $emit: $_emit);
-$do: register-utilities('.grid-row-start', 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15, 'at-row-', $emit: $_emit);
-
-$_span-data: (
+$mendeleev-grid-scale: L(1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15) !default;
+$mendeleev-grid-gap-scale: L(1 size-scale(1), 2 size-scale(2), 3 size-scale(3), 4 size-scale(4)) !default;
+$mendeleev-grid-span-data: (
     1: auto / span 1,
     2: auto / span 2,
     3: auto / span 3,
@@ -125,52 +22,182 @@ $_span-data: (
     14: auto / span 14,
     15: auto / span 15,
 );
-$do: register-utilities('.grid-column', $_span-data, 'col-', $emit: $_emit);
-$do: register-utilities('.grid-row', $_span-data, 'row-', $emit: $_emit);
+
+// REGULAR CSS GRID
+$do: mendeleev-module(
+        'grid', (
+        // Basic definitions
+        '.grid-dense': (
+            grid-auto-flow: dense
+        ),
+        // Templates
+        '.grid-$1': scale-of(
+            $scale: $mendeleev-grid-scale,
+            $css: (
+                '--grid-gap': 0,
+                '--grid-size': '$1',
+                display: grid,
+                grid-template-columns: 'repeat($1, 1fr)',
+            )
+        ),
+        // Row templates
+        '.rows-$1': scale-of(
+            $scale: $mendeleev-grid-scale,
+            $css: (
+                '--grid-gap': 0,
+                '--grid-size': '$1',
+                display: grid,
+                grid-template-rows: 'repeat($1, 1fr)',
+            )
+        ),
+        //
+        // Gap between cells
+        '.gap-$1': scale-of(
+            $scale: $mendeleev-grid-gap-scale,
+            $css: (
+                '--grid-gap': '$1',
+                'grid-gap': '$1',
+                'gap': '$1',
+            )
+        )
+    ));
+
+$do: mendeleev-utility-module(
+        'grid', (
+        display:
+            ('.', (
+                grid: grid,
+            )),
+        grid-auto-flow:
+            ('.grid-', (
+                dense: dense,
+            )),
+        //
+        // Global cell placement
+        place-items:
+            ('.place-', (
+                center: center,
+                stretch: stretch,
+            )),
+        justify-items:
+            ('.place-', (
+                right: right,
+                left: left,
+                start: start,
+                end: end,
+                center-x: center,
+                stretch-x: stretch,
+            )),
+        align-items:
+            ('.place-', (
+                top: start,
+                bottom: end,
+                center-y: center,
+                center: center,
+                stretch-y: stretch,
+                stretch: stretch
+            )),
+        //
+        // Grid alignment on its container
+        place-content:
+            ('.grid-', (
+                center: center,
+                stretch: stretch,
+                around: space-around,
+                between: space-between,
+                evenly: space-evenly,
+            )),
+        justify-content:
+            ('.grid-', (
+                right: right,
+                left: left,
+                start: start,
+                end: end,
+                center-x: center,
+                stretch-x: stretch,
+                around-x: space-around,
+                between-x: space-between,
+                evenly-x: space-evenly,
+            )),
+        align-content:
+            ('.grid-', (
+                top: start,
+                bottom: end,
+                center-y: center,
+                stretch-y: stretch,
+                around-y: space-around,
+                between-y: space-between,
+                evenly-y: space-evenly,
+            )),
+        //
+        // Individual cell alignment
+        place-self:
+            ('.cell-', (
+                center: center,
+                stretch: stretch,
+            )),
+        justify-self:
+            ('.cell-', (
+                right: right,
+                left: left,
+                start: start,
+                end: end,
+                center-x: center,
+                stretch-x: stretch,
+            )),
+        align-self:
+            ('.cell-', (
+                top: start,
+                bottom: end,
+                center-y: center,
+                stretch-y: stretch,
+            )),
+        //
+        // Individual cell positioning and span
+        grid-column-start:
+            ('.at-col-', (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)),
+        grid-row-start:
+            ('.at-row-', (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)),
+        grid-column:
+            ('.col-span', $mendeleev-grid-span-data),
+        grid-row:
+            ('.row-span', $mendeleev-grid-span-data),
+    ));
 
 //------------------------------------------------------------------------------
-// UTILITY CLASSES
+// HARD GRID
 //------------------------------------------------------------------------------
 
-//// Control flex-direction
-//$_emit: true;
-//$do: register-utilities('.flex-direction', row row-reverse column column-reverse, "flex-", $emit: $_emit);
-//
-//// Control flex-wrap
-//$_emit: true;
-//$do: register-utilities('.flex-wrap', wrap nowrap wrap-reverse, $emit: $_emit);
-//
-//// Control align-items
-//$_emit: true;
-//$do: register-utilities('.align-items', (stretch: stretch, start: flex-start, center: center, end: flex-end, baseline: baseline), 'items-', $emit: $_emit);
-//
-//// Control align-content
-//$_emit: true;
-//$do: register-utilities('.align-content', (start: flex-start, center: center, end: flex-end, between: space-between, around: space-around), 'content-', $emit: $_emit);
-//
-//// Control align-self
-//$_emit: true;
-//$do: register-utilities('.align-self', (stretch: stretch, start: flex-start, center: center, end: flex-end, baseline: baseline), 'self-', $emit: $_emit);
-//
-//// Control justify-content
-//$_emit: true;
-//$do: register-utilities('.justify-content', (start: flex-start, center: center, end: flex-end, between: space-between, around: space-around), 'flex-', $emit: $_emit);
-//
-//// Flex grow and shrink
-//$_emit: true;
-//$do: register-utility('.flex-initial', (flex: initial), $emit: $_emit);
-//$do: register-utility('.flex-auto', (flex: auto), $emit: $_emit);
-//$do: register-utility('.flex-none', (flex: none), $emit: $_emit);
-//$do: register-utility('.flex-grow', (flex-grow: 1), $emit: $_emit);
-//$do: register-utility('.flex-shrink', (flex-shrink: 1), $emit: $_emit);
-//$do: register-utility('.flex-nogrow', (flex-grow: 0), $emit: $_emit);
-//$do: register-utility('.flex-noshrink', (flex-shrink: 0), $emit: $_emit);
-//
-//@for $n from 1 through 12 {
-//    $do: register-utility('.flex-#{$n}', (flex: $n), $emit: $_emit);
-//}
-//
-//// Flex order
-//@for $n from 1 through 12 {
-//    $do: register-utility('.order-#{$n}', (order: $n), $emit: $_emit);
-//}
+@function _mendeleev-hard-grid($n) {
+    @return ($n, L($n, 100% / $n, ($n - 1) / $n));
+}
+
+$mendeleev-hard-grid-scale: lst-map(_mendeleev-hard-grid, $mendeleev-grid-scale) !default;
+
+$do: mendeleev-module(
+        'hard-grid', (
+        // Basic definitions
+        '.hard-grid': (
+            display: grid,
+        ),
+        // Templates
+        '.hard-grid-$1': scale-of(
+            $scale: $mendeleev-grid-scale,
+            $css: (
+                '--grid-gap': 0,
+                '--grid-size': '$1',
+                display: grid,
+                grid-template-columns: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
+            )
+        ),
+        // Row templates
+        '.hard-rows-$1': scale-of(
+            $scale: $mendeleev-grid-scale,
+            $css: (
+                '--grid-gap': 0,
+                '--grid-size': '$1',
+                display: grid,
+                grid-template-rows: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
+            )
+        ),
+    ));

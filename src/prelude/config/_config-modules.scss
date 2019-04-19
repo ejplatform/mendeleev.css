@@ -11,50 +11,6 @@ $_mendeleev-module-special-decl: unique-id() !default;
     @return type-of($data) == list and nth($data, 1) == $_mendeleev-module-special-decl;
 }
 
-@function _mendeleev-fn-scale-module-worker($emit, $template, $fn, $scale, $args...) {
-    $res: null;
-    @while $scale != null {
-        $item: car($scale);
-        $scale: cdr($scale);
-
-        $key: $item;
-        $value: $item;
-        @if type-of($item) == list {
-            $key: nth($item, 1);
-            $value: nth($item, 2);
-        }
-
-        $name: str-interpolate($template, $key);
-        @each $selector, $spec in call-fn($fn, $name, $value, $args...) {
-            $data: register-utility($selector, $spec, $emit);
-            $res: cons($data, $res);
-        }
-    }
-    @return $res;
-}
-
-@function _mendeleev-fn-scale-utility-module-worker($emit, $prop, $prefix, $fn, $scale, $args...) {
-    $res: null;
-    @while $scale != null {
-        $item: car($scale);
-        $scale: cdr($scale);
-
-        $key: $item;
-        $value: $item;
-        @if type-of($item) == list {
-            $key: nth($item, 1);
-            $value: nth($item, 2);
-        }
-
-        $name: str-interpolate($prefix, L($key));
-        @each $selector, $spec in call-fn($fn, $prop, $name, $value, $args...) {
-            $data: register-utility($selector, $spec, $emit);
-            $res: cons($data, $res);
-        }
-    }
-    @return $res;
-}
-
 //------------------------------------------------------------------------------
 // PUBLIC API FUNCTIONS
 //------------------------------------------------------------------------------
@@ -78,7 +34,7 @@ $_mendeleev-module-special-decl: unique-id() !default;
             // Special declarations
             $fn: as-func(nth($data, 2));
             $args: nth($data, 4);
-            $res: call($fn, $emit, $selector, $args...);
+            $res: cons(call($fn, $emit, $selector, $args...), $res);
 
         } @else {
             // Invalid specification
@@ -143,7 +99,61 @@ $_mendeleev-module-special-decl: unique-id() !default;
     );
 }
 
-@function utility-of($prop, $name, $value) {
+@function utility-scale($prop, $name, $value) {
     @return ($name: ($prop: $value));
 }
 
+/// Declares a complete scale of values.
+@function scale-of($scale, $css: null, $args...) {
+    @if $css != null {
+        @return fn-scale(_mendeleev-scale-of-template, $scale, $css);
+    } @else {
+        @error 'You must specify the scale type.'
+    }
+}
+
+@function _mendeleev-scale-fetch-item($scale, $n) {
+    $first: car($scale);
+    @return if(length($first) == 1, $first, nth($first, $n));
+}
+
+@function _mendeleev-scale-of-template($name, $value, $spec) {
+    $res: ();
+    $value: inspect($value);
+    @each $k, $v in $spec {
+        $k: str-replace($k, '$1', $value);
+        $v: if(type-of($v) == string, unquote(str-replace($v, '$1', $value)), $v);
+        $res: map-merge($res, ($k: $v));
+    }
+    @return ($name: $res);
+}
+
+@function _mendeleev-fn-scale-module-worker($emit, $template, $fn, $scale, $args...) {
+    $res: null;
+    @while $scale != null {
+        $key: _mendeleev-scale-fetch-item($scale, 1);
+        $value: _mendeleev-scale-fetch-item($scale, 2);
+        $scale: cdr($scale);
+        $name: str-interpolate($template, $key);
+        @each $selector, $spec in call-fn($fn, $name, $value, $args...) {
+            $data: register-utility($selector, $spec, $emit);
+            $res: cons($data, $res);
+        }
+    }
+    @return $res;
+}
+
+@function _mendeleev-fn-scale-utility-module-worker($emit, $prop, $prefix, $fn, $scale, $args...) {
+    $res: null;
+    @while $scale != null {
+        $key: _mendeleev-scale-fetch-item($scale, 1);
+        $value: _mendeleev-scale-fetch-item($scale, 2);
+        $scale: cdr($scale);
+        $name: str-interpolate($prefix, L($key));
+        @each $selector, $spec in call-fn($fn, $prop, $name, $value, $args...) {
+            $data: register-utility($selector, $spec, $emit);
+            $res: cons($data, $res);
+        }
+    }
+    @return $res;
+}
