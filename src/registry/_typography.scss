@@ -19,8 +19,7 @@ $do: mendeleev-utility-module(
                 cursive: config('typography.#{cursive}'),
                 monospace: config('typography.#{monospace}'),
             )),
-    )
-);
+    ));
 
 //------------------------------------------------------------------------------
 // Font weight

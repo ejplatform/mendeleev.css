@@ -19,7 +19,7 @@ $config: () !default;
 /// Default configuration options.
 /// This map contains all default values for configurations that can be
 /// overridden by the `$config` or `$config-defaults` mappings.
-$mendeleev-enabled: true !default;
+$mendeleev-enabled: false !default;
 $mendeleev-config: (
     //
     // GLOBAL
@@ -148,6 +148,9 @@ $mendeleev-config: (
         'container': $mendeleev-enabled,
         'overflow': $mendeleev-enabled,
     ),
+    //
+    // OTHER MODULES
+    'shadow': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),
