@@ -2,6 +2,8 @@
 // BORDERS
 //------------------------------------------------------------------------------
 
+@import '../preflight';
+
 $mendeleev-border-sizes: L(1, 2, 4, 8) !default;
 $mendeleev-css-border-sizes: lst-to-map(lst-zip(
         $mendeleev-border-sizes,

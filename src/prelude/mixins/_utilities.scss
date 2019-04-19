@@ -55,6 +55,10 @@ $MENDELEEV_SPECIAL_PROPERTIES: (
             $args: append($args, $value);
             //noinspection SassScssUnresolvedMixin
             @include raw-map(call($func, $args...), $suffix);
+        } @else if type-of($value) == map {
+            #{$key} {
+                @include map($value, $suffix);
+            }
         } @else {
             // Everything else
             @if $value != null {

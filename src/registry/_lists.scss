@@ -1,14 +1,36 @@
 //------------------------------------------------------------------------------
-// CONTROL VISIBILITY, OPACITY AND Z-VALUES
+// LIST
 //------------------------------------------------------------------------------
+@import '../preflight';
 
 // Remove list styles
-$do: register-utilities('.list-inline, .list-reset', (
-    padding: 0,
-    margin: 0,
-    list-style: none,
-));
+$do: mendeleev-module(
+        'list', (
+        '.list-inline': (
+            padding: 0,
+            margin: 0,
+            list-style: none,
+            '> li': (
+                display: inline,
+            ),
+        ),
+        '.list-reset': (
+            padding: 0,
+            margin: 0,
+            list-style: none,
+        ),
+    ));
 
-$do: register-utilities('.list-inline > li', (display: inline));
-$do: register-utilities('.list-style', ('decimal', 'circluze', 'disc', 'square', 'roman'), 'list-', $emit: true);
+$do: mendeleev-utility-module(
+        'list', (
+        list-style:
+            ('.list-', (
+                decimal: decimal,
+                circluze: circluze,
+                disc: disc,
+                square: square,
+                roman: roman,
+            )),
+    ));
+
 
