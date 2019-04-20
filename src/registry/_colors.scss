@@ -1,8 +1,8 @@
 //------------------------------------------------------------------------------
 // COLORS
 //------------------------------------------------------------------------------
+@import '../preflight';
 
-// Special lists
 @function _color-list() {
     $suffixes: map-keys(config('color.variants.color'));
     $variants: config('color.roles.variants');
@@ -16,32 +16,48 @@
     @return join(join(config('color.roles.simple'), $variants), $extra);
 }
 
+$_mendeleev-color-list: _color-list() !default;
+
+@function _mendeleev-colors-and-contrasts() {
+    $res: null;
+    @each $name in $_mendeleev-color-list {
+        $res: cons($name L(color($name), color($name, contrast)), $res);
+    }
+    @return lst-to-map($res);
+}
+
+@function _mendeleev-colors() {
+    $res: null;
+    @each $name in $_mendeleev-color-list {
+        $res: cons($name color($name), $res);
+    }
+    @return lst-to-map($res);
+}
+
 //------------------------------------------------------------------------------
 // UTILITY CLASSES
 //------------------------------------------------------------------------------
 
-// Create all .color-* classes
-$_color-list: _color-list();
-$_emit: true;
-@each $name in $_color-list {
-    $color: map-get($MENDELEEV_COLORS, $name);
-    $contrast: map-get($MENDELEEV_CONTRAST, $color);
-    $do: register-utility('.color-#{$name}', (
-        color: $contrast,
-        background-color: $color,
-    ), $emit: $_emit);
-}
+$do: mendeleev-module(
+        'colors', (
+        //
+        // Create all .color-* classes
+        '.color-$1': scale-of(
+            $scale: _mendeleev-colors-and-contrasts(),
+            $css: (
+                color: '$1',
+                background-color: '$2',
+            )),
+    ));
 
-// Create the .bg-* classes that changes only the background
-$_emit: true;
-@each $name in $_color-list {
-    $color: map-get($MENDELEEV_COLORS, $name);
-    $do: register-utility('.bg-#{$name}', (background-color: $color), $emit: $_emit);
-}
-
-// Create the .text-* classes that changes only the text
-$_emit: true;
-@each $name in $_color-list {
-    $color: map-get($MENDELEEV_COLORS, $name);
-    $do: register-utility('.text-#{$name}', (color: $color), $emit: $_emit);
-}
+$do: mendeleev-utility-module(
+        'colors', (
+        //
+        // Create all .bg-* classes
+        background-color:
+            ('.bg-', _mendeleev-colors()),
+        //
+        // Create all .text-* classes
+        color:
+            ('.text-', _mendeleev-colors()),
+    ));

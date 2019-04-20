@@ -164,6 +164,7 @@ $mendeleev-config: (
     'sizes': $mendeleev-enabled,
     'sizing': $mendeleev-enabled,
     'radius': $mendeleev-enabled,
+    'colors': true or $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),

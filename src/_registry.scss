@@ -1,14 +1,14 @@
 @import 'registry/setup';
 @import 'registry/typography';
 @import 'registry/sizing'; // still buggy
+@import 'registry/colors';
 @import 'registry/layout';
-@import 'registry/shadow';
 @import 'registry/flex';
 @import 'registry/grid';
 @import 'registry/visibility';
 @import 'registry/lists';
+@import 'registry/borders';
 @import 'registry/transformations';
 @import 'registry/misc';
-@import 'registry/borders';
+@import 'registry/shadow';
 
-//@import 'registry/colors';
