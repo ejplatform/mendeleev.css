@@ -38,11 +38,11 @@
 }
 
 /// Include a configuration.
-@mixin config($path, $default: $_config-not-given, $for: null, $extra: ()) {
+@mixin config($path, $default: (), $for: null, $extra: ()) {
     @if $for != null {
         #{$for}: config($path, $default);
     } @else {
-        @each $k, $v in map-merge($extra, config($path, $default, true)) {
+        @each $k, $v in map-merge($extra, config($path, $default)) {
             #{$k}: #{$v};
         }
     }

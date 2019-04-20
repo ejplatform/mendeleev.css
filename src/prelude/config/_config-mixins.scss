@@ -5,12 +5,11 @@
 ///                things like "!important"
 @mixin _utility-from-data($data, $suffix: null) {
     $name: map-get($data, name);
-    $type: map-get($data, type);
     $name: str-replace(if(type-of($name) == string, $name, inspect($name)), '\/', '\\\/');
     $emit: map-get($data, emit);
 
     @if $emit {
-        @if $type == map {
+        //@if $type == map {
             $props: map-get($data, data);
             #{$name} {
                 @include map($props, $suffix: $suffix);
@@ -24,24 +23,24 @@
                     }
                 }
             }
-        } @else if $type == responsive {
-            @each $bp, $props in map-get($data, data) {
-                @if $bp == 'start' {
-                    #{$name} {
-                        @include map($props, $suffix: $suffix);
-                    }
-                } @else {
-
-                    @include breakpoint($bp) {
-                        #{$name} {
-                            @include map($props, $suffix: $suffix);
-                        }
-                    }
-                }
-            }
-        } @else {
-            @error 'Invalid utility type: #{$type}'
-        }
+        //} @else if $type == responsive {
+        //    @each $bp, $props in map-get($data, data) {
+        //        @if $bp == 'start' {
+        //            #{$name} {
+        //                @include map($props, $suffix: $suffix);
+        //            }
+        //        } @else {
+        //
+        //            @include breakpoint($bp) {
+        //                #{$name} {
+        //                    @include map($props, $suffix: $suffix);
+        //                }
+        //            }
+        //        }
+        //    }
+        //} @else {
+        //    @error 'Invalid utility type: #{$type}'
+        //}
     }
 }
 

@@ -19,7 +19,7 @@ $config: () !default;
 /// Default configuration options.
 /// This map contains all default values for configurations that can be
 /// overridden by the `$config` or `$config-defaults` mappings.
-$mendeleev-enabled: false !default;
+$mendeleev-enabled: true !default;
 $mendeleev-config: (
     //
     // GLOBAL
@@ -160,17 +160,15 @@ $mendeleev-config: (
     'background': $mendeleev-enabled,
     'interactivity': $mendeleev-enabled,
     'padding': $mendeleev-enabled,
-    'margin':  $mendeleev-enabled,
+    'margin': $mendeleev-enabled,
     'sizes': $mendeleev-enabled,
     'sizing': $mendeleev-enabled,
     'radius': $mendeleev-enabled,
-    'colors': true or $mendeleev-enabled,
+    'colors': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),
 ) !default;
-
-$_config-not-given: unique-id() !default;
 
 //------------------------------------------------------------------------------
 // SETTING UP UTILITY CLASSES
@@ -179,79 +177,15 @@ $_config-not-given: unique-id() !default;
 // Default dictionary with Mendeleev state.
 $MENDELEEV_UTILITIES: null !default;
 
-@function register-raw-utilities($map) {
-    $MENDELEEV_UTILITIES: cons($map, $MENDELEEV_UTILITIES) !global;
-    @return $map;
-}
-
 /// Register utility class
 ///
 /// @arg $name - Class name
 /// @arg $data - Map with the class content
 /// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
 @function register-utility($name, $data, $emit: true, $type: map) {
-    $info: (name: $name, data: $data, emit: $emit, type: $type);
-    @if not contains(map responsive, $type) {
-        @error 'Invalid type: #{$type}';
-    }
-    $do: register-raw-utilities($info);
+    $info: (name: $name, data: $data, emit: $emit);
+    $MENDELEEV_UTILITIES: cons($info, $MENDELEEV_UTILITIES) !global;
     @return $info;
-}
-
-/// Register many utility classes
-///
-/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
-/// @arg $data - Map with the class content
-@function register-many-utilities($args...) {
-    $emit: true;
-    $spec: ();
-    @if length($args) == 1 {
-        $spec: nth($args, 1);
-    } @else if length($args) == 2 {
-        $emit: nth($args, 1);
-        $spec: nth($args, 2);
-    }
-    @each $name, $data in $spec {
-        $do: register-utility($name, $data, $emit: $emit)
-    }
-    @return $spec;
-}
-
-/// Register group of utility classes
-///
-/// @arg $property - Name of controlled property
-/// @arg $categories - List of values or mapping from name to value
-/// @arg $prefix - If given, will prefix the name of each class with this value
-/// @arg $emit, $where - Same as register-utility
-@function register-utilities($property, $categories, $prefix: '', $emit: true) {
-    @if type-of($categories) == list {
-        $categories: zip($categories, $categories);
-    }
-    @each $category, $value in $categories {
-        $do: register-utility('#{$prefix}#{$category}', ($property: $value), $emit: $emit);
-    }
-    @return null;
-}
-
-/// Register many utility classes
-///
-/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
-/// @arg $data - Map with the class content
-@function register-many-templates($args...) {
-    $emit: true;
-    $spec: ();
-    @if length($args) == 1 {
-        $spec: nth($args, 1);
-    } @else if length($args) == 2 {
-        $emit: nth($args, 1);
-        $spec: nth($args, 2);
-    }
-    @each $prop, $data in $spec {
-        $prefix: nth($data, 1);
-        $categories: nth($data, 2);
-        $do: register-utilities($prop, $categories, $prefix, $emit: $emit)
-    }
-    @return $spec;
 }
 
 @function _bp-selector($bp, $name) {
