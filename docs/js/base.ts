@@ -46,17 +46,17 @@ export function page(data) {
  * Like page(), but aways receive a mithril vnode and return another.
  */
 export function makePage(data) {
-    return m('main.height-screen', [
+    return m('main.height-fullvh', [
         head(),
         m('.row.height-full.width-full', [
-            m('.size-x6.shadow-3', navbar()),
+            m('.size-x6.shadow-4', navbar()),
             m('.flex-1.overflow-y-auto', m('.container.raise-first.pad-y3', data)),
         ])
     ]);
 }
 
 
-let head = () => m('header.row.items-center.text-brand.shadow.sticky.size-y4p', {style: 'background: #ffffffdd;'}, [
+let head = () => m('header.row.items-center.text-brand.shadow-1.sticky.size-y4p', {style: 'background: #ffffffdd;'}, [
     m('.margin-l3', m.trust(logoSVG)),
     m('ul.list-reset.row', [
         m('li.margin-r2', m('a', {href: '/topics'}, 'Topics')),

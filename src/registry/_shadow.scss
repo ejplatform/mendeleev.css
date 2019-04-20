@@ -5,7 +5,7 @@
 
 $do: mendeleev-utility-module(
         'shadow', (
-        shadow:
+        box-shadow:
             ('.shadow-', (
                 '1': unquote('0 0 4px 0 rgba(0, 0, 0, 0.25), 0 2px 8px -2px rgba(0, 0, 0, 0.15)'),
                 '2': unquote('0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08)'),

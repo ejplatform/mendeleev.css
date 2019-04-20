@@ -213,6 +213,7 @@ $_mendeleev-grid-systems: ();
         '14/15': 1400 / 15,
     ));
     @return (
+        1: $grid-1,
         2: $grid-2,
         3: $grid-3,
         4: $grid-4,
@@ -242,10 +243,10 @@ $_mendeleev-grid-systems: ();
 @function _mendeleev-sizing-all() {
     $res: null;
     @each $k, $v in $_mendeleev-sizing-scale {
-        $res: cons(($k ($v * 1%)), $res);
+        $res: (($k ($v * 1%)) $res);
         @if $v != 0 {
-            $res: cons(('#{$k}vw' ($v * 1vw)), $res);
-            $res: cons(('#{$k}vh' ($v * 1vh)), $res);
+            $res: (('#{$k}vw' ($v * 1vw)) $res);
+            $res: (('#{$k}vh' ($v * 1vh)) $res);
         }
     }
     @return lst-to-map($res);

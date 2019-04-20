@@ -1,11 +1,15 @@
 dependencies:
   '@types/markdown-it': 0.0.7
   babel-core: 6.26.3
+  entities: 1.1.2
+  linkify-it: 2.1.0
   markdown-it: 8.4.2
+  mdurl: 1.0.1
   mithril: 2.0.0-rc.4
   node-sass: 4.11.0
   normalize.css: 8.0.1
   typescript: 3.4.3
+  uc.micro: 1.0.6
 lockfileVersion: 5
 packages:
   /@types/linkify-it/2.1.0:
@@ -1535,8 +1539,12 @@ packages:
 specifiers:
   '@types/markdown-it': 0.0.7
   babel-core: ^6.26.3
+  entities: ^1.1.2
+  linkify-it: ^2.1.0
   markdown-it: ^8.4.2
+  mdurl: ^1.0.1
   mithril: ^2.0.0-rc.4
   node-sass: ^4.11.0
   normalize.css: ^8.0.1
   typescript: ^3.3.1
+  uc.micro: ^1.0.6

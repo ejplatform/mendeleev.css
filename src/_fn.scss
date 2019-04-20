@@ -7,6 +7,68 @@
     @return nth($args, length($args));
 }
 
+@function map-merge-many($maps) {
+    @if $maps == null {
+        @return map-remove((), null);
+    }
+
+    @while cdr($maps) != null {
+        $res: null;
+
+        @while $maps != null {
+            $map: car($maps);
+            $maps: cdr($maps);
+            @if $maps != null {
+                $map: map-merge(car($maps), $map);
+                $maps: cdr($maps);
+                @if $maps != null {
+                    $map: map-merge(car($maps), $map);
+                    $maps: cdr($maps);
+                }
+            }
+            $res: ($map $res);
+        }
+        $maps: $res;
+    }
+    @return car($maps);
+}
+
+@function lst-to-map($xs) {
+    $maps: null;
+
+    @while $xs != null {
+        $x: car($xs);
+        $xs: cdr($xs);
+        $m: (nth($x, 1): nth($x, 2));
+        @if $xs != null {
+            $x: car($xs);
+            $xs: cdr($xs);
+            $m: map-merge($m, (nth($x, 1): nth($x, 2)));
+            @if $xs != null {
+                $x: car($xs);
+                $xs: cdr($xs);
+                $m: map-merge($m, (nth($x, 1): nth($x, 2)));
+                @if $xs != null {
+                    $x: car($xs);
+                    $xs: cdr($xs);
+                    $m: map-merge($m, (nth($x, 1): nth($x, 2)));
+                    @if $xs != null {
+                        $x: car($xs);
+                        $xs: cdr($xs);
+                        $m: map-merge($m, (nth($x, 1): nth($x, 2)));
+                    }
+                }
+
+            }
+        }
+        $maps: ($m $maps);
+    }
+
+    @return map-merge-many($maps);
+}
+
+$do: assert-eq(lst-to-map(L(1 2, 3 4, 5 6, 7 8, 9 10)), (1: 2, 3: 4, 5: 6, 7: 8, 9: 10));
+
 /// Create a list of fn($x) for each $x in $xs.
 /// Differently from lst-map, this function applies $x **after** the extra
 /// arguments.

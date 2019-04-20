@@ -5,10 +5,10 @@
 $config: ();
 
 // Import mendeleev
-@import '../mendeleev/prelude';
+@import '../src/prelude';
 
 // Define element styles
-@import '../mendeleev/elements';
+@import '../src/elements';
 
 // Import and define components
 // @import '../mendeleev/components';
@@ -22,4 +22,4 @@ $config: ();
 }
 
 // Import utilities
-@import '../mendeleev/utilities';
+@import '../src/utilities';

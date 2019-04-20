@@ -10,19 +10,19 @@
 
     @if $emit {
         //@if $type == map {
-            $props: map-get($data, data);
-            #{$name} {
-                @include map($props, $suffix: $suffix);
-            }
-            @if $emit == responsive {
-                @each $bp, $size in config('breakpoints') {
-                    @media screen and (min-width: $size) {
-                        #{_bp-selector($bp, $name)} {
-                            @include map($props, $suffix: $suffix);
-                        }
+        $props: map-get($data, data);
+        #{$name} {
+            @include map($props, $suffix: $suffix);
+        }
+        @if $emit == responsive {
+            @each $bp, $size in config('breakpoints') {
+                @media screen and (min-width: $size) {
+                    #{_bp-selector($bp, $name)} {
+                        @include map($props, $suffix: $suffix);
                     }
                 }
             }
+        }
         //} @else if $type == responsive {
         //    @each $bp, $props in map-get($data, data) {
         //        @if $bp == 'start' {
@@ -66,15 +66,12 @@
     //    @include _utility-from-data(car($lst), $suffix);
     //    $lst: cdr($lst);
     //}
-    $lst: $MENDELEEV_UTILITIES;
-    $new: null;
+    $lst: lst-reverse($MENDELEEV_UTILITIES);
+    $suffix: null;
+
     @while $lst != null {
         $data: car($lst);
         $lst: cdr($lst);
-        $new: cons(map-get($data, name) $data, $new);
-    }
-    $suffix: null;
-    @each $key, $value in lst-to-map($new) {
-        @include _utility-from-data($value, $suffix);
+        @include _utility-from-data($data, $suffix);
     }
 }
