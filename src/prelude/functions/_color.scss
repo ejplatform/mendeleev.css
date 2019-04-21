@@ -4,7 +4,6 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$MENDELEEV_COLORS: map-remove((), null) !default;
 $MENDELEEV_CONTRAST: map-remove((), null) !default;
 $MENDELEEV_VARIANTS: map-remove((), null) !default;
 
@@ -15,7 +14,7 @@ $MENDELEEV_VARIANTS: map-remove((), null) !default;
 /// @arg $alpha - Apply alpha adjustment to color, if given.
 /// @arg $default - If given, uses this value if color name is not found in the
 ///                 palette dictionary.
-@function color($name, $variant: null, $alpha: null, $default: $_mendeleev-color-not-given) {
+@function color($name, $variant: null, $alpha: null, $default: null) {
     $result: $name;
     @if $name == null {
         @return null;

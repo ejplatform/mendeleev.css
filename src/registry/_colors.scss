@@ -21,7 +21,11 @@ $_mendeleev-color-list: _color-list() !default;
 @function _mendeleev-colors-and-contrasts() {
     $res: null;
     @each $name in $_mendeleev-color-list {
-        $res: cons($name L(color($name), color($name, contrast)), $res);
+        $data: (
+            color: color($name, contrast),
+            background-color: color($name),
+        );
+        $res: (('.color-#{$name}' $data) $res);
     }
     @return lst-to-map($res);
 }
@@ -38,17 +42,7 @@ $_mendeleev-color-list: _color-list() !default;
 // UTILITY CLASSES
 //------------------------------------------------------------------------------
 
-$do: mendeleev-module(
-        'colors', (
-        //
-        // Create all .color-* classes
-        '.color-$1': scale-of(
-            $scale: _mendeleev-colors-and-contrasts(),
-            $css: (
-                color: '$1',
-                background-color: '$2',
-            )),
-    ));
+$do: mendeleev-module('colors', _mendeleev-colors-and-contrasts());
 
 $do: mendeleev-utility-module(
         'colors', (

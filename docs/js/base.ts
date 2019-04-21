@@ -50,7 +50,7 @@ export function makePage(data) {
         head(),
         m('.row.height-full.width-full', [
             m('.size-x6.shadow-4', navbar()),
-            m('.flex-1.overflow-y-auto', m('.container.raise-first.pad-y3', data)),
+            m('.flex-1.overflow-y-auto', m('.container-1.raise-first.pad-y3', data)),
         ])
     ]);
 }
