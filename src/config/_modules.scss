@@ -11,6 +11,26 @@ $_mendeleev-module-special-decl: unique-id() !default;
     @return type-of($data) == list and nth($data, 1) == $_mendeleev-module-special-decl;
 }
 
+// Default dictionary with Mendeleev state.
+$mendeleev-css-declarations: null !default;
+
+/// Register utility class
+///
+/// @arg $name - Class name
+/// @arg $data - Map with the class content
+/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
+@function register-utility($name, $data, $emit: true, $type: map) {
+    $info: (name: $name, data: $data, emit: $emit);
+    $mendeleev-css-declarations: cons($info, $mendeleev-css-declarations) !global;
+    @return $info;
+}
+
+@function _bp-selector($bp, $name) {
+    $name: str-slice($name, 2);
+    @return '.#{$bp}\:#{$name}';
+}
+
+
 //------------------------------------------------------------------------------
 // PUBLIC API FUNCTIONS
 //------------------------------------------------------------------------------

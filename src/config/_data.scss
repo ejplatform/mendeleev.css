@@ -5,8 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @import 'font-stacks';
 @import 'colors';
-@import '../../fn';
-@import '../mixins/utilities';
+@import '../fn';
 
 //------------------------------------------------------------------------------
 // CONFIGURATION DICTIONARY
@@ -53,7 +52,7 @@ $mendeleev-config: (
         ),
         //
         // Typefaces
-        'typeface': $MENDELEEV_TYPEFACE,
+        'typeface': $mendeleev-typeface,
         'cursive': $font-stack-system-cursive,
         'monospace': $font-stack-ibm-plex-mono,
         'sans-serif': $font-stack-exo,
@@ -86,8 +85,8 @@ $mendeleev-config: (
     ),
     //
     // COLORS
-    'palette': $MENDELEEV_COLORS,
-    'contrast': $MENDELEEV_CONTRAST,
+    'palette': $mendeleev-colors,
+    'contrast': $mendeleev-color-contrast,
     'color': (
         'contrast-bias': 0.125,
         'roles': (
@@ -149,46 +148,24 @@ $mendeleev-config: (
     ),
     //
     // OTHER MODULES
-    'shadow': $mendeleev-enabled,
+    'background': $mendeleev-enabled,
+    'border': $mendeleev-enabled,
+    'colors': $mendeleev-enabled,
     'flex': $mendeleev-enabled,
     'flex-grid': $mendeleev-enabled,
     'grid': $mendeleev-enabled,
-    'border': $mendeleev-enabled,
-    'visibility': $mendeleev-enabled,
-    'list': $mendeleev-enabled,
-    'transform': $mendeleev-enabled,
-    'background': $mendeleev-enabled,
     'interactivity': $mendeleev-enabled,
-    'padding': $mendeleev-enabled,
+    'list': $mendeleev-enabled,
     'margin': $mendeleev-enabled,
-    'sizes': $mendeleev-enabled,
+    'padding': $mendeleev-enabled,
+    'rounded': $mendeleev-enabled,
+    'shadow': $mendeleev-enabled,
     'sizing': $mendeleev-enabled,
-    'radius': $mendeleev-enabled,
-    'colors': $mendeleev-enabled,
+    'sizes': $mendeleev-enabled,
+    'transform': $mendeleev-enabled,
+    'visibility': $mendeleev-enabled,
     //
     // ELEMENT OVERRIDES
     'elements': (),
 ) !default;
 
-//------------------------------------------------------------------------------
-// SETTING UP UTILITY CLASSES
-//------------------------------------------------------------------------------
-
-// Default dictionary with Mendeleev state.
-$MENDELEEV_UTILITIES: null !default;
-
-/// Register utility class
-///
-/// @arg $name - Class name
-/// @arg $data - Map with the class content
-/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
-@function register-utility($name, $data, $emit: true, $type: map) {
-    $info: (name: $name, data: $data, emit: $emit);
-    $MENDELEEV_UTILITIES: cons($info, $MENDELEEV_UTILITIES) !global;
-    @return $info;
-}
-
-@function _bp-selector($bp, $name) {
-    $name: str-slice($name, 2);
-    @return '.#{$bp}\:#{$name}';
-}

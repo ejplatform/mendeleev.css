@@ -4,7 +4,7 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$MENDELEEV_CONTRAST: map-remove((), null) !default;
+$mendeleev-color-contrast: map-remove((), null) !default;
 $MENDELEEV_VARIANTS: map-remove((), null) !default;
 
 /// Return named color or a default value if color is not registered
@@ -20,12 +20,12 @@ $MENDELEEV_VARIANTS: map-remove((), null) !default;
         @return null;
     }
     @if type-of($name) == string {
-        $result: map-read($MENDELEEV_COLORS, $name, $default);
+        $result: map-read($mendeleev-colors, $name, $default);
     }
 
     // Make transformations
     @if $variant == contrast {
-        $contrast: map-get($MENDELEEV_CONTRAST, $result);
+        $contrast: map-get($mendeleev-color-contrast, $result);
         @if $contrast == null {
             //noinspection CssInvalidFunction
             $contrast: choose-contrast-color($result, $bias: config('color.contrast-bias'));

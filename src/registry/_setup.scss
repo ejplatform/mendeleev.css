@@ -1,5 +1,5 @@
-$MENDELEEV_COLORS: () !default;
-$MENDELEEV_CONTRAST: () !default;
+$mendeleev-colors: () !default;
+$mendeleev-color-contrast: () !default;
 $MENDELEEV_VARIANTS: () !default;
 
 // Register variants for all colors
@@ -21,7 +21,7 @@ $MENDELEEV_VARIANTS: () !default;
     // Loop over all variants and register color values
     @each $name in config('color.roles.variants') {
         $bias: config('color.contrast-bias');
-        $color: map-read($MENDELEEV_COLORS, $name);
+        $color: map-read($mendeleev-colors, $name);
         $registered: ();
 
         // We construct the light and dark values for the current color
@@ -35,7 +35,7 @@ $MENDELEEV_VARIANTS: () !default;
         @each $variation, $cfg in $variants {
             // Try to fetch value from color dictionary
             $full-name: #{$name}-#{$variation};
-            $value: map-get($MENDELEEV_COLORS, $full-name);
+            $value: map-get($mendeleev-colors, $full-name);
 
             // If value is not given, compute it explicitly
             @if $value == null {
@@ -54,8 +54,8 @@ $MENDELEEV_VARIANTS: () !default;
         }
         $result: cons(($name $registered), $result);
     }
-    $MENDELEEV_COLORS: map-merge(lst-to-map($colors), $MENDELEEV_COLORS) !global;
-    $MENDELEEV_CONTRAST: map-merge(lst-to-map($contrast), $MENDELEEV_CONTRAST) !global;
+    $mendeleev-colors: map-merge(lst-to-map($colors), $mendeleev-colors) !global;
+    $mendeleev-color-contrast: map-merge(lst-to-map($contrast), $mendeleev-color-contrast) !global;
     @return lst-to-map($result);
 }
 
@@ -69,8 +69,8 @@ $MENDELEEV_VARIANTS: () !default;
     $dark: color(nth(config('color.variants.text.dark'), 1));
 
     $colors: null;
-    @each $name, $color in $MENDELEEV_COLORS {
-        @if not map-has-key($MENDELEEV_CONTRAST, $color) {
+    @each $name, $color in $mendeleev-colors {
+        @if not map-has-key($mendeleev-color-contrast, $color) {
             $contrast: choose-contrast-color($color, $light, $dark, $bias);
             $colors: cons(($color $contrast), $colors);
         }
@@ -86,9 +86,9 @@ $MENDELEEV_VARIANTS: () !default;
 
 @if not global-variable-exists(MENDELEEV_REGISTRY_SETUP) {
     // Include all registered palette colors, contrasts and variants
-    $MENDELEEV_COLORS: map-merge($MENDELEEV_COLORS, config('palette'));
-    $MENDELEEV_CONTRAST: map-merge($MENDELEEV_CONTRAST, config('contrast'));
-    $MENDELEEV_CONTRAST: map-merge(_color-register-contrasts(), $MENDELEEV_CONTRAST);
+    $mendeleev-colors: map-merge($mendeleev-colors, config('palette'));
+    $mendeleev-color-contrast: map-merge($mendeleev-color-contrast, config('contrast'));
+    $mendeleev-color-contrast: map-merge(_color-register-contrasts(), $mendeleev-color-contrast);
     $MENDELEEV_VARIANTS: map-merge-nested(_color-register-variants(), $MENDELEEV_VARIANTS);
 }
 

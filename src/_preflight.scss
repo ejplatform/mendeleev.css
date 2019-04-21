@@ -1,3 +1,4 @@
+
 // FUNCTIONS
 @import 'fn';
 @import
@@ -13,11 +14,3 @@
     'prelude/mixins/utilities'; // imported by config
 
 
-// CONFIG
-@import
-    'prelude/config/font-stacks', // imported by config
-    'prelude/config/colors',      // imported by config
-    'prelude/config/config-data',
-    'prelude/config/config-mixins',
-    'prelude/config/config-modules',
-    'prelude/config/config-functions';

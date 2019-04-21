@@ -46,8 +46,8 @@ $color-negative: $color-red !default;
 $color-warning: $color-yellow !default;
 
 // Default color palette
-$MENDELEEV_COLORS: () !default;
-$MENDELEEV_COLORS: map-merge((
+$mendeleev-colors: () !default;
+$mendeleev-colors: map-merge((
     //
     // Whites
     'black': $color-black,
@@ -88,10 +88,10 @@ $MENDELEEV_COLORS: map-merge((
     'positive': $color-positive,
     'negative': $color-negative,
     'warning': $color-warning,
-), $MENDELEEV_COLORS);
+), $mendeleev-colors);
 
 // Default contrast overrides
-$MENDELEEV_CONTRAST: (
+$mendeleev-color-contrast: (
     #33c3f0: $color-white,
     #00b5ad: $color-white,
     #b5cc18: $color-white,

@@ -60,13 +60,13 @@
 /// Mixin that includes all registered utilities
 @mixin all-registered-utilities() {
     // FIXME: We are creating duplicates for some reason
-    //$lst: link-reverse($MENDELEEV_UTILITIES);
+    //$lst: link-reverse($mendeleev-css-declarations);
     //@while $lst != null {
     //    $suffix: null;
     //    @include _utility-from-data(car($lst), $suffix);
     //    $lst: cdr($lst);
     //}
-    $lst: lst-reverse($MENDELEEV_UTILITIES);
+    $lst: lst-reverse($mendeleev-css-declarations);
     $suffix: null;
 
     @while $lst != null {

@@ -1,33 +1,21 @@
 //------------------------------------------------------------------------------
-// MISCELLANEOUS
+// MISC: Concentrate simple utility declarations
+//
+// Sections:
+//  * Background
+//  * Interactivity
+//  * List
+//  * Shadows
+//
+// obs.: keep all sections in alphabetic order.
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-// Interactivity
-$do: mendeleev-utility-module(
-        'interactivity', (
-        cursor:
-            ('.cursor-', (
-                auto: auto,
-                default: default,
-                pointer: pointer,
-                wait: wait,
-                move: move,
-                not-allowed: not-allowed,
-            )),
-        pointer-events:
-            ('.', (
-                pointer-events: auto,
-                no-pointer-events: none,
-            )),
-        user-select:
-            ('.', (
-                select: text,
-                no-select: none,
-            )),
-    ));
 
-// Background
+//------------------------------------------------------------------------------
+// BACKGROUND
+//------------------------------------------------------------------------------
+
 $do: mendeleev-utility-module(
         'background', (
         background-attachment:
@@ -61,4 +49,91 @@ $do: mendeleev-utility-module(
                 cover: cover,
                 contain: contain,
             )),
+    ));
+
+//------------------------------------------------------------------------------
+// INTERACTIVITY
+//------------------------------------------------------------------------------
+
+$do: mendeleev-utility-module(
+        'interactivity', (
+        cursor:
+            ('.cursor-', (
+                auto: auto,
+                default: default,
+                pointer: pointer,
+                wait: wait,
+                move: move,
+                not-allowed: not-allowed,
+            )),
+        pointer-events:
+            ('.', (
+                pointer-events: auto,
+                no-pointer-events: none,
+            )),
+        user-select:
+            ('.', (
+                select: text,
+                no-select: none,
+            )),
+    ));
+
+//------------------------------------------------------------------------------
+// LIST
+//------------------------------------------------------------------------------
+
+// Remove list styles
+$do: mendeleev-module(
+        'list', (
+        '.list-inline': (
+            padding: 0,
+            margin: 0,
+            list-style: none,
+            '> li': (
+                display: inline,
+            ),
+        ),
+        '.list-reset': (
+            padding: 0,
+            margin: 0,
+            list-style: none,
+        ),
+    ));
+
+$do: mendeleev-utility-module(
+        'list', (
+        list-style:
+            ('.list-', (
+                decimal: decimal,
+                circluze: circluze,
+                disc: disc,
+                square: square,
+                roman: roman,
+            )),
+    ));
+
+
+//------------------------------------------------------------------------------
+// SHADOWS
+//------------------------------------------------------------------------------
+
+$do: mendeleev-utility-module(
+        'shadow', (
+        box-shadow:
+            ('.shadow-', (
+                '1': unquote('0 0 4px 0 rgba(0, 0, 0, 0.25), 0 2px 8px -2px rgba(0, 0, 0, 0.15)'),
+                '2': unquote('0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08)'),
+                '3': unquote('0 8px 16px 0 rgba(0, 0, 0, 0.11), 0 4px 8px 0 rgba(0, 0, 0, 0.08)'),
+                '4': unquote('0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08)'),
+            ))
+    ));
+
+$do: mendeleev-module(
+        'shadow', (
+        '.inner-shadow': (
+            box-shadow: unquote('inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'),
+        ),
+        '.no-shadow': (
+            box-shadow: none,
+        )
     ));

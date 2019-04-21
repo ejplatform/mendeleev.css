@@ -4,35 +4,83 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$_DIGITS: ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-$_mendeleev-size-scale: (
+@import '../../config';
+
+$mendeleev-unit-less-size-scale: (
     '0': 0,
+    '0p': 0.125,
+    '-0': 0,
+    '-0p': -0.125,
     '1': 0.25,
     '1p': 0.375,
+    '-1': -0.25,
+    '-1p': -0.375,
     '2': 0.5,
     '2p': 0.75,
+    '-2': -0.5,
+    '-2p': -0.75,
     '3': 1,
     '3p': 1.5,
+    '-3': -1,
+    '-3p': -1.5,
     '4': 2,
     '4p': 3,
+    '-4': -2,
+    '-4p': -3,
     '5': 4,
     '5p': 6,
+    '-5': -4,
+    '-5p': -6,
     '6': 8,
     '6p': 12,
+    '-6': -8,
+    '-6p': -12,
     '7': 16,
     '7p': 24,
+    '-7': -16,
+    '-7p': -24,
     '8': 32,
     '8p': 48,
+    '-8': -32,
+    '-8p': -48,
     '9': 64,
     '9p': 96,
+    '-9': -64,
+    '-9p': -96,
     '10': 128,
     '10p': 192,
+    '-10': -128,
+    '-10p': -192,
     '11': 256,
     '11p': 384,
+    '-11': -256,
+    '-11p': -384,
     '12': 512,
     '12p': 768,
+    '-12': -512,
+    '-12p': -768,
     '13': 1024,
     '13p': 1536,
+    '-13': -1024,
+    '-13p': -1536,
+);
+$mendeleev-unit-size: config('typography.lead', 1.5) * 1rem !default;
+
+$mendeleev-numeric-size-scale: (
+    0: 0,
+    1: 0.25,
+    2: 0.5,
+    3: 1,
+    4: 2,
+    5: 4,
+    6: 8,
+    7: 16,
+    8: 32,
+    9: 64,
+    10: 128,
+    11: 256,
+    12: 512,
+    13: 1024,
 );
 
 //------------------------------------------------------------------------------
@@ -43,32 +91,33 @@ $_mendeleev-size-scale: (
 ///
 /// @arg $x - input value
 @function size-scale($x) {
-    @if $x == 0 or $x == '0' {
-        @return 0;
+    @if type-of($x) == number {
+        @if unit($x) != '' {
+            @error 'Only unitless numbers are valid size scales.'
+        }
+        $s: sign($x);
+        $v: abs($x);
+        $size: map-get($mendeleev-numeric-size-scale, $v);
+        $size: if($size == null, pow(2, abs($x) - 3), $size);
+        @return $s * $size * $mendeleev-unit-size;
     } @else if type-of($x) == string {
-        @if str-starts-with($x, '-') {
-            @return - size-scale(str-slice($x, 2, length($x)));
-        } @else if str-ends-with($x, 'p') {
-            $x: str-slice($x, 1, str-length($x) - 1);
-            $number: to-number($x);
-            @return (size-scale($number) + size-scale($number + 1)) / 2;
-        } @else if not contains($_DIGITS, str-slice($x, 1, 1)) {
-            @return $x;
-        } @else {
-            @return size-scale(to-number($x));
+        $x: map-get($mendeleev-unit-less-size-scale, $x);
+        @if $x == null {
+            @error 'Invalid size #{$x}.';
         }
-    } @else if type-of($x) == number {
-        @if unit($x) == '' {
-            @return sign($x) * pow(2, abs($x) - 3) * config('typography.lead') * 1rem;
-        }
+        @return size-scale($x);
+    } @else if $x == null {
+        @return null;
+
+    } @else {
+        @error 'Invalid size #{$x}.';
     }
-    @return $x;
 }
 
 /// Convert number to sizing by multiplying it by lead * 1rem
 @function size($x) {
     @if type-of($x) == number and unit($x) == '' {
-        @return $x * 1rem * config('typography.lead');
+        @return $x * $mendeleev-unit-size;
     }
     @return $x;
 }

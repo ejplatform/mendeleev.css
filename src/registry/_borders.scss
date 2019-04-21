@@ -38,7 +38,7 @@ $_mendeleev-radius: map-apply-values(div, $_mendeleev-sizes, 2) !default;
 $_mendeleev-radius: map-merge($_mendeleev-radius, (full: 9999rem));
 
 $do: mendeleev-module(
-        'radius', (
+        'rounded', (
         //
         // All directions
         '.rounded-$1': scale-of(
