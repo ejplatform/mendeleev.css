@@ -40,3 +40,99 @@ $contrast-color-white: color('inverse-text', $default: white);
 $_mendeleev-color-list: _color-list() !default;
 $mendeleev-colors: _mendeleev-colors();
 $mendeleev-colors-contrast: _mendeleev-colors-and-contrasts();
+
+$mendeleev-colors: () !default;
+$mendeleev-color-contrast: () !default;
+$mendeleev-color-variants: () !default;
+
+// Register variants for all colors
+@function _color-register-variants() {
+    $variants: config('color.variants.color');
+    $colors: null;
+    $result: null;
+    $contrast: null;
+
+    // Fetch dark and light text colors
+    $cfg: config('color.variants.text.light');
+    $light-text: color(nth($cfg, 1));
+    $light-mix: nth($cfg, 2);
+
+    $cfg: config('color.variants.text.dark');
+    $dark-text: color(nth($cfg, 1));
+    $dark-mix: nth($cfg, 2);
+
+    // Loop over all variants and register color values
+    @each $name in config('color.roles.variants') {
+        $bias: config('color.contrast-bias');
+        $color: map-read($mendeleev-colors, $name);
+        $registered: ();
+
+        // We construct the light and dark values for the current color
+        $light: mix($light-text, $color, $light-mix);
+        $dark: mix($dark-text, $color, $dark-mix);
+
+        // Compute the best contrast color for base color
+        $contrast-value: choose-contrast-color($color, $light, $dark, $bias);
+        $contrast: cons($color $contrast-value, $contrast);
+
+        @each $variation, $cfg in $variants {
+            // Try to fetch value from color dictionary
+            $full-name: #{$name}-#{$variation};
+            $value: map-get($mendeleev-colors, $full-name);
+
+            // If value is not given, compute it explicitly
+            @if $value == null {
+                $base: color(nth($cfg, 1));
+                $mix: nth($cfg, 2);
+                $value: mix($base, $color, $mix);
+            }
+
+            // Compute the best contrast color
+            $contrast-value: choose-contrast-color($value, $light, $dark, $bias);
+            $contrast: cons($value $contrast-value, $contrast);
+
+            // Register color in global color dictionary and in the palette
+            $colors: cons($full-name $value, $colors);
+            $registered: map-merge($registered, ($variation: $value));
+        }
+        $result: cons(($name $registered), $result);
+    }
+    $mendeleev-colors: map-merge(lst-to-map($colors), $mendeleev-colors) !global;
+    $mendeleev-color-contrast: map-merge(lst-to-map($contrast), $mendeleev-color-contrast) !global;
+    @return lst-to-map($result);
+}
+
+// Register contrasts for all colors
+@function _color-register-contrasts() {
+    // Bias
+    $bias: config('color.contrast-bias');
+
+    // Light and dark text color
+    $light: color(nth(config('color.variants.text.light'), 1));
+    $dark: color(nth(config('color.variants.text.dark'), 1));
+
+    $colors: null;
+    @each $name, $color in $mendeleev-colors {
+        @if not map-has-key($mendeleev-color-contrast, $color) {
+            $contrast: choose-contrast-color($color, $light, $dark, $bias);
+            $colors: cons(($color $contrast), $colors);
+        }
+    }
+
+    // Register all colors
+    @return lst-to-map($colors);
+}
+
+//------------------------------------------------------------------------------
+// SETUP GLOBAL MAPPINGS ONLY ONCE
+//------------------------------------------------------------------------------
+
+@if not global-variable-exists(MENDELEEV_REGISTRY_SETUP) {
+    // Include all registered palette colors, contrasts and variants
+    $mendeleev-colors: map-merge($mendeleev-colors, config('palette'));
+    $mendeleev-color-contrast: map-merge($mendeleev-color-contrast, config('contrast'));
+    $mendeleev-color-contrast: map-merge(_color-register-contrasts(), $mendeleev-color-contrast);
+    $mendeleev-color-variants: map-merge-nested(_color-register-variants(), $mendeleev-color-variants);
+}
+
+$MENDELEEV_REGISTRY_SETUP: true;

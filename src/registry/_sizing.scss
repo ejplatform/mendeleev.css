@@ -3,130 +3,129 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-// Extract the default sizing scale
+@if $mendeleev-registering-utilities {
+    //--------------------------------------------------------------------------
+    // PADDING SCALE
 
-//------------------------------------------------------------------------------
-// PADDING SCALE
+    $do: mendeleev-utility-module(
+            'padding', (
+            padding:
+                ('.pad-', $mendeleev-size-scale-pos-rem)
+        ));
 
-$do: mendeleev-utility-module(
-        'padding', (
-        padding:
-            ('.pad-', $mendeleev-size-scale-pos-rem)
-    ));
+    $do: mendeleev-module(
+            'padding', (
+            '.pad-x': scale-of(
+                $scale: $mendeleev-size-scale-pos-rem,
+                $css: (
+                    padding-left: '$1',
+                    padding-right: '$1',
+                )
+            ),
+            '.pad-y': scale-of(
+                $scale: $mendeleev-size-scale-pos-rem,
+                $css: (
+                    padding-top: '$1',
+                    padding-bottom: '$1',
+                )
+            ),
+        ));
 
-$do: mendeleev-module(
-        'padding', (
-        '.pad-x': scale-of(
-            $scale: $mendeleev-size-scale-pos-rem,
-            $css: (
-                padding-left: '$1',
-                padding-right: '$1',
-            )
-        ),
-        '.pad-y': scale-of(
-            $scale: $mendeleev-size-scale-pos-rem,
-            $css: (
-                padding-top: '$1',
-                padding-bottom: '$1',
-            )
-        ),
-    ));
+    $do: mendeleev-utility-module(
+            'padding', (
+            padding-left:
+                ('.pad-l', $mendeleev-size-scale-pos-rem),
+            padding-right:
+                ('.pad-r', $mendeleev-size-scale-pos-rem),
+            padding-top:
+                ('.pad-t', $mendeleev-size-scale-pos-rem),
+            padding-bottom:
+                ('.pad-b', $mendeleev-size-scale-pos-rem),
+        ));
 
-$do: mendeleev-utility-module(
-        'padding', (
-        padding-left:
-            ('.pad-l', $mendeleev-size-scale-pos-rem),
-        padding-right:
-            ('.pad-r', $mendeleev-size-scale-pos-rem),
-        padding-top:
-            ('.pad-t', $mendeleev-size-scale-pos-rem),
-        padding-bottom:
-            ('.pad-b', $mendeleev-size-scale-pos-rem),
-    ));
+    //--------------------------------------------------------------------------
+    // MARGIN SCALE
 
-//------------------------------------------------------------------------------
-// MARGIN SCALE
+    $do: mendeleev-utility-module(
+            'margin', (
+            padding:
+                ('.margin-', $mendeleev-size-scale-rem)
+        ));
 
-$do: mendeleev-utility-module(
-        'margin', (
-        padding:
-            ('.margin-', $mendeleev-size-scale-rem)
-    ));
+    $do: mendeleev-module(
+            'margin', (
+            '.margin-x': scale-of(
+                $scale: $mendeleev-size-scale-rem,
+                $css: (
+                    margin-left: '$1',
+                    margin-right: '$1',
+                )
+            ),
+            '.margin-y': scale-of(
+                $scale: $mendeleev-size-scale-rem,
+                $css: (
+                    margin-top: '$1',
+                    margin-bottom: '$1',
+                )
+            ),
+        ));
 
-$do: mendeleev-module(
-        'margin', (
-        '.margin-x': scale-of(
-            $scale: $mendeleev-size-scale-rem,
-            $css: (
-                margin-left: '$1',
-                margin-right: '$1',
-            )
-        ),
-        '.margin-y': scale-of(
-            $scale: $mendeleev-size-scale-rem,
-            $css: (
-                margin-top: '$1',
-                margin-bottom: '$1',
-            )
-        ),
-    ));
+    $do: mendeleev-utility-module(
+            'margin', (
+            margin-left:
+                ('.margin-l', $mendeleev-size-scale-rem),
+            margin-right:
+                ('.margin-r', $mendeleev-size-scale-rem),
+            margin-top:
+                ('.margin-t', $mendeleev-size-scale-rem),
+            margin-bottom:
+                ('.margin-b', $mendeleev-size-scale-rem),
+        ));
 
-$do: mendeleev-utility-module(
-        'margin', (
-        margin-left:
-            ('.margin-l', $mendeleev-size-scale-rem),
-        margin-right:
-            ('.margin-r', $mendeleev-size-scale-rem),
-        margin-top:
-            ('.margin-t', $mendeleev-size-scale-rem),
-        margin-bottom:
-            ('.margin-b', $mendeleev-size-scale-rem),
-    ));
+    //--------------------------------------------------------------------------
+    // SIZES
 
-//------------------------------------------------------------------------------
-// SIZES
+    $do: mendeleev-module(
+            'sizes', (
+            // Squared height
+            '.size-$1': scale-of(
+                $scale: $mendeleev-size-scale-auto,
+                $css: (
+                    width: '$1',
+                    height: '$1',
+                )
+            ),
+            // Line height
+            '.line-height-$1': scale-of(
+                $scale: $mendeleev-size-scale-auto,
+                $css: (
+                    line-height: '$1',
+                )
+            ),
+        ));
 
-$do: mendeleev-module(
-        'sizes', (
-        // Squared height
-        '.size-$1': scale-of(
-            $scale: $mendeleev-size-scale-auto,
-            $css: (
-                width: '$1',
-                height: '$1',
-            )
-        ),
-        // Line height
-        '.line-height-$1': scale-of(
-            $scale: $mendeleev-size-scale-auto,
-            $css: (
-                line-height: '$1',
-            )
-        ),
-    ));
+    // Horizontal and vertical
+    $do: mendeleev-utility-module(
+            'sizes', (
+            width:
+                ('.size-x', $mendeleev-size-scale-auto),
+            height:
+                ('.size-y', $mendeleev-size-scale-auto),
+        ));
 
-// Horizontal and vertical
-$do: mendeleev-utility-module(
-        'sizes', (
-        width:
-            ('.size-x', $mendeleev-size-scale-auto),
-        height:
-            ('.size-y', $mendeleev-size-scale-auto),
-    ));
-
-$do: mendeleev-utility-module(
-        'sizing', (
-        width:
-            ('.width-', $mendeleev-grid-size-scale),
-        max-width:
-            ('.max-width-', $mendeleev-grid-size-scale),
-        min-width:
-            ('.min-width-', $mendeleev-grid-size-scale),
-        height:
-            ('.height-', $mendeleev-grid-size-scale),
-        max-height:
-            ('.max-height-', $mendeleev-grid-size-scale),
-        min-height:
-            ('.min-height-', $mendeleev-grid-size-scale),
-    ));
-
+    $do: mendeleev-utility-module(
+            'sizing', (
+            width:
+                ('.width-', $mendeleev-grid-size-scale),
+            max-width:
+                ('.max-width-', $mendeleev-grid-size-scale),
+            min-width:
+                ('.min-width-', $mendeleev-grid-size-scale),
+            height:
+                ('.height-', $mendeleev-grid-size-scale),
+            max-height:
+                ('.max-height-', $mendeleev-grid-size-scale),
+            min-height:
+                ('.min-height-', $mendeleev-grid-size-scale),
+        ));
+}

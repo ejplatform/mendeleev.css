@@ -3,66 +3,66 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-//------------------------------------------------------------------------------
-// Border size (px)
-$do: mendeleev-utility-module(
-        'border', (
-        border:
-            ('.border-', $mendeleev-border-scale),
-        border-left:
-            ('.border-l', $mendeleev-border-scale),
-        border-right:
-            ('.border-r', $mendeleev-border-scale),
-        border-top:
-            ('.border-t', $mendeleev-border-scale),
-        border-bottom:
-            ('.border-b', $mendeleev-border-scale),
-        border-style:
-            ('.border-', (
-                solid: solid,
-                dashed: dashed,
-                dotted: dotted,
-                none: none,
-            )),
-    ));
+@if $mendeleev-registering-utilities {
+    //--------------------------------------------------------------------------
+    // Border size (px)
+    $do: mendeleev-utility-module(
+            'border', (
+            border:
+                ('.border-', $mendeleev-border-scale),
+            border-left:
+                ('.border-l', $mendeleev-border-scale),
+            border-right:
+                ('.border-r', $mendeleev-border-scale),
+            border-top:
+                ('.border-t', $mendeleev-border-scale),
+            border-bottom:
+                ('.border-b', $mendeleev-border-scale),
+            border-style:
+                ('.border-', (
+                    solid: solid,
+                    dashed: dashed,
+                    dotted: dotted,
+                    none: none,
+                )),
+        ));
 
-//------------------------------------------------------------------------------
-// Rounded corners
-
-$do: mendeleev-module(
-        'rounded', (
-        //
-        // All directions
-        '.rounded-$1': scale-of(
-            $scale: $mendeleev-radius-scale-rem,
-            $css: (
-                border-radius: '$1',
-            )),
-        //
-        // Directional rounded corners
-        '.rounded-t$1': scale-of(
-            $scale: $mendeleev-radius-scale-rem,
-            $css: (
-                border-top-left-radius: '$1',
-                border-top-right-radius: '$1',
-            )),
-        '.rounded-b$1': scale-of(
-            $scale: $mendeleev-radius-scale-rem,
-            $css: (
-                border-bottom-left-radius: '$1',
-                border-bottom-right-radius: '$1',
-            )),
-        '.rounded-r$1': scale-of(
-            $scale: $mendeleev-radius-scale-rem,
-            $css: (
-                border-top-right-radius: '$1',
-                border-bottom-right-radius: '$1',
-            )),
-        '.rounded-l$1': scale-of(
-            $scale: $mendeleev-radius-scale-rem,
-            $css: (
-                border-top-left-radius: '$1',
-                border-bottom-left-radius: '$1',
-            )),
-    ));
-
+    //--------------------------------------------------------------------------
+    // Rounded corners
+    $do: mendeleev-module(
+            'rounded', (
+            //
+            // All directions
+            '.rounded-$1': scale-of(
+                $scale: $mendeleev-radius-scale-rem,
+                $css: (
+                    border-radius: '$1',
+                )),
+            //
+            // Directional rounded corners
+            '.rounded-t$1': scale-of(
+                $scale: $mendeleev-radius-scale-rem,
+                $css: (
+                    border-top-left-radius: '$1',
+                    border-top-right-radius: '$1',
+                )),
+            '.rounded-b$1': scale-of(
+                $scale: $mendeleev-radius-scale-rem,
+                $css: (
+                    border-bottom-left-radius: '$1',
+                    border-bottom-right-radius: '$1',
+                )),
+            '.rounded-r$1': scale-of(
+                $scale: $mendeleev-radius-scale-rem,
+                $css: (
+                    border-top-right-radius: '$1',
+                    border-bottom-right-radius: '$1',
+                )),
+            '.rounded-l$1': scale-of(
+                $scale: $mendeleev-radius-scale-rem,
+                $css: (
+                    border-top-left-radius: '$1',
+                    border-bottom-left-radius: '$1',
+                )),
+        ));
+}

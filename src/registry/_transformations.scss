@@ -3,95 +3,95 @@
 //------------------------------------------------------------------------------
 @import '../_preflight';
 
+@if $mendeleev-registering-utilities {
+    $do: mendeleev-module(
+            'transform', (
+            //
+            // Grow and shrink
+            '.grow-$1': scale-of(
+                $scale: $mendeleev-grow-scale,
+                $css: (
+                    transform: 'scale($1, $1)',
+                )),
+            '.shrink-$1': scale-of(
+                $scale: $mendeleev-shrink-scale,
+                $css: (
+                    transform: 'scale($1, $1)',
+                )),
+            //
+            // Rotations
+            '.rotate-$1': scale-of(
+                $scale: (30: 30, 45: 45, 60: 60, 90: 90),
+                $css: (
+                    transform: 'rotate($1deg)',
+                )),
+            '.rotate-n$1': scale-of(
+                $scale: (30: 30, 45: 45, 60: 60, 90: 90),
+                $css: (
+                    transform: 'rotate(-$1deg)',
+                )),
+            '.rotate-180': (
+                transform: unquote('rotate(180deg)')
+            ),
+            //
+            // Grey scale
+            '.grayscale-$1': scale-of(
+                $scale: $mendeleev-transform-scale,
+                $css: (
+                    filter: 'grayscale($1)'
+                )),
+            //
+            // Sepia
+            '.sepia-$1': scale-of(
+                $scale: $mendeleev-transform-scale,
+                $css: (
+                    filter: 'sepia($1)'
+                )),
+            //
+            // Invert
+            '.invert-$1': scale-of(
+                $scale: $mendeleev-transform-scale,
+                $css: (
+                    filter: 'invert($1)'
+                )),
+            //
+            // Contrast
+            '.contrast-$1': scale-of(
+                $scale: $mendeleev-transform-double-scale,
+                $css: (
+                    filter: 'contrast($1)'
+                )),
+            //
+            // Brightness
+            '.brightness-$1': scale-of(
+                $scale: $mendeleev-transform-double-scale,
+                $css: (
+                    filter: 'brightness($1)'
+                )),
+            //
+            // Saturation
+            '.saturation-$1': scale-of(
+                $scale: $mendeleev-transform-double-scale,
+                $css: (
+                    filter: 'saturate($1)'
+                )),
+        ));
 
-// Modules
-$do: mendeleev-utility-module(
-        'transform', (
-        //
-        // Origin location
-        transform-origin:
-            ('.transform-', (
-                center: center center 0,
-                top: center top 0,
-                bottom: center bottom 0,
-                left: left center 0,
-                right: right center 0,
-                ne: right top 0,
-                nw: left top 0,
-                se: right bottom 0,
-                sw: left bottom 0,
-            )),
-    ));
-
-$do: mendeleev-module(
-        'transform', (
-        //
-        // Grow and shrink
-        '.grow-$1': scale-of(
-            $scale: $mendeleev-grow-scale,
-            $css: (
-                transform: 'scale($1, $1)',
-            )),
-        '.shrink-$1': scale-of(
-            $scale: $mendeleev-shrink-scale,
-            $css: (
-                transform: 'scale($1, $1)',
-            )),
-        //
-        // Rotations
-        '.rotate-$1': scale-of(
-            $scale: (30: 30, 45: 45, 60: 60, 90: 90),
-            $css: (
-                transform: 'rotate($1deg)',
-            )),
-        '.rotate-n$1': scale-of(
-            $scale: (30: 30, 45: 45, 60: 60, 90: 90),
-            $css: (
-                transform: 'rotate(-$1deg)',
-            )),
-        '.rotate-180': (
-            transform: unquote('rotate(180deg)')
-        ),
-        //
-        // Grey scale
-        '.grayscale-$1': scale-of(
-            $scale: $mendeleev-transform-scale,
-            $css: (
-                filter: 'grayscale($1)'
-            )),
-        //
-        // Sepia
-        '.sepia-$1': scale-of(
-            $scale: $mendeleev-transform-scale,
-            $css: (
-                filter: 'sepia($1)'
-            )),
-        //
-        // Invert
-        '.invert-$1': scale-of(
-            $scale: $mendeleev-transform-scale,
-            $css: (
-                filter: 'invert($1)'
-            )),
-        //
-        // Contrast
-        '.contrast-$1': scale-of(
-            $scale: $mendeleev-transform-double-scale,
-            $css: (
-                filter: 'contrast($1)'
-            )),
-        //
-        // Brightness
-        '.brightness-$1': scale-of(
-            $scale: $mendeleev-transform-double-scale,
-            $css: (
-                filter: 'brightness($1)'
-            )),
-        //
-        // Saturation
-        '.saturation-$1': scale-of(
-            $scale: $mendeleev-transform-double-scale,
-            $css: (
-                filter: 'saturate($1)'
-            )),
-    ));
+    $do: mendeleev-utility-module(
+            'transform', (
+            //
+            // Origin location
+            transform-origin:
+                ('.transform-', (
+                    center: center center 0,
+                    top: center top 0,
+                    bottom: center bottom 0,
+                    left: left center 0,
+                    right: right center 0,
+                    ne: right top 0,
+                    nw: left top 0,
+                    se: right bottom 0,
+                    sw: left bottom 0,
+                )),
+        ));
+}

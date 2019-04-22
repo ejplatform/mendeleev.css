@@ -2,10 +2,11 @@
 // FUNCTIONS
 @import 'fn';
 @import
-    'prelude/functions/color',  // imported by mixins/color
-    'prelude/functions/list',   // imported by map
-    'prelude/functions/string', // imported by sizes
-    'prelude/functions/sizes';  // imported by mixins/sizing
+    'prelude/functions/color',
+    'prelude/functions/list',
+    'prelude/functions/string',
+    'prelude/functions/sizes',
+    'prelude/functions/typography';
 
 // MIXINS
 @import

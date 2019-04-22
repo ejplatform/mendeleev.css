@@ -15,12 +15,13 @@
     }
 }
 
-
-@mixin recursive-map($map) {
+/// Include all pairs of (key: value) in map as CSS declarations. If value is
+/// another map, include nested values.
+@mixin recursive-property-map($map) {
     @each $k, $v in $map {
         @if type-of($v) == map {
             #{$k} {
-                @include recursive-map($v);
+                @include recursive-property-map($v);
             }
         } @else {
             #{$k}: $v;
@@ -33,7 +34,7 @@
         @error 'Not implemented';
     } @else {
         #{$name} {
-            @include recursive-map($data);
+            @include recursive-property-map($data);
         }
     }
 }
@@ -44,30 +45,36 @@
     }
 }
 
-/// Mixin that includes all registered utilities
-@mixin all-registered-utilities() {
-    $lst: lst-reverse($mendeleev-css-declarations);
-    $suffix: null;
-    $size: 0;
+$mendeleev-registered-utilities: false !default;
 
-    @while $lst {
-        $info: nth($lst, 1);
-        $lst: nth($lst, 2);
+/// Mixin that includes all registered utilities. This mixin is automatically
+/// Executed when the mendeleev utilities module is imported.
+///
+@mixin mendeleev-register-utilities() {
+    @if not $mendeleev-registered-utilities {
 
-        $type: map-get($info, type);
-        $emit: map-get($info, emit);
-        $data: map-get($info, data);
+        $lst: lst-reverse($mendeleev-css-declarations);
 
-        @if $emit {
-            @if $type== multiple {
-                @include multiple-utilities-declaration($data, $mode: $emit);
-            } @else if $type== simple {
-                $name: map-get($info, name);
-                @include simple-utility-declaration($name, $data, $mode: $emit);
-            } @else {
-                @error 'Invalid type: #{$type}'
+        @while $lst {
+            $info: nth($lst, 1);
+            $lst: nth($lst, 2);
+
+            $type: map-get($info, type);
+            $emit: map-get($info, emit);
+            $data: map-get($info, data);
+
+            @if $emit {
+                @if $type== multiple {
+                    @include multiple-utilities-declaration($data, $mode: $emit);
+                } @else if $type == simple {
+                    $name: map-get($info, name);
+                    @include simple-utility-declaration($name, $data, $mode: $emit);
+                } @else {
+                    @error 'Invalid type: #{$type}'
+                }
             }
         }
-        $size: $size + 1;
     }
+    $mendeleev-registered-utilities: true !global;
 }
+

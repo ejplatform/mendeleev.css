@@ -1,164 +1,164 @@
 //------------------------------------------------------------------------------
 // TYPOGRAPHY
 //------------------------------------------------------------------------------
-@import 'typography-functions';
+@import '../preflight';
 
-$_emit: config('typography.modules.scale');
-$do: make-type-scale($_emit);
+@if $mendeleev-registering-utilities {
+    $do: make-type-scale(config('typography.modules.scale'));
 
-//------------------------------------------------------------------------------
-// Simple system font styles: font-sans, font-serif, font-mono, font-cursive
+    //--------------------------------------------------------------------------
+    // Simple system font styles: font-sans, font-serif, font-mono, font-cursive
 
-$do: mendeleev-utility-module(
-        'typography.modules.fonts', (
-        font-family:
-            ('.', (
-                sans-serif: config('typography.#{sans-serif}'),
-                serif: config('typography.#{serif}'),
-                cursive: config('typography.#{cursive}'),
-                monospace: config('typography.#{monospace}'),
-            )),
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.fonts', (
+            font-family:
+                ('.', (
+                    sans-serif: config('typography.sans-serif'),
+                    serif: config('typography.serif'),
+                    cursive: config('typography.cursive'),
+                    monospace: config('typography.monospace'),
+                )),
+        ));
 
-//------------------------------------------------------------------------------
-// Font weight
+    //--------------------------------------------------------------------------
+    // Font weight
 
-$do: mendeleev-utility-module(
-        'typography.modules.weights', (
-        font-weight:
-            ('.', (
-                thin: 100,
-                extra-light: 200,
-                light: 300,
-                regular: 400,
-                medium: 500,
-                semi-bold: 600,
-                bold: 700,
-                extra-bold: 800,
-                black: 900,
-            )),
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.weights', (
+            font-weight:
+                ('.', (
+                    thin: 100,
+                    extra-light: 200,
+                    light: 300,
+                    regular: 400,
+                    medium: 500,
+                    semi-bold: 600,
+                    bold: 700,
+                    extra-bold: 800,
+                    black: 900,
+                )),
+        ));
 
-//------------------------------------------------------------------------------
-// Styles, decorations and text transform
+    //--------------------------------------------------------------------------
+    // Styles, decorations and text transform
 
-$do: mendeleev-utility-module(
-        'typography.modules.styles', (
-        font-style:
-            ('.', (
-                italic: italic,
-                roman: norma
-            )),
-        text-transform:
-            ('.', (
-                uppercase: uppercase,
-                lowercase: lowercase,
-                capitalize: capitalize,
-                normalcase: none,
-            )),
-        text-decoration:
-            ('.', (
-                underline: underline,
-                line-through: line-through,
-                no-underline: none
-            ))
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.styles', (
+            font-style:
+                ('.', (
+                    italic: italic,
+                    roman: norma
+                )),
+            text-transform:
+                ('.', (
+                    uppercase: uppercase,
+                    lowercase: lowercase,
+                    capitalize: capitalize,
+                    normalcase: none,
+                )),
+            text-decoration:
+                ('.', (
+                    underline: underline,
+                    line-through: line-through,
+                    no-underline: none
+                ))
+        ));
 
-//------------------------------------------------------------------------------
-// Text alignment
+    //--------------------------------------------------------------------------
+    // Text alignment
 
-$do: mendeleev-utility-module(
-        'typography.modules.alignment', (
-        text-align:
-            ('.', (
-                left: left,
-                center: center,
-                right: right,
-                justify: justify,
-            )),
-        vertical-align:
-            ('.', (
-                baseline: baseline,
-                top: top,
-                middle: middle,
-                bottom: bottom,
-                text-top: text-top,
-                text-bottom: text-bottom,
-            ))
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.alignment', (
+            text-align:
+                ('.', (
+                    left: left,
+                    center: center,
+                    right: right,
+                    justify: justify,
+                )),
+            vertical-align:
+                ('.', (
+                    baseline: baseline,
+                    top: top,
+                    middle: middle,
+                    bottom: bottom,
+                    text-top: text-top,
+                    text-bottom: text-bottom,
+                ))
+        ));
 
-//------------------------------------------------------------------------------
-// Whitespace
+    //--------------------------------------------------------------------------
+    // Whitespace
 
-$do: mendeleev-utility-module(
-        'typography.modules.white-space', (
-        white-space:
-            ('.', (
-                normal: normal,
-                nowrap: nowrap,
-                pre: pre,
-                pre-line: pre-line,
-                pre-wrap: pre-wrap,
-            ))
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.white-space', (
+            white-space:
+                ('.', (
+                    normal: normal,
+                    nowrap: nowrap,
+                    pre: pre,
+                    pre-line: pre-line,
+                    pre-wrap: pre-wrap,
+                ))
+        ));
 
-//------------------------------------------------------------------------------
-// Leading
+    //--------------------------------------------------------------------------
+    // Leading
 
-$do: mendeleev-utility-module(
-        'typography.modules.leading', (
-        leading-height:
-            ('.', (
-                leading: config('typography.lead'),
-                leading-title: config('typography.heading-lead'),
-                leading-solid: 1,
-                leading-loose: 2,
-            )),
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.leading', (
+            leading-height:
+                ('.', (
+                    leading: config('typography.lead'),
+                    leading-title: config('typography.heading-lead'),
+                    leading-solid: 1,
+                    leading-loose: 2,
+                )),
+        ));
 
-//------------------------------------------------------------------------------
-// Measure
+    //--------------------------------------------------------------------------
+    // Measure
 
-$do: mendeleev-utility-module(
-        'typography.modules.measure', (
-        max-width:
-            ('.', (
-                measure: 29em, // ~ 65 characters
-                measure-wide: 38em, // ~ 85 characters
-                measure-narrow: 20em, // ~ 45 characters
-            ))
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.measure', (
+            max-width:
+                ('.', (
+                    measure: 29em, // ~ 65 characters
+                    measure-wide: 38em, // ~ 85 characters
+                    measure-narrow: 20em, // ~ 45 characters
+                ))
+        ));
 
-//------------------------------------------------------------------------------
-// Indentation
+    //--------------------------------------------------------------------------
+    // Indentation
 
-$do: mendeleev-utility-module(
-        'typography.modules.indent', (
-        text-indent:
-            ('.', (
-                indent: 1.5em,
-                indent-punctuation: -0.3em,
-            )),
-    ));
+    $do: mendeleev-utility-module(
+            'typography.modules.indent', (
+            text-indent:
+                ('.', (
+                    indent: 1.5em,
+                    indent-punctuation: -0.3em,
+                )),
+        ));
 
-$do: mendeleev-module(
-        'typography.modules.indent', (
-        '.truncate': (
-            white-space: nowrap,
-            overflow: hidden,
-            text-overflow: ellipsis,
-        )
-    ));
+    $do: mendeleev-module(
+            'typography.modules.indent', (
+            '.truncate': (
+                white-space: nowrap,
+                overflow: hidden,
+                text-overflow: ellipsis,
+            )
+        ));
 
-//------------------------------------------------------------------------------
-// Direction
+    //--------------------------------------------------------------------------
+    // Direction
 
-$do: mendeleev-utility-module(
-        'typography.modules.direction', (
-        direction:
-            ('.', (
-                rtl: rtl,
-                ltr: ltr,
-            )),
-    ));
-
+    $do: mendeleev-utility-module(
+            'typography.modules.direction', (
+            direction:
+                ('.', (
+                    rtl: rtl,
+                    ltr: ltr,
+                )),
+        ));
+}

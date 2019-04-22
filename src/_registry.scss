@@ -1,6 +1,6 @@
-@import 'registry/setup';
+$mendeleev-registering-utilities: true !default;
+
 @import 'registry/typography';
-@import 'registry/colors';
 @import 'registry/sizing';
 @import 'registry/layout';
 @import 'registry/borders';
@@ -9,4 +9,6 @@
 @import 'registry/transformations';
 @import 'registry/visibility';
 @import 'registry/misc';
+
+$mendeleev-registering-utilities: false;
 
