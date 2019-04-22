@@ -27,9 +27,9 @@ $do: mendeleev-module(
             display: flex,
             flex-flow: row,
             justify-content: space-between,
-        ),
-        '.row > *': (
-            min-width: 0,
+            '> *': (
+                min-width: 0,
+            ),
         ),
         '.row-inline': (
             align-items: stretch,
@@ -37,8 +37,10 @@ $do: mendeleev-module(
             flex-flow: row,
             justify-content: space-between,
         ),
-        '.row-expand > *': (
-            flex: 1,
+        '.row-expand': (
+            '> *': (
+                flex: 1,
+            ),
         ),
         //
         // Col definitions and modifiers
@@ -47,9 +49,9 @@ $do: mendeleev-module(
             display: flex,
             flex-flow: column,
             justify-content: space-between,
-        ),
-        '.col > *': (
-            min-width: 0,
+            '> *': (
+                min-width: 0,
+            ),
         ),
         '.col-inline': (
             align-items: stretch,
@@ -57,8 +59,10 @@ $do: mendeleev-module(
             flex-flow: column,
             justify-content: space-between,
         ),
-        '.col-expand > *': (
-            flex: 1,
+        '.col-expand': (
+            '> *': (
+                flex: 1,
+            ),
         ),
         // Gutter scale
         '.gutter-$1': fn-scale(_mendeleev-flex-grid-gutter, L(1, 2, 3, 4)),

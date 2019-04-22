@@ -20,7 +20,7 @@ $mendeleev-css-declarations: null !default;
 /// @arg $data - Map with the class content
 /// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
 @function register-utility($name, $data, $emit: true, $type: map) {
-    $info: (name: $name, data: $data, emit: $emit);
+    $info: (name: $name, data: $data, emit: $emit, type: simple);
     $mendeleev-css-declarations: cons($info, $mendeleev-css-declarations) !global;
     @return $info;
 }
@@ -29,7 +29,6 @@ $mendeleev-css-declarations: null !default;
     $name: str-slice($name, 2);
     @return '.#{$bp}\:#{$name}';
 }
-
 
 //------------------------------------------------------------------------------
 // PUBLIC API FUNCTIONS
@@ -44,11 +43,12 @@ $mendeleev-css-declarations: null !default;
 @function mendeleev-module($cfg, $spec) {
     $emit: config($cfg);
     $res: null;
+    @return $res;
 
     @each $selector, $data in $spec {
         @if type-of($data) == map {
             // Simple utility
-            $res: cons(register-utility($selector, $data, $emit), $res);
+            $res: (register-utility($selector, $data, $emit) $res);
 
         } @else if _mendeleev-module-is-special-decl($data) {
             // Special declarations
@@ -77,32 +77,19 @@ $mendeleev-css-declarations: null !default;
 @function mendeleev-utility-module($cfg, $spec) {
     $emit: config($cfg);
     $res: null;
-
     @each $prop, $data in $spec {
         $prefix: nth($data, 1);
         $content: nth($data, 2);
 
-        @if _mendeleev-module-is-special-decl($content) {
-            // Special declarations
-            $fn: as-func(nth($content, 3));
-            $args: nth($content, 4);
-            $res: call($fn, $emit, $prop, $prefix, $args...);
-
-        } @else if type-of($content) == map {
-            // Simple map based declaration
+        @if type-of($content) == map {
+            $data: ();
             @each $suffix, $value in $content {
-                $name: '#{$prefix}#{$suffix}';
-                $data: (#{$prop}: $value);
-                $res: cons(register-utility($name, $data, $emit), $res);
+                $name: $prefix + $suffix;
+                $data: map-merge($data, ($name: (#{$prop}: $value)));
             }
-
-        } @else if type-of($content) == list {
-            // Simple list based declaration
-            @each $value in $content {
-                $name: '#{$prefix}#{$value}';
-                $data: (#{$prop}: $value);
-                $res: cons(register-utility($name, $data, $emit), $res);
-            }
+            $info: (prefix: $prefix, data: $data, type: multiple, emit: $emit);
+            $res: ($info $res);
+            $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
         } @else {
             @error "Invalid specification for #{$prop}."
         }
@@ -119,10 +106,6 @@ $mendeleev-css-declarations: null !default;
     );
 }
 
-@function utility-scale($prop, $name, $value) {
-    @return ($name: ($prop: $value));
-}
-
 /// Declares a complete scale of values.
 @function scale-of($scale, $css: null, $args...) {
     @if $css != null {
@@ -130,14 +113,6 @@ $mendeleev-css-declarations: null !default;
     } @else {
         @error 'You must specify the scale type.'
     }
-}
-
-@function utility-scale-of($scale) {
-    @return fn-scale(_mendeleev-utility-scale-of, $scale);
-}
-
-@function _mendeleev-utility-scale-of($prop, $name, $value) {
-    @return ($name: ($prop: $value));
 }
 
 @function _mendeleev-scale-fetch-item($scale, $n) {
@@ -181,34 +156,5 @@ $mendeleev-css-declarations: null !default;
             }
         }
     }
-    @return $res;
-}
-
-@function _mendeleev-fn-scale-utility-module-worker($emit, $prop, $prefix, $fn, $scale, $args...) {
-    $fn: as-func($fn);
-    $res: null;
-
-    @if type-of($scale) == map {
-        @each $key, $value in $scale {
-            $name: str-interpolate($prefix, L($key));
-            @each $selector, $spec in call($fn, $prop, $name, $value, $args...) {
-                $data: register-utility($selector, $spec, $emit);
-                $res: cons($data, $res);
-            }
-        }
-
-    } @else {
-        @while $scale != null {
-            $key: _mendeleev-scale-fetch-item($scale, 1);
-            $value: _mendeleev-scale-fetch-item($scale, 2);
-            $scale: cdr($scale);
-            $name: str-interpolate($prefix, L($key));
-            @each $selector, $spec in call($fn, $prop, $name, $value, $args...) {
-                $data: register-utility($selector, $spec, $emit);
-                $res: cons($data, $res);
-            }
-        }
-    }
-
     @return $res;
 }

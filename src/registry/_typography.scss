@@ -9,7 +9,6 @@ $do: make-type-scale($_emit);
 //------------------------------------------------------------------------------
 // Simple system font styles: font-sans, font-serif, font-mono, font-cursive
 
-
 $do: mendeleev-utility-module(
         'typography.modules.fonts', (
         font-family:
@@ -72,19 +71,19 @@ $do: mendeleev-utility-module(
         'typography.modules.alignment', (
         text-align:
             ('.', (
-                left,
-                center,
-                right,
-                justify,
+                left: left,
+                center: center,
+                right: right,
+                justify: justify,
             )),
         vertical-align:
             ('.', (
-                baseline,
-                top,
-                middle,
-                bottom,
-                text-top,
-                text-bottom
+                baseline: baseline,
+                top: top,
+                middle: middle,
+                bottom: bottom,
+                text-top: text-top,
+                text-bottom: text-bottom,
             ))
     ));
 
@@ -95,11 +94,11 @@ $do: mendeleev-utility-module(
         'typography.modules.white-space', (
         white-space:
             ('.', (
-                normal,
-                nowrap,
-                pre,
-                pre-line,
-                pre-wrap,
+                normal: normal,
+                nowrap: nowrap,
+                pre: pre,
+                pre-line: pre-line,
+                pre-wrap: pre-wrap,
             ))
     ));
 
@@ -158,8 +157,8 @@ $do: mendeleev-utility-module(
         'typography.modules.direction', (
         direction:
             ('.', (
-                rtl,
-                ltr,
+                rtl: rtl,
+                ltr: ltr,
             )),
     ));
 
