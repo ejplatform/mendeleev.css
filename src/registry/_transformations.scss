@@ -8,72 +8,72 @@
             'transform', (
             //
             // Grow and shrink
-            '.grow-$1': scale-of(
+            '.grow-': scale-of(
                 $scale: $mendeleev-grow-scale,
-                $css: (
+                $interpolate: (
                     transform: 'scale($1, $1)',
                 )),
-            '.shrink-$1': scale-of(
+            '.shrink-': scale-of(
                 $scale: $mendeleev-shrink-scale,
-                $css: (
+                $interpolate: (
                     transform: 'scale($1, $1)',
                 )),
             //
             // Rotations
-            '.rotate-$1': scale-of(
+            '.rotate-': scale-of(
                 $scale: (30: 30, 45: 45, 60: 60, 90: 90),
-                $css: (
+                $interpolate: (
                     transform: 'rotate($1deg)',
                 )),
-            '.rotate-n$1': scale-of(
+            '.rotate-n': scale-of(
                 $scale: (30: 30, 45: 45, 60: 60, 90: 90),
-                $css: (
+                $interpolate: (
                     transform: 'rotate(-$1deg)',
                 )),
             '.rotate-180': (
-                transform: unquote('rotate(180deg)')
+                transform: unquote('rotate(180deg)'),
             ),
             //
             // Grey scale
-            '.grayscale-$1': scale-of(
+            '.grayscale-': scale-of(
                 $scale: $mendeleev-transform-scale,
-                $css: (
-                    filter: 'grayscale($1)'
+                $interpolate: (
+                    filter: 'grayscale($1)',
                 )),
             //
             // Sepia
-            '.sepia-$1': scale-of(
+            '.sepia-': scale-of(
                 $scale: $mendeleev-transform-scale,
-                $css: (
-                    filter: 'sepia($1)'
+                $interpolate: (
+                    filter: 'sepia($1)',
                 )),
             //
             // Invert
-            '.invert-$1': scale-of(
+            '.invert-': scale-of(
                 $scale: $mendeleev-transform-scale,
-                $css: (
-                    filter: 'invert($1)'
+                $interpolate: (
+                    filter: 'invert($1)',
                 )),
             //
             // Contrast
-            '.contrast-$1': scale-of(
+            '.contrast-': scale-of(
                 $scale: $mendeleev-transform-double-scale,
                 $css: (
-                    filter: 'contrast($1)'
+                    filter: 'contrast($1)',
                 )),
             //
             // Brightness
-            '.brightness-$1': scale-of(
+            '.brightness-': scale-of(
                 $scale: $mendeleev-transform-double-scale,
-                $css: (
-                    filter: 'brightness($1)'
+                $interpolate: (
+                    filter: 'brightness($1)',
                 )),
             //
             // Saturation
-            '.saturation-$1': scale-of(
+            '.saturation-': scale-of(
                 $scale: $mendeleev-transform-double-scale,
-                $css: (
-                    filter: 'saturate($1)'
+                $interpolate: (
+                    filter: 'saturate($1)',
                 )),
         ));
 

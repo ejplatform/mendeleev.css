@@ -16,33 +16,37 @@
                 grid-auto-flow: dense
             ),
             // Templates
-            '.grid-$1': scale-of(
+            '.grid-': scale-of(
                 $scale: $mendeleev-grid-scale,
                 $css: (
                     '--gridGap': 0,
-                    '--gridSize': '$1',
+                    '--gridSize': null,
                     display: grid,
+                ),
+                $interpolate: (
                     grid-template-columns: 'repeat($1, 1fr)',
                 )
             ),
             // Row templates
-            '.rows-$1': scale-of(
+            '.rows-': scale-of(
                 $scale: $mendeleev-grid-scale,
                 $css: (
                     '--gridGap': 0,
-                    '--gridSize': '$1',
+                    '--gridSize': null,
                     display: grid,
+                ),
+                $interpolate: (
                     grid-template-rows: 'repeat($1, 1fr)',
                 )
             ),
             //
             // Gap between cells
-            '.gap-$1': scale-of(
+            '.gap-': scale-of(
                 $scale: $mendeleev-grid-gap-scale,
                 $css: (
-                    '--gridGap': '$1',
-                    'grid-gap': '$1',
-                    'gap': '$1',
+                    '--gridGap': null,
+                    'grid-gap': null,
+                    'gap': null,
                 )
             )
         ));
@@ -166,21 +170,21 @@
     //            display: grid,
     //        ),
     //        // Templates
-    //        '.hard-grid-$1': scale-of(
+    //        '.hard-grid-': scale-of(
     //            $scale: $mendeleev-grid-scale,
     //            $css: (
     //                '--grid-gap': 0,
-    //                '--grid-size': '$1',
+    //                '--grid-size': null,
     //                display: grid,
     //                grid-template-columns: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
     //            )
     //        ),
     //        // Row templates
-    //        '.hard-rows-$1': scale-of(
+    //        '.hard-rows-': scale-of(
     //            $scale: $mendeleev-grid-scale,
     //            $css: (
     //                '--grid-gap': 0,
-    //                '--grid-size': '$1',
+    //                '--grid-size': null,
     //                display: grid,
     //                grid-template-rows: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
     //            )

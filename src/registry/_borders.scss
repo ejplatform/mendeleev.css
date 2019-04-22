@@ -33,36 +33,36 @@
             'rounded', (
             //
             // All directions
-            '.rounded-$1': scale-of(
+            '.rounded-': scale-of(
                 $scale: $mendeleev-radius-scale-rem,
                 $css: (
-                    border-radius: '$1',
+                    border-radius: null,
                 )),
             //
             // Directional rounded corners
-            '.rounded-t$1': scale-of(
+            '.rounded-t': scale-of(
                 $scale: $mendeleev-radius-scale-rem,
                 $css: (
-                    border-top-left-radius: '$1',
-                    border-top-right-radius: '$1',
+                    border-top-left-radius: null,
+                    border-top-right-radius: null,
                 )),
-            '.rounded-b$1': scale-of(
+            '.rounded-b': scale-of(
                 $scale: $mendeleev-radius-scale-rem,
                 $css: (
-                    border-bottom-left-radius: '$1',
-                    border-bottom-right-radius: '$1',
+                    border-bottom-left-radius: null,
+                    border-bottom-right-radius: null,
                 )),
-            '.rounded-r$1': scale-of(
+            '.rounded-r':scale-of(
                 $scale: $mendeleev-radius-scale-rem,
                 $css: (
-                    border-top-right-radius: '$1',
-                    border-bottom-right-radius: '$1',
+                    border-top-right-radius: null,
+                    border-bottom-right-radius: null,
                 )),
-            '.rounded-l$1': scale-of(
+            '.rounded-l':scale-of(
                 $scale: $mendeleev-radius-scale-rem,
                 $css: (
-                    border-top-left-radius: '$1',
-                    border-bottom-left-radius: '$1',
+                    border-top-left-radius: null,
+                    border-bottom-left-radius: null,
                 )),
         ));
 }

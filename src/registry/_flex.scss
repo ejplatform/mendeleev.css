@@ -3,25 +3,37 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-@function _mendeleev-flex-grid-gutter($name, $idx) {
-    $size: size-scale($idx);
-    @return (
-        '#{$name}': (
-            margin: unquote('#{$size} -#{$size}'),
-        ),
-        '#{$name} > *': (
+$mendeleev-gutter-scale: $fn-empty-map;
+@each $k in (1, 2, 3, 4) {
+    $size: size-scale($k);
+    $css: (
+        margin: unquote('#{$size} -#{$size}'),
+        '> *': (
             margin: $size,
         ),
-        '#{$name} + #{$name}': (
-            margin-top: unquote('-#{$size})'),
+        '& + &':(
+            margin-top: -$size,
         ),
-    )
+    );
+    $mendeleev-gutter-scale: map-merge($mendeleev-gutter-scale, ($k: $css));
 }
 
 @if $mendeleev-registering-utilities {
 
     //--------------------------------------------------------------------------
     // Flexible grid
+    $do: mendeleev-module(
+            'foo', (
+            //
+            // Row definitions and modifiers
+            '.foobar': (
+                align-items: stretch,
+                display: flex,
+                flex-flow: row,
+                justify-content: space-between,
+            ),
+        ));
+
     $do: mendeleev-module(
             'flex-grid', (
             //
@@ -69,7 +81,7 @@
                 ),
             ),
             // Gutter scale
-            '.gutter-$1': fn-scale(_mendeleev-flex-grid-gutter, L(1, 2, 3, 4)),
+            '.gutter-': $mendeleev-gutter-scale,
         ));
 
     //--------------------------------------------------------------------------

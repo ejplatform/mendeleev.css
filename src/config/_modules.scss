@@ -2,37 +2,8 @@
 // DECLARE MENDELEEV MODULES
 //------------------------------------------------------------------------------
 
-$_mendeleev-module-special-decl: unique-id() !default;
-
-//
-// AUXILIARY FUNCTIONS
-//
-@function _mendeleev-module-is-special-decl($data) {
-    @return type-of($data) == list and nth($data, 1) == $_mendeleev-module-special-decl;
-}
-
 // Default dictionary with Mendeleev state.
 $mendeleev-css-declarations: null !default;
-
-/// Register utility class
-///
-/// @arg $name - Class name
-/// @arg $data - Map with the class content
-/// @arg $emit - Set to false to avoid emitting code in the final stylesheet.
-@function register-utility($name, $data, $emit: true, $type: map) {
-    $info: (name: $name, data: $data, emit: $emit, type: simple);
-    $mendeleev-css-declarations: cons($info, $mendeleev-css-declarations) !global;
-    @return $info;
-}
-
-@function _bp-selector($bp, $name) {
-    $name: str-slice($name, 2);
-    @return '.#{$bp}\:#{$name}';
-}
-
-//------------------------------------------------------------------------------
-// PUBLIC API FUNCTIONS
-//------------------------------------------------------------------------------
 
 /// Declare a Mendeleev module of CSS declarations.
 ///
@@ -43,21 +14,14 @@ $mendeleev-css-declarations: null !default;
 @function mendeleev-module($cfg, $spec) {
     $emit: config($cfg);
     $res: null;
-    @return $res;
 
     @each $selector, $data in $spec {
         @if type-of($data) == map {
-            // Simple utility
-            $res: (register-utility($selector, $data, $emit) $res);
-
-        } @else if _mendeleev-module-is-special-decl($data) {
-            // Special declarations
-            $fn: as-func(nth($data, 2));
-            $args: nth($data, 4);
-            $res: cons(call($fn, $emit, $selector, $args...), $res);
+            $info: (name: $selector, data: $data, emit: $emit, type: simple);
+            $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
+            $res: ($info $res);
 
         } @else {
-            // Invalid specification
             @error "Invalid content for #{$selector}."
         }
     }
@@ -97,64 +61,27 @@ $mendeleev-css-declarations: null !default;
     @return $res;
 }
 
-@function fn-scale($fn, $scale, $args...) {
-    @return (
-        $_mendeleev-module-special-decl,
-        _mendeleev-fn-scale-module-worker,
-        _mendeleev-fn-scale-utility-module-worker,
-        join(($fn, $scale), $args),
-    );
-}
-
 /// Declares a complete scale of values.
-@function scale-of($scale, $css: null, $args...) {
-    @if $css != null {
-        @return fn-scale(_mendeleev-scale-of-template, $scale, $css);
-    } @else {
-        @error 'You must specify the scale type.'
-    }
-}
+///
+///
+@function scale-of($scale, $css: (), $interpolate: null, $prefix: '&') {
+    $map: $fn-empty-map;
+    $css-template: $css;
+    @each $k, $v in $scale {
+        $css: $fn-empty-map;
 
-@function _mendeleev-scale-fetch-item($scale, $n) {
-    $first: car($scale);
-    @return if(length($first) == 1, $first, nth($first, $n));
-}
+        @each $prop, $value in $css-template {
+            $css: map-merge($css, ($prop: $value or $v));
+        }
 
-@function _mendeleev-scale-of-template($name, $value, $spec) {
-    $res: ();
-    $value: inspect($value);
-    @each $k, $v in $spec {
-        $k: str-replace($k, '$1', $value);
-        $v: if(type-of($v) == string, unquote(str-replace($v, '$1', $value)), $v);
-        $res: map-merge($res, ($k: $v));
-    }
-    @return ($name: $res);
-}
-
-@function _mendeleev-fn-scale-module-worker($emit, $template, $fn, $scale, $args...) {
-    $fn: as-func($fn);
-    $res: null;
-
-    @if type-of($scale) == map {
-        @each $key, $value in $scale {
-            $name: str-interpolate($template, $key);
-            @each $selector, $spec in call($fn, $name, $value, $args...) {
-                $data: register-utility($selector, $spec, $emit);
-                $res: cons($data, $res);
+        @if $interpolate {
+            @each $prop, $value in $interpolate {
+                $value: str-replace($value, '$1', $v);
+                $css: map-merge($css, ($prop: $value));
             }
         }
 
-    } @else {
-        @while $scale != null {
-            $key: _mendeleev-scale-fetch-item($scale, 1);
-            $value: _mendeleev-scale-fetch-item($scale, 2);
-            $scale: cdr($scale);
-            $name: str-interpolate($template, $key);
-            @each $selector, $spec in call($fn, $name, $value, $args...) {
-                $data: register-utility($selector, $spec, $emit);
-                $res: cons($data, $res);
-            }
-        }
+        $map: map-merge($map, ('#{$prefix}#{$k}': $css));
     }
-    @return $res;
+    @return $map;
 }

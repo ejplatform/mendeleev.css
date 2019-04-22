@@ -66,7 +66,8 @@ $_MENDELEEV-TYPE-SCALES: (
         }
     }
     @each $utility, $data in $utilities {
-        $do: register-utility('.#{$utility}', $data, $emit: $emit, $type: responsive);
+        $info: (name: '.#{$utility}', data: $data, emit: $emit, type: simple);
+        $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
     }
     @return null;
 }

@@ -10,7 +10,7 @@ $_mendeleev-root-defaults: (
     //
     // Sizing
     unit: calc(var(--lead) * 1rem),
-    rem-px: config('typography.size.start') * 1px,
+    remPx: config('typography.size.start') * 1px,
     boxSizing: border-box,
 );
 
