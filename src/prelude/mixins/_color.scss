@@ -41,6 +41,6 @@ $_mendeleev-color-not-given: unique-id() !default;
 /// If called with a single argument, treats the color as a color name and
 /// assign it to the background and the contrast color to the foreground.
 @mixin color($color, $border: false, $flip: false) {
-    @include raw-map(include-color($color, $border, $flip));
+    @include from-map(include-color($color, $border, $flip));
 }
 

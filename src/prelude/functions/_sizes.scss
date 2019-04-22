@@ -35,7 +35,7 @@
     }
 }
 
-/// Convert number to sizing by multiplying it by lead * 1rem
+/// Convert unitless number to size by multiplying it by lead * 1rem.
 @function size($x) {
     @if type-of($x) == number and unit($x) == '' {
         @return $x * $mendeleev-unit-size;
@@ -48,7 +48,7 @@
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size($value));
     } @else if type-of($value) == list {
-        @return ($property: list-apply($value, size));
+        @return ($property: array-map(size, $value));
     } @else if type-of($value) == map {
         @return map-apply-values(map-filter-values((
             #{$property}-left: map-get-first($value, L(left, l, x, horizontal, all)),
@@ -65,7 +65,7 @@
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size-scale($value));
     } @else if type-of($value) == list {
-        @return ($property: list-apply($value, size));
+        @return ($property: array-map(size-scale, $value));
     } @else if type-of($value) == map {
         @return map-apply-values(map-filter-values((
             #{$property}-left: map-get-first($value, left l x horizontal all, null),

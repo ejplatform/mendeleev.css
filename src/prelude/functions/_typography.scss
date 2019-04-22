@@ -146,14 +146,3 @@ $_MENDELEEV-TYPE-SCALES: (
         @include _heading-vertical-rhythm($r);
     }
 }
-
-@mixin scale($prop, $scale, $name: null, $important: false, $unit: 1rem) {
-    $suffix: if($important, !important, null);
-    @each $k, $v in $scale {
-        #{concat-second($name, $k)} {
-            #{$prop}: $v * $unit $suffix;
-        }
-    }
-}
-
-

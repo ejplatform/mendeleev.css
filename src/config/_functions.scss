@@ -18,7 +18,7 @@
 /// Write value into the given path in the global Mendeleev config.
 @function set-mendeleev-config($path, $value) {
     @if type-of($path) == string {
-        $path: str-split-to-array($path, '.');
+        $path: lst-flatten(str-split($path, '.'));
     }
     $n: length($path);
     $last: nth($path, $n);
@@ -36,7 +36,7 @@
 
 /// Include a configuration.
 @mixin config($path, $default: (), $for: null, $extra: ()) {
-    @if $for != null {
+    @if $for {
         #{$for}: config($path, $default);
     } @else {
         @each $k, $v in map-merge($extra, config($path, $default)) {

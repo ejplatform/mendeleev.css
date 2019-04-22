@@ -17,13 +17,13 @@
 @mixin sizing($property, $value, $suffix: null) {
     $data: sizing($property, $value);
     //noinspection SassScssResolvedByNameOnly
-    @include raw-map($data, $suffix: $suffix);
+    @include from-map($data, $suffix: $suffix);
 }
 
 @mixin sizing-scale($property, $value, $suffix: null) {
     $data: sizing-scale($property, $value);
     //noinspection SassScssResolvedByNameOnly
-    @include raw-map($data, $suffix: $suffix);
+    @include from-map($data, $suffix: $suffix);
 }
 
 /// A sizing function for widths.

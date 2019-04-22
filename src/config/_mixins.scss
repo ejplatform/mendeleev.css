@@ -6,11 +6,11 @@
 @mixin breakpoint($bp, $properties: (), $suffix: null) {
     @if $bp == 'start' {
         @content;
-        @include map($properties, $suffix: $suffix);
+        @include options($properties, $suffix: $suffix);
     } @else {
         @media screen and (min-width: config('breakpoints.#{$bp}')) {
             @content;
-            @include map($properties, $suffix: $suffix);
+            @include options($properties, $suffix: $suffix);
         }
     }
 }
@@ -29,16 +29,20 @@
     }
 }
 
-@mixin simple-utility-declaration($name, $data, $mode) {
+/// Include with the given selector and defined by a mapping of property to
+/// values.
+@mixin simple-utility-declaration($selector, $data, $mode) {
     @if mode == responsive {
         @error 'Not implemented';
     } @else {
-        #{$name} {
+        #{$selector} {
             @include recursive-property-map($data);
         }
     }
 }
 
+/// Like simple-utility-declaration, but receives a mapping of selectors to
+/// declarations.
 @mixin multiple-utilities-declaration($data, $mode) {
     @each $name, $declarations in $data {
         @include simple-utility-declaration($name, $declarations, $mode);

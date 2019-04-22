@@ -63,7 +63,12 @@ $mendeleev-css-declarations: null !default;
 
 /// Declares a complete scale of values.
 ///
-///
+/// @arg $scale - A map or list of 2-tuples from names to values.
+/// @arg $css - A map of (prop: value) pairs. If value is null, it is replaced
+///             by each value in the given scale.
+/// @arg $interpolate - Like $css, but each value is treated as an interpolation
+///                     string in which all occurrences of $1 are replace by
+///                     the value given by the scale.
 @function scale-of($scale, $css: (), $interpolate: null, $prefix: '&') {
     $map: $fn-empty-map;
     $css-template: $css;

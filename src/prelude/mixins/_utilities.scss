@@ -6,61 +6,84 @@
 @import 'color';
 @import 'sizes';
 
-$MENDELEEV_SPECIAL_PROPERTIES: (
-    // Sizing
-    border-radius: (make-pair, 'border-radius', size),
-    margin: (sizing, margin),
-    height: (sizing, height),
-    pad: (sizing, padding),
-    padding: (sizing, padding),
-    width: (sizing, width),
-    // Colors
-    color-role: (include-color,),
-    color: (make-pair, 'color', 'color'),
-    background-color: (make-pair, 'background-color', 'color'),
-    border-color: (make-pair, 'border-color', 'color'),
-);
-
-@function make-pair($prop, $func, $value) {
+@function mendeleev-make-pair($prop, $func, $value) {
     @return ($prop: call(as-func($func), $value));
 }
 
-@function map-mixin($map) {
-    $result: ();
+$mendeleev-make-pair-fn: as-func(mendeleev-make-pair);
+$mendeleev-sizing-fn: as-func(sizing);
+$mendeleev-sizing-scale-fn: as-func(sizing-scale);
+$mendeleev-include-color-fn: as-func(include-color);
+$mendeleev-special-properties: (
+    //
+    // Sizing
+    border-radius:
+        ($mendeleev-make-pair-fn, ('border-radius', size)),
+    margin:
+        ($mendeleev-sizing-fn, (margin,)),
+    height:
+        ($mendeleev-sizing-fn, (height,)),
+    pad:
+        ($mendeleev-sizing-fn, (padding,)),
+    padding:
+        ($mendeleev-sizing-fn, (padding,)),
+    width:
+        ($mendeleev-sizing-fn, (width,)),
+    margin-scale:
+        ($mendeleev-sizing-scale-fn, (margin,)),
+    height-scale:
+        ($mendeleev-sizing-scale-fn, (height,)),
+    pad-scale:
+        ($mendeleev-sizing-scale-fn, (padding,)),
+    padding-scale:
+        ($mendeleev-sizing-scale-fn, (padding,)),
+    width-scale:
+        ($mendeleev-sizing-scale-fn, (width,)),
+    //
+    // Colors
+    color-role:
+        ($mendeleev-include-color-fn, $fn-empty-array),
+    color:
+        ($mendeleev-make-pair-fn, ('color', 'color')),
+    background-color:
+        ($mendeleev-make-pair-fn, ('background-color', 'color')),
+    border-color:
+        ($mendeleev-make-pair-fn, ('border-color', 'color')),
+);
+
+@mixin from-map($map, $suffix: null) {
     @each $key, $value in $map {
-        // Handle special properties: sizes
-        $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
-        @if $special {
-            $func: as-func(nth($special, 1));
-            $args: tail($special);
-            $args: append($args, $value);
-            $result: map-merge($result, call($func, $args...))
-        } @else {
-            $result: map-merge($result, (#{$key}: $value));
+        @if $value {
+            #{$key}: $value $suffix;
         }
     }
-    @return $result;
 }
 
 /// Include all items on map as pairs of `property: value`.
+///
 /// Some properties have a special treatment:
-///  * padding/pad: converted in
-@mixin map($map, $suffix: null) {
+///  * padding/pad/width/height/margin:
+///        unitless values are converted to sizes, and mappings are expanded
+///        into directions.
+///  * padding-scale/pad-scale/...:
+///        like before, but unitless values are converted to the sizing scale.
+///  * color-role:
+///        include color based on the role name, rather than value.
+///  * color/background-color/boder-color:
+///        include color by value or name.
+@mixin options($map, $suffix: null) {
     @each $key, $value in $map {
         // Handle special properties: sizes
-        $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
+        $special: map-get($mendeleev-special-properties, $key);
         @if $special {
-            $func: as-func(nth($special, 1));
-            $args: tail($special);
-            $args: append($args, $value);
-            //noinspection SassScssUnresolvedMixin
-            @include raw-map(call($func, $args...), $suffix);
+            $func: nth($special, 1);
+            $args: append(nth($special, 2), $value);
+            @include from-map(call($func, $args...), $suffix);
         } @else if type-of($value) == map {
             #{$key} {
-                @include map($value, $suffix);
+                @include options($value, $suffix);
             }
         } @else {
-            // Everything else
             @if $value != null {
                 #{$key}: $value $suffix;
             }
@@ -68,14 +91,4 @@ $MENDELEEV_SPECIAL_PROPERTIES: (
     }
 }
 
-@mixin raw-map($map, $suffix: null) {
-    @each $key, $value in $map {
-        @if $value != null {
-            #{$key}: $value $suffix;
-        }
-    }
-}
 
-@mixin classes($list) {
-
-}

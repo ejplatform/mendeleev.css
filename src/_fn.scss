@@ -18,6 +18,20 @@
     @return slice($lst, 2, $n);
 }
 
+/// Apply function to every element of array.
+///
+/// @arg $fn - A binary operator function
+/// @arg $arr - Array
+@function array-map($fn, $arr, $args...) {
+    $fn: as-func($fn);
+    $ys: ();
+    @each $x in $arr {
+        $ys: join($ys, call($fn, $x, $args...));
+    }
+    @return $ys;
+}
+
+
 @mixin var-fallback($defs) {
     @each $prop, $pair in $defs {
         $value: nth($pair, 1);
