@@ -1,6 +1,6 @@
 $mendeleev-colors: () !default;
 $mendeleev-color-contrast: () !default;
-$MENDELEEV_VARIANTS: () !default;
+$mendeleev-color-variants: () !default;
 
 // Register variants for all colors
 @function _color-register-variants() {
@@ -89,7 +89,7 @@ $MENDELEEV_VARIANTS: () !default;
     $mendeleev-colors: map-merge($mendeleev-colors, config('palette'));
     $mendeleev-color-contrast: map-merge($mendeleev-color-contrast, config('contrast'));
     $mendeleev-color-contrast: map-merge(_color-register-contrasts(), $mendeleev-color-contrast);
-    $MENDELEEV_VARIANTS: map-merge-nested(_color-register-variants(), $MENDELEEV_VARIANTS);
+    $mendeleev-color-variants: map-merge-nested(_color-register-variants(), $mendeleev-color-variants);
 }
 
 $MENDELEEV_REGISTRY_SETUP: true;

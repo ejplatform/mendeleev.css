@@ -3,17 +3,19 @@
 /// @group scales
 /// @author Fábio Macêdo Mendes
 ///
-/// Global scales computed from user configurations.
-///  * size-scale-(rem|pos-rem|auto|pos-auto)
-///  * radius-scale-(rem)
+/// Global scales and constants computed from user configurations.
+///
+/// Scales:
 ///  * border-scale
+///  * radius-scale-(rem)
+///  * size-scale-(rem|pos-rem|auto|pos-auto)
 ////////////////////////////////////////////////////////////////////////////////
 @import '../config';
 @import 'static';
 @import 'values';
 @import 'grids';
 
-// BORDER SCALE ------------------------------------------------------------------
+// BORDER SCALE ----------------------------------------------------------------
 $mendeleev-border-scale: (
     '1': unquote('1px solid'),
     '2': unquote('2px solid'),
@@ -52,8 +54,56 @@ $mendeleev-radius-scale-rem: map-merge((auto: auto), map-apply-values(div, $mend
 
 // GRID SIZING SCALE -----------------------------------------------------------
 
-$mendeleev-grid-size-scale-unit-less: grid-system(5, 12) !default;
-$mendeleev-grid-size-scale: add-sizing-units($mendeleev-grid-size-scale-unit-less) !default;
+$mendeleev-grid-size-scale-no-unit: grid-system(5, 12) !default;
+$mendeleev-grid-size-scale: add-sizing-units($mendeleev-grid-size-scale-no-unit) !default;
+$mendeleev-grid-scale: (
+    '1': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '8': 8,
+    '9': 9,
+    '10': 10,
+    '12': 12,
+    '15': 15,
+) !default;
+$mendeleev-grid-gap-scale: (
+    '1': size-scale(1),
+    '2': size-scale(2),
+    '3': size-scale(3),
+    '4': size-scale(4),
+) !default;
+$mendeleev-grid-span-data: (
+    1: auto / span 1,
+    2: auto / span 2,
+    3: auto / span 3,
+    4: auto / span 4,
+    5: auto / span 5,
+    6: auto / span 6,
+    7: auto / span 7,
+    8: auto / span 8,
+    9: auto / span 9,
+    10: auto / span 10,
+    11: auto / span 11,
+    12: auto / span 12,
+    13: auto / span 13,
+    14: auto / span 14,
+    15: auto / span 15,
+);
 
-
-
+// TRANSFORMATIONS -------------------------------------------------------------
+$mendeleev-transform-scale: (
+    0: 0%, 1: 5%, 2: 10%, 3: 25%, 4: 50%, 5: 75%, 6: 90%, 7: 95%, 8: 100%,
+);
+$mendeleev-transform-double-scale: (
+    n0: 100%, n1: 95%, n2: 90%, n3: 75%, n4: 50%, n5: 25%, n6: 10%, n7: 5%, n8: 0%,
+    0: 100%, 1: 105%, 2: 110%, 3: 125%, 4: 150%, 5: 175%, 6: 190%, 7: 195%, 8: 200%,
+);
+$mendeleev-grow-scale: (
+    0: 1, 1: 1.05, 2: 1.10, 3: 1.25, 4: 1.50, 5: 2, 6: 3,
+);
+$mendeleev-shrink-scale: (
+    0: 1, 1: 1 / 1.05, 2: 1 / 1.10, 3: 1 / 1.25, 4: 1 / 1.50, 5: 1 / 2, 6: 1 / 3,
+);

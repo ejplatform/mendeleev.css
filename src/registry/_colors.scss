@@ -3,55 +3,16 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-@function _color-list() {
-    $suffixes: map-keys(config('color.variants.color'));
-    $variants: config('color.roles.variants');
-    $extra: null;
-    @each $suffix in $suffixes {
-        @each $variant in $variants {
-            $extra: cons('#{$variant}-#{$suffix}', $extra);
-        }
-    }
-    $extra: lst-to-array($extra);
-    @return join(join(config('color.roles.simple'), $variants), $extra);
-}
-
-$_mendeleev-color-list: _color-list() !default;
-
-@function _mendeleev-colors-and-contrasts() {
-    $res: null;
-    @each $name in $_mendeleev-color-list {
-        $data: (
-            color: color($name, contrast),
-            background-color: color($name),
-        );
-        $res: (('.color-#{$name}' $data) $res);
-    }
-    @return lst-to-map($res);
-}
-
-@function _mendeleev-colors() {
-    $res: null;
-    @each $name in $_mendeleev-color-list {
-        $res: cons($name color($name), $res);
-    }
-    @return lst-to-map($res);
-}
-
-//------------------------------------------------------------------------------
-// UTILITY CLASSES
-//------------------------------------------------------------------------------
-
-$do: mendeleev-module('colors', _mendeleev-colors-and-contrasts());
+$do: mendeleev-module('colors', $mendeleev-colors-contrast);
 
 $do: mendeleev-utility-module(
         'colors', (
         //
         // Create all .bg-* classes
         background-color:
-            ('.bg-', _mendeleev-colors()),
+            ('.bg-', $mendeleev-colors),
         //
         // Create all .text-* classes
         color:
-            ('.text-', _mendeleev-colors()),
+            ('.text-', $mendeleev-colors),
     ));

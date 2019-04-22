@@ -1,0 +1,42 @@
+@function _color-list() {
+    $suffixes: map-keys(config('color.variants.color'));
+    $variants: config('color.roles.variants');
+    $extra: null;
+    @each $suffix in $suffixes {
+        @each $variant in $variants {
+            $extra: cons('#{$variant}-#{$suffix}', $extra);
+        }
+    }
+    $extra: lst-to-array($extra);
+    @return join(join(config('color.roles.simple'), $variants), $extra);
+}
+
+@function _mendeleev-colors-and-contrasts() {
+    $res: null;
+
+    //noinspection SassScssUnresolvedVariable
+    @each $name in $_mendeleev-color-list {
+        $data: (
+            color: color($name, contrast),
+            background-color: color($name),
+        );
+        $res: (('.color-#{$name}' $data) $res);
+    }
+    @return lst-to-map($res);
+}
+
+@function _mendeleev-colors() {
+    $res: null;
+
+    //noinspection SassScssUnresolvedVariable
+    @each $name in $_mendeleev-color-list {
+        $res: (($name color($name)) $res);
+    }
+    @return lst-to-map($res);
+}
+
+$contrast-color-black: color('regular-text', $default: black);
+$contrast-color-white: color('inverse-text', $default: white);
+$_mendeleev-color-list: _color-list() !default;
+$mendeleev-colors: _mendeleev-colors();
+$mendeleev-colors-contrast: _mendeleev-colors-and-contrasts();

@@ -5,9 +5,20 @@
 ///
 /// Global constants computed from user configurations.
 ///  * unit-size
+///  * container
 ////////////////////////////////////////////////////////////////////////////////
-
 @import '../config';
+
+/// Container configuration
+$mendeleev-container: (
+    margin: 0 auto,
+    position: relative,
+    width: 100%,
+    padding: 0 size-scale(3),
+    max-width: 50rem,
+) !default;
 
 /// Basic size reference (specified in rems);
 $mendeleev-unit-size: config('typography.lead', 1.5) * 1rem !default;
+
+

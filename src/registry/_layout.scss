@@ -5,14 +5,6 @@
 
 // MODULES ---------------------------------------------------------------------
 
-// Container
-$mendeleev-container: (
-    margin: 0 auto,
-    position: relative,
-    width: 100%,
-    padding: 0 size-scale(3),
-    max-width: 50rem,
-) !default;
 
 $do: mendeleev-module(
         'layout.container', (
@@ -82,12 +74,12 @@ $do: mendeleev-utility-module(
         'layout.display', (
         display:
             ('.', (
-                block,
-                inline,
-                inline-block,
-                table,
-                table-cell,
-                inline-flex,
+                block: block,
+                inline: inline,
+                inline-block: inline-block,
+                table: table,
+                table-cell: table-cell,
+                inline-flex: inline-flex,
             )),
     ));
 
@@ -96,9 +88,9 @@ $do: mendeleev-utility-module(
         'layout.float', (
         float:
             ('float-', (
-                left,
-                right,
-                none,
+                left: left,
+                right: right,
+                none: none,
             )),
     ));
 
@@ -107,11 +99,11 @@ $do: mendeleev-utility-module(
         'layout.position', (
         position:
             ('.', (
-                absolute,
-                fixed,
-                relative,
-                static,
-                sticky,
+                absolute: absolute,
+                fixed: fixed,
+                relative: relative,
+                static: static,
+                sticky: sticky,
             ))
     ));
 
@@ -120,24 +112,24 @@ $do: mendeleev-utility-module(
         'layout.overflow', (
         overflow:
             ('.overflow-', (
-                auto,
-                hidden,
-                visible,
-                scroll,
+                auto: auto,
+                hidden: hidden,
+                visible: visible,
+                scroll: scroll,
             )),
         overflow-x:
             ('.overflow-x-', (
-                auto,
-                hidden,
-                visible,
-                scroll,
+                auto: auto,
+                hidden: hidden,
+                visible: visible,
+                scroll: scroll,
             )),
         overflow-y:
             ('.overflow-y-', (
-                auto,
-                hidden,
-                visible,
-                scroll,
+                auto: auto,
+                hidden: hidden,
+                visible: visible,
+                scroll: scroll,
             )),
     ));
 

@@ -3,26 +3,6 @@
 //------------------------------------------------------------------------------
 @import '../preflight';
 
-$mendeleev-grid-scale: L(1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15) !default;
-$mendeleev-grid-gap-scale: L(1 size-scale(1), 2 size-scale(2), 3 size-scale(3), 4 size-scale(4)) !default;
-$mendeleev-grid-span-data: (
-    1: auto / span 1,
-    2: auto / span 2,
-    3: auto / span 3,
-    4: auto / span 4,
-    5: auto / span 5,
-    6: auto / span 6,
-    7: auto / span 7,
-    8: auto / span 8,
-    9: auto / span 9,
-    10: auto / span 10,
-    11: auto / span 11,
-    12: auto / span 12,
-    13: auto / span 13,
-    14: auto / span 14,
-    15: auto / span 15,
-);
-
 // REGULAR CSS GRID
 $do: mendeleev-module(
         'grid', (
@@ -34,8 +14,8 @@ $do: mendeleev-module(
         '.grid-$1': scale-of(
             $scale: $mendeleev-grid-scale,
             $css: (
-                '--grid-gap': 0,
-                '--grid-size': '$1',
+                '--gridGap': 0,
+                '--gridSize': '$1',
                 display: grid,
                 grid-template-columns: 'repeat($1, 1fr)',
             )
@@ -44,8 +24,8 @@ $do: mendeleev-module(
         '.rows-$1': scale-of(
             $scale: $mendeleev-grid-scale,
             $css: (
-                '--grid-gap': 0,
-                '--grid-size': '$1',
+                '--gridGap': 0,
+                '--gridSize': '$1',
                 display: grid,
                 grid-template-rows: 'repeat($1, 1fr)',
             )
@@ -55,7 +35,7 @@ $do: mendeleev-module(
         '.gap-$1': scale-of(
             $scale: $mendeleev-grid-gap-scale,
             $css: (
-                '--grid-gap': '$1',
+                '--gridGap': '$1',
                 'grid-gap': '$1',
                 'gap': '$1',
             )
@@ -155,9 +135,9 @@ $do: mendeleev-utility-module(
         //
         // Individual cell positioning and span
         grid-column-start:
-            ('.at-col-', (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)),
+            ('.at-col-', $mendeleev-grid-scale),
         grid-row-start:
-            ('.at-row-', (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)),
+            ('.at-row-', $mendeleev-grid-scale),
         grid-column:
             ('.col-span', $mendeleev-grid-span-data),
         grid-row:
@@ -168,36 +148,36 @@ $do: mendeleev-utility-module(
 // HARD GRID
 //------------------------------------------------------------------------------
 
-@function _mendeleev-hard-grid($n) {
-    @return ($n, L($n, 100% / $n, ($n - 1) / $n));
-}
-
-$mendeleev-hard-grid-scale: lst-map(_mendeleev-hard-grid, $mendeleev-grid-scale) !default;
-
-$do: mendeleev-module(
-        'hard-grid', (
-        // Basic definitions
-        '.hard-grid': (
-            display: grid,
-        ),
-        // Templates
-        '.hard-grid-$1': scale-of(
-            $scale: $mendeleev-grid-scale,
-            $css: (
-                '--grid-gap': 0,
-                '--grid-size': '$1',
-                display: grid,
-                grid-template-columns: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
-            )
-        ),
-        // Row templates
-        '.hard-rows-$1': scale-of(
-            $scale: $mendeleev-grid-scale,
-            $css: (
-                '--grid-gap': 0,
-                '--grid-size': '$1',
-                display: grid,
-                grid-template-rows: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
-            )
-        ),
-    ));
+//@function _mendeleev-hard-grid($n) {
+//    @return L($n, 100% / $n, ($n - 1) / $n);
+//}
+//
+//$mendeleev-hard-grid-scale: map-apply-values(_mendeleev-hard-grid, $mendeleev-grid-scale) !default;
+//
+//$do: mendeleev-module(
+//        'hard-grid', (
+//        // Basic definitions
+//        '.hard-grid': (
+//            display: grid,
+//        ),
+//        // Templates
+//        '.hard-grid-$1': scale-of(
+//            $scale: $mendeleev-grid-scale,
+//            $css: (
+//                '--grid-gap': 0,
+//                '--grid-size': '$1',
+//                display: grid,
+//                grid-template-columns: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
+//            )
+//        ),
+//        // Row templates
+//        '.hard-rows-$1': scale-of(
+//            $scale: $mendeleev-grid-scale,
+//            $css: (
+//                '--grid-gap': 0,
+//                '--grid-size': '$1',
+//                display: grid,
+//                grid-template-rows: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
+//            )
+//        ),
+//    ));

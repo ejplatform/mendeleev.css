@@ -4,8 +4,11 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$mendeleev-color-contrast: map-remove((), null) !default;
-$MENDELEEV_VARIANTS: map-remove((), null) !default;
+$contrast-color-white: white !default;
+$contrast-color-black: black !default;
+$mendeleev-colors: $fn-empty-map !default;
+$mendeleev-color-contrast: $fn-empty-map !default;
+$mendeleev-color-variants: $fn-empty-map !default;
 
 /// Return named color or a default value if color is not registered
 ///
@@ -75,20 +78,21 @@ $_luminance-interpolation: 0 .0003035269835488375 .000607053967097675 .000910580
 /// @arg $opt2 - Second output option
 /// @arg $bias - A factor between -1 and 1 to artificially favor $opt1 over $opt2
 @function choose-contrast-color($color, $opt1: null, $opt2: null, $bias: 0) {
-    @if $opt1 == null and $opt2 == null {
-        $opt1: color('regular-text', $default: white);
-        $opt2: color('inverse-text', $default: black);
-        @if lightness($opt2) > lightness($opt1) {
-            $aux: $opt1;
-            $opt1: $opt2;
-            $opt2: $aux;
-        }
+    $opt1: $opt1 or $contrast-color-white;
+    $opt2: $opt2 or $contrast-color-black;
+    @if not $color {
+        @return null;
     }
     @if $color == transparent {
         @if lightness($opt1) < lightness($opt2) {
             @return $opt1;
         }
         @return $opt2;
+    }
+    @if lightness($opt2) > lightness($opt1) {
+        $aux: $opt1;
+        $opt1: $opt2;
+        $opt2: $aux;
     }
     @if (contrast-ratio($color, $opt1) * (1 + $bias) > contrast-ratio($color, $opt2) * (1 - $bias)) {
         @return $opt1;

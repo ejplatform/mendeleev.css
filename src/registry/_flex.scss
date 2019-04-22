@@ -20,7 +20,8 @@
 
 $do: mendeleev-module(
         'flex-grid', (
-         //Row definitions and modifiers
+        //
+        // Row definitions and modifiers
         '.row': (
             align-items: stretch,
             display: flex,
@@ -39,6 +40,7 @@ $do: mendeleev-module(
         '.row-expand > *': (
             flex: 1,
         ),
+        //
         // Col definitions and modifiers
         '.col': (
             align-items: stretch,
@@ -68,14 +70,16 @@ $do: mendeleev-module(
 
 $do: mendeleev-utility-module(
         'flex', (
+        //
         // Direction
         flex-direction:
             ('.flex-', (
-                row,
-                row-reverse,
-                column,
-                column-reverse,
+                row: row,
+                row-reverse: row-reverse,
+                column: column,
+                column-reverse: column-reverse,
             )),
+        //
         // Alignment along the flex axis
         justify-content:
             ('flex-', (
@@ -86,6 +90,7 @@ $do: mendeleev-utility-module(
                 around: space-around,
                 evenly: space-evenly,
             )),
+        //
         // Alignment perpendicularly to the flex axis
         align-items:
             ('.items-', (
@@ -95,6 +100,7 @@ $do: mendeleev-utility-module(
                 end: flex-end,
                 baseline: baseline,
             )),
+        //
         // Alignment of flex content lines in the available area
         align-content:
             ('.content-', (
@@ -105,12 +111,13 @@ $do: mendeleev-utility-module(
                 around: space-around,
                 evenly: space-evenly,
             )),
+        //
         // Wrapping
         flex-wrap:
             ('.', (
-                wrap,
-                nowrap,
-                wrap-reverse,
+                wrap: wrap,
+                nowrap: nowrap,
+                wrap-reverse: wrap-reverse,
             )),
         // Align a single element
         align-self:
@@ -121,6 +128,7 @@ $do: mendeleev-utility-module(
                 end: flex-end,
                 baseline: baseline,
             )),
+        //
         // Flex grow and shrink
         flex-shrink:
             ('.flex-', (
@@ -132,17 +140,43 @@ $do: mendeleev-utility-module(
                 grow: 1,
                 nogrow: 0,
             )),
+        //
         // Flex grow scale
         flex:
-            ('.flex-$1', fn-scale(
-                    utility-scale,
-                    L(initial, auto, join, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+            ('.flex-', (
+                auto: auto,
+                initial: initial,
+                join: join,
+                '1': 1,
+                '2': 2,
+                '3': 3,
+                '4': 4,
+                '5': 5,
+                '6': 6,
+                '7': 7,
+                '8': 8,
+                '9': 9,
+                '10': 10,
+                '11': 11,
+                '12': 12,
             )),
-         //Flex order scale
+        //
+        // Flex order scale
         order:
-            ('.order-$1', fn-scale(
-                    utility-scale,
-                    L(auto, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+            ('.order-', (
+                auto: auto,
+                '1': 1,
+                '2': 2,
+                '3': 3,
+                '4': 4,
+                '5': 5,
+                '6': 6,
+                '7': 7,
+                '8': 8,
+                '9': 9,
+                '10': 10,
+                '11': 11,
+                '12': 12,
             )),
     ));
 
