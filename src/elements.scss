@@ -1,0 +1,10 @@
+@if not variable-exists(mendeleev-prelude-loaded) {
+    @error 'Cannot load elements without importing prelude first.';
+}
+
+// First layer that emits CSS.
+// Load default styles for elements and resets based on normalize.css.
+@import 'elements/base';
+@import 'elements/typography';
+@import 'elements/button';
+@import 'elements/form';

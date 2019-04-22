@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------------
 // TYPOGRAPHY
 //------------------------------------------------------------------------------
-@import '../preflight';
 
 @if $mendeleev-registering-utilities {
     $do: make-type-scale(config('typography.modules.scale'));

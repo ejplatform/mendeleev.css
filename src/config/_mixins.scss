@@ -17,14 +17,14 @@
 
 /// Include all pairs of (key: value) in map as CSS declarations. If value is
 /// another map, include nested values.
-@mixin recursive-property-map($map) {
+@mixin from-map($map, $suffix: null) {
     @each $k, $v in $map {
         @if type-of($v) == map {
             #{$k} {
-                @include recursive-property-map($v);
+                @include from-map($v, $suffix);
             }
-        } @else {
-            #{$k}: $v;
+        } @else if $v {
+            #{$k}: $v $suffix;
         }
     }
 }
@@ -36,7 +36,7 @@
         @error 'Not implemented';
     } @else {
         #{$selector} {
-            @include recursive-property-map($data);
+            @include from-map($data);
         }
     }
 }

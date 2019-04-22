@@ -4,8 +4,6 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$contrast-color-white: white !default;
-$contrast-color-black: black !default;
 $mendeleev-colors: $fn-empty-map !default;
 $mendeleev-color-contrast: $fn-empty-map !default;
 $mendeleev-color-variants: $fn-empty-map !default;
@@ -45,3 +43,35 @@ $mendeleev-color-variants: $fn-empty-map !default;
     @return $result;
 }
 
+//------------------------------------------------------------------------------
+// MIXINS
+//------------------------------------------------------------------------------
+
+/// Define the color and background-color properties.
+/// If called with a single argument, treats the color as a color name and
+/// assign it to the background and the contrast color to the foreground.
+@mixin color($color, $border: false, $flip: false) {
+    $bg: color(nth($color, 1));
+    $fg: if(type-of($color) == list, nth($color, 2), null);
+    $fg: if($fg, color($fg), color($bg, contrast));
+    @if $flip {
+        $aux: $bg;
+        $bg: $fg;
+        $fg: $aux;
+    }
+    $declarations: (color: $fg, background-color: $bg);
+
+    // Add border color
+    @if $border == foreground or $border == fg {
+        $result: map-merge($declarations, (border-color: $fg));
+    } @else if $border == background or $border == bg or $border {
+        $result: map-merge($result, (border-color: $bg));
+    }
+
+    // Set properties
+    @include from-map($declarations);
+}
+
+
+$fn-contrast-color-white: color('text-inverse');
+$fn-contrast-color-black: color('text');

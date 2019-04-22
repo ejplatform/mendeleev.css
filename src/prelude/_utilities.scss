@@ -51,13 +51,6 @@ $mendeleev-special-properties: (
         ($mendeleev-make-pair-fn, ('border-color', 'color')),
 );
 
-@mixin from-map($map, $suffix: null) {
-    @each $key, $value in $map {
-        @if $value {
-            #{$key}: $value $suffix;
-        }
-    }
-}
 
 /// Include all items on map as pairs of `property: value`.
 ///

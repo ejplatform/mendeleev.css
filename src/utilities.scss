@@ -1,0 +1,5 @@
+@if not variable-exists(mendeleev-prelude-loaded) {
+    @error 'Cannot load elements without importing prelude first.';
+}
+
+@include mendeleev-register-utilities;

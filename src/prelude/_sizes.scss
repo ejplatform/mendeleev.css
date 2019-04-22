@@ -3,11 +3,18 @@
 /// @group sizing
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
-@import '../../constants';
 
-//------------------------------------------------------------------------------
-// Utility functions
-//------------------------------------------------------------------------------
+/// Convert unitless number to size by multiplying it by lead * 1rem.
+///
+/// If input is a number with units, it is returned unchanged.
+///
+/// @arg $x - Number
+@function size($x) {
+    @if type-of($x) == number and unit($x) == '' {
+        @return $x * $mendeleev-unit-size;
+    }
+    @return $x;
+}
 
 ///  Convert value to a unit on the size scale.
 ///
@@ -35,15 +42,10 @@
     }
 }
 
-/// Convert unitless number to size by multiplying it by lead * 1rem.
-@function size($x) {
-    @if type-of($x) == number and unit($x) == '' {
-        @return $x * $mendeleev-unit-size;
-    }
-    @return $x;
-}
-
 /// Return a map with sizing values for the given property.
+///
+/// @arg $property - Property name
+/// @arg $value - Value assigned to property. Will be converted to a sizing.
 @function sizing($property, $value) {
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size($value));
@@ -61,6 +63,11 @@
     }
 }
 
+/// Return a map with sizing values in the sizing scale for the given property.
+///
+/// @arg $property - Property name
+/// @arg $value - Value assigned to property. Will be converted to a value on the
+///               size scale.
 @function sizing-scale($property, $value) {
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size-scale($value));
@@ -78,3 +85,70 @@
     }
 }
 
+//------------------------------------------------------------------------------
+// MIXINS
+//------------------------------------------------------------------------------
+
+/// Include some sizing property.
+///
+/// Value can be a size or a map from directions to sizes. It understands the
+/// following directions: top, bottom, left and right and the pseudo directions:
+/// horizontal, x, vertical, y, and all.
+///
+/// @arg $property - Property name.
+/// @arg $value - Size or mapping of sizes.
+/// @arg $suffix - Suffix to add to property declaration (e.g.. !important);
+@mixin sizing($property, $value, $suffix: null) {
+    $data: sizing($property, $value);
+    @include from-map($data, $suffix: $suffix);
+}
+
+@mixin sizing-scale($property, $value, $suffix: null) {
+    $data: sizing-scale($property, $value);
+    @include from-map($data, $suffix: $suffix);
+}
+
+/// A sizing function for widths.
+@mixin width($value, $suffix: null) {
+    @include sizing(width, $value, $suffix);
+}
+
+@mixin width-scale($value, $suffix: null) {
+    @include sizing-scale(width, $value, $suffix);
+}
+
+/// A sizing function for heights.
+@mixin height($value, $suffix: null) {
+    @include sizing(height, $value, $suffix);
+}
+
+@mixin height-scale($value, $suffix: null) {
+    @include sizing-scale(height, $value, $suffix);
+}
+
+/// A sizing function for margins.
+@mixin margin($value, $suffix: null) {
+    @include sizing(margin, $value, $suffix);
+}
+
+@mixin margin-scale($value, $suffix: null) {
+    @include sizing-scale(margin, $value, $suffix);
+}
+
+/// A sizing function for pads.
+@mixin pad($value, $suffix: null) {
+    @include sizing(padding, $value, $suffix);
+}
+
+@mixin pad-scale($value, $suffix: null) {
+    @include sizing-scale(padding, $value, $suffix);
+}
+
+/// Alias to the pad mixin.
+@mixin padding($value, $suffix: null) {
+    @include pad($value, $suffix);
+}
+
+@mixin padding-scale($value, $suffix: null) {
+    @include pad-scale($value, $suffix);
+}

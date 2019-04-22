@@ -1,0 +1,40 @@
+// Configuration
+@import 'config/font-stacks';
+@import 'config/colors';
+@import 'config/data';
+@import 'config/mixins';
+@import 'config/modules';
+@import 'config/functions';
+
+// Constants
+@import 'constants/static';
+@import 'constants/values';
+@import 'constants/grids';
+@import 'constants/configurable';
+@import 'constants/colors';
+
+// Load prelude functions
+@import 'fn';
+@import 'prelude/sizes';
+@import 'prelude/color';
+@import 'prelude/typography';
+@import 'prelude/utilities';
+
+// Load data into registry
+$mendeleev-registering-utilities: true !default;
+
+@import 'registry/typography';
+@import 'registry/sizing';
+@import 'registry/layout';
+@import 'registry/borders';
+@import 'registry/flex';
+@import 'registry/grid';
+@import 'registry/transformations';
+@import 'registry/visibility';
+@import 'registry/misc';
+
+$mendeleev-registering-utilities: false;
+$mendeleev-prelude-loaded: true;
+
+// No CSS generated up to this point
+
