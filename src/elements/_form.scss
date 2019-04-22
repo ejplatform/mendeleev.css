@@ -237,12 +237,11 @@ textarea {
 //   `fieldset` elements in all browsers.
 legend {
     display: table;
-    max-width: 100%;
+    max-width: 30rem; // (100% in normalize.css)
     white-space: normal;
     color: inherit;
     padding: 0;
     text-align: right;
-    max-width: 30rem;
     font-size: 0.875rem;
 }
 
@@ -265,8 +264,7 @@ label + legend {
 // Correct the padding in Firefox.
 fieldset {
     //border-width: 0;
-    padding: 0.35em 0.75em 0.625em;
-    padding: 0;
+    padding: 0; // (0.35em 0.75em 0.625em in normalize.css)
 }
 
 // Add the correct vertical alignment in Chrome, Firefox, and Opera.

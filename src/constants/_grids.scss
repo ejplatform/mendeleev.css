@@ -1,0 +1,103 @@
+// Define all useful grid system from the trivial grid-1 up to grid-15.
+@function _mendeleev-make-grid-systems() {
+    $grid-1: (
+        '0': 0,
+        'full': 100,
+    );
+    $grid-2: map-merge($grid-1, (
+        '1/2': 50,
+    ));
+    $grid-3: map-merge($grid-1, (
+        '1/3': 100 / 3,
+        '2/3': 200 / 3,
+    ));
+    $grid-4: map-merge($grid-2, (
+        '1/4': 25,
+        '3/4': 75,
+    ));
+    $grid-5: map-merge($grid-1, (
+        '1/5': 20,
+        '2/5': 40,
+        '3/5': 60,
+        '4/5': 80,
+    ));
+    $grid-6: map-merge(map-merge($grid-2, $grid-3), (
+        '1/6': 100 / 6,
+        '5/6': 500 / 6,
+    ));
+    $grid-8: map-merge($grid-4, (
+        '1/8': 100 / 8,
+        '3/8': 300 / 8,
+        '5/8': 500 / 8,
+        '7/8': 700 / 8,
+    ));
+    $grid-7: 'Grid 7, really?!';
+    $grid-9: map-merge($grid-3, (
+        '1/9': 100 / 9,
+        '2/9': 200 / 9,
+        '4/9': 400 / 9,
+        '5/9': 500 / 9,
+        '7/9': 700 / 9,
+        '8/9': 800 / 9,
+    ));
+    $grid-10: map-merge(map-merge($grid-2, $grid-5), (
+        '1/10': 10,
+        '3/10': 30,
+        '7/10': 70,
+        '9/10': 90,
+    ));
+    $grid-11: 'Grid 11, really?!';
+    $grid-12: map-merge(map-merge($grid-4, $grid-6), (
+        '1/12': 100 / 12,
+        '5/12': 500 / 12,
+        '7/12': 700 / 12,
+        '11/12': 1100 / 12,
+    ));
+    $grid-15: map-merge(map-merge($grid-3, $grid-5), (
+        '1/15': 100 / 15,
+        '2/15': 200 / 15,
+        '4/15': 400 / 15,
+        '7/15': 700 / 15,
+        '8/15': 800 / 15,
+        '11/15': 1100 / 15,
+        '13/15': 1300 / 15,
+        '14/15': 1400 / 15,
+    ));
+    @return (
+        1: $grid-1,
+        2: $grid-2,
+        3: $grid-3,
+        4: $grid-4,
+        5: $grid-5,
+        6: $grid-6,
+        8: $grid-8,
+        9: $grid-9,
+        10: $grid-10,
+        12: $grid-12,
+        15: $grid-15,
+    );
+}
+
+$mendeleev-grid-systems: _mendeleev-make-grid-systems() !default;
+
+/// Creates a grid system based on a pre-defined set of sub-divisions
+@function grid-system($args...) {
+    $result: ();
+    @each $n in $args {
+        $result: map-merge(map-get($mendeleev-grid-systems, $n), $result);
+    }
+    @return $result;
+}
+
+/// Add sizing units of %, vw and vh for given unit-less scale
+@function add-sizing-units($scale) {
+    $res: null;
+    @each $k, $v in $scale {
+        $res: (($k ($v * 1%)) $res);
+        @if $v != 0 {
+            $res: (('#{$k}vw' ($v * 1vw)) $res);
+            $res: (('#{$k}vh' ($v * 1vh)) $res);
+        }
+    }
+    @return lst-to-map($res);
+}

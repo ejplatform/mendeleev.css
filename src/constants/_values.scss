@@ -1,0 +1,13 @@
+////////////////////////////////////////////////////////////////////////////////
+/// GLOBAL MENDELEEV VALUES
+/// @group constants
+/// @author Fábio Macêdo Mendes
+///
+/// Global constants computed from user configurations.
+///  * unit-size
+////////////////////////////////////////////////////////////////////////////////
+
+@import '../config';
+
+/// Basic size reference (specified in rems);
+$mendeleev-unit-size: config('typography.lead', 1.5) * 1rem !default;

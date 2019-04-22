@@ -43,7 +43,7 @@
     "test"
   ],
   "dependencies": {
-    "fn.sass": "^0.3.0"
+    "fn.sass": "^0.4.1"
   },
   "optionalDependencies": {
     "mithril": "^1.1.6"

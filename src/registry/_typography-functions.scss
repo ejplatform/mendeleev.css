@@ -89,7 +89,7 @@ $_MENDELEEV-TYPE-SCALES: (
 @function get-default-type-scale-ratio() {
     $ratio: config('typography.scale');
     @if type-of($ratio) == 'map' {
-        $ratio: list-reduce(map-values($ratio), min);
+        $ratio: reduce(min, map-values($ratio));
 
     } @else {
         @error 'Scale must be a mapping from breakpoints to ratios.'

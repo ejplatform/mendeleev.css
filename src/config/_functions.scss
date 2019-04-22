@@ -20,9 +20,6 @@
     @if type-of($path) == string {
         $path: str-split-to-array($path, '.');
     }
-    @if $merge {
-        $value: map-merge(map-path($mendeleev-config, $path, ()), $value);
-    }
     $n: length($path);
     $last: nth($path, $n);
 

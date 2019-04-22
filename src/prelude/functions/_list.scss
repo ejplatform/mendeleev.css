@@ -6,7 +6,6 @@
 
 $_list-not-given: unique-id() !default;
 
-
 /// Map function to list.
 /// Function handlers in Sass are obtained by using the `get-function(function-name)`
 /// function.
@@ -22,64 +21,6 @@ $_list-not-given: unique-id() !default;
     @return $result;
 }
 
-/// Create a list with $n repetitions of $x
-/// @arg $x - Element that should be repeated
-/// @arg $n - Number of repetitions
-@function list-repeat($x, $n) {
-    $result: ();
-    @for $i from 0 to $n {
-        $result: append($result, $x);
-    }
-    @return $result;
-}
-
-/// Return the first element of a list
-/// @arg $lst
-@function list-head($lst) {
-    @return nth($lst, 1);
-}
-
-/// Return a new list with the first element removed
-/// @arg $lst
-@function list-tail($lst) {
-    $n: length($lst);
-    @if $n <= 1 {
-        @return ();
-    }
-    @return slice($lst, 2, $n);
-}
-
-
-
-/// Reverse a list
-@function list-reverse($lst) {
-    $result: ();
-    $size: length($lst);
-    @for $i from 0 to $size {
-        $result: append($result, nth($lst, $size - $i));
-    }
-    @return $result;
-}
-
-
-
-
-/// Reduce list by function
-@function list-reduce($lst, $func, $initial: $_list-not-given) {
-    @if $initial == $_list-not-given {
-        @if length($lst) == 0 {
-            @error 'Cannot reduce empty list!'
-        }
-        @return list-reduce(list-tail($lst), $func, nth($lst, 1));
-    }
-
-    $result: $initial;
-    $func: as-func($func);
-    @each $x in $lst {
-        $result: call($func, $result, $x);
-    }
-    @return $result;
-}
 
 /// Concatenate first argument elementwise with the second.
 /// If first argument is a list, makes a elementwise concatenation with second

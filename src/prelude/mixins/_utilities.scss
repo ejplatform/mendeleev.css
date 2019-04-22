@@ -32,7 +32,7 @@ $MENDELEEV_SPECIAL_PROPERTIES: (
         $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
         @if $special {
             $func: as-func(nth($special, 1));
-            $args: list-tail($special);
+            $args: tail($special);
             $args: append($args, $value);
             $result: map-merge($result, call($func, $args...))
         } @else {
@@ -51,7 +51,7 @@ $MENDELEEV_SPECIAL_PROPERTIES: (
         $special: map-get($MENDELEEV_SPECIAL_PROPERTIES, $key);
         @if $special {
             $func: as-func(nth($special, 1));
-            $args: list-tail($special);
+            $args: tail($special);
             $args: append($args, $value);
             //noinspection SassScssUnresolvedMixin
             @include raw-map(call($func, $args...), $suffix);
