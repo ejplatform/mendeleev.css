@@ -36,7 +36,7 @@ $color-brown: #a5673f !default;
 //$color-brand: $color-violet !default;
 $color-brand: $color-red !default;
 $color-accent: $color-violet !default;
-$color-action: transparent !default;
+$color-action: mix($color-grey, $color-white) !default;
 $color-primary: $color-brand !default;
 $color-secondary: $color-accent !default;
 $color-positive: $color-green !default;

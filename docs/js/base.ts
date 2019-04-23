@@ -81,7 +81,7 @@ let navbar = () => m('nav.pad-x2.pad-y3.height-full.overflow-y.color-grey', [
 
     section('Utility', [
         'Buttons and links </buttons>',
-        'Forms </buttons>',
+        'Forms </forms>',
         'Lists </lists>',
     ]),
 ]);

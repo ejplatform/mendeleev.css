@@ -60,9 +60,8 @@ $mendeleev-config: (
         // Vertical rhythm and modular scale
         'size': (
             'start': 16,
-            'sm': 17,
-            'md': 18,
-            'lg': 20,
+            'md': 17,
+            'lg': 18,
         ),
         'lead': 1.5,
         'heading-lead': 1.250,
@@ -151,6 +150,7 @@ $mendeleev-config: (
     'flex': $mendeleev-enabled,
     'flex-grid': $mendeleev-enabled,
     'grid': $mendeleev-enabled,
+    'hard-grid': $mendeleev-enabled,
     'interactivity': $mendeleev-enabled,
     'list': $mendeleev-enabled,
     'margin': $mendeleev-enabled,

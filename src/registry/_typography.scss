@@ -3,7 +3,10 @@
 //------------------------------------------------------------------------------
 
 @if $mendeleev-registering-utilities {
-    $do: make-type-scale(config('typography.modules.scale'));
+    $do: mendeleev-module(
+            'typography.modules.scale', (
+            '.text-': $mendeleev-type-scale,
+        ));
 
     //--------------------------------------------------------------------------
     // Simple system font styles: font-sans, font-serif, font-mono, font-cursive

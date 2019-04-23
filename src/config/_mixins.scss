@@ -20,8 +20,14 @@
 @mixin from-map($map, $suffix: null) {
     @each $k, $v in $map {
         @if type-of($v) == map {
-            #{$k} {
-                @include from-map($v, $suffix);
+            @if type-of($k) == list and nth($k, 1) == '@media' {
+                @media screen and #{nth($k, 2)} {
+                    @include from-map($v, $suffix);
+                }
+            } @else {
+                #{$k} {
+                    @include from-map($v, $suffix);
+                }
             }
         } @else if $v {
             #{$k}: $v $suffix;

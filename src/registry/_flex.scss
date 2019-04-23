@@ -14,7 +14,7 @@ $mendeleev-gutter-scale: $fn-empty-map;
             margin-top: -$size,
         ),
     );
-    $mendeleev-gutter-scale: map-merge($mendeleev-gutter-scale, ($k: $css));
+    $mendeleev-gutter-scale: map-merge($mendeleev-gutter-scale, ('&#{$k}': $css));
 }
 
 @if $mendeleev-registering-utilities {

@@ -4,20 +4,22 @@
 /// @author Fábio Macêdo Mendes
 ///
 /// Global constants computed from user configurations.
-///  * unit-size
 ///  * container
+///  * lead
+///  * unit-size
 ////////////////////////////////////////////////////////////////////////////////
+
+/// Basic leading value
+$mendeleev-lead: config('typography.lead', 1.5) !default;
+
+/// Basic size reference (specified in rems);
+$mendeleev-unit-size: $mendeleev-lead * 1rem !default;
 
 /// Container configuration
 $mendeleev-container: (
     margin: 0 auto,
     position: relative,
     width: 100%,
-    padding: 0 size-scale(3),
+    padding: 0 $mendeleev-unit-size,
     max-width: 50rem,
 ) !default;
-
-/// Basic size reference (specified in rems);
-$mendeleev-unit-size: config('typography.lead', 1.5) * 1rem !default;
-
-

@@ -4,7 +4,7 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$_MENDELEEV-TYPE-SCALES: (
+$mendeleev-type-scales: (
     minor-second: 16/15,
     major-second: 9/8,
     minor-third: 6/5,
@@ -14,6 +14,7 @@ $_MENDELEEV-TYPE-SCALES: (
     perfect-fifth: 3/2,
     golden-ratio: (1 + sqrt(5)) / 2,
 );
+$mendeleev-type-scale: () !default;
 
 /// Return a type scale mapping from the argument.
 ///
@@ -47,29 +48,11 @@ $_MENDELEEV-TYPE-SCALES: (
             @error 'Map must show progression from 1, 3, up to at least 6';
         }
         @return $scale;
-    } @else if map-has-key($_MENDELEEV-TYPE-SCALES, $scale) {
-        @return type-scale(map-get($_MENDELEEV-TYPE-SCALES, $scale));
+    } @else if map-has-key($mendeleev-type-scales, $scale) {
+        @return type-scale(map-get($mendeleev-type-scales, $scale));
     } @else {
         @error 'Wrong argument for get-type-scale: #{$scale}';
     }
-}
-
-/// Responsive type scale
-@function make-type-scale($emit) {
-    $utilities: ();
-    @each $bp, $scale in config('typography.scale') {
-        @each $suffix, $value in type-scale($scale) {
-            $name: text-#{$suffix};
-            $data: map-read($utilities, $name, ());
-            $data: map-merge($data, ($bp: (font-size: $value * 1rem)));
-            $utilities: map-merge($utilities, ($name: $data));
-        }
-    }
-    @each $utility, $data in $utilities {
-        $info: (name: '.#{$utility}', data: $data, emit: $emit, type: simple);
-        $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
-    }
-    @return null;
 }
 
 /// Return a font property like family, line-height, letter-spacing, size,
@@ -84,33 +67,6 @@ $_MENDELEEV-TYPE-SCALES: (
         @return map-get($conf, $prop);
     }
     @return config('typography.#{$prop}');
-}
-
-@function get-default-type-scale-ratio() {
-    $ratio: config('typography.scale');
-    @if type-of($ratio) == 'map' {
-        $ratio: reduce(min, map-values($ratio));
-
-    } @else {
-        @error 'Scale must be a mapping from breakpoints to ratios.'
-    }
-    @return $ratio;
-}
-
-@function get-responsive-type-scale-ratios() {
-    $ratio: config('typography.scale');
-    @if type-of($ratio) == 'map' {
-        $min: get-default-type-scale-ratio();
-        $result: ();
-        @each $k, $v in $ratio {
-            @if $v != $min {
-                $result: map-merge($result, ($k: $v));
-            }
-        }
-        @return $result;
-    } @else {
-        @error 'Scale must be a mapping from breakpoints to ratios.'
-    }
 }
 
 //------------------------------------------------------------------------------
@@ -129,20 +85,60 @@ $_MENDELEEV-TYPE-SCALES: (
     margin: ($lead * (1 + $delta) * 1rem) 0 ($lead * $margin-bottom * 1rem) 0;
 }
 
-@mixin _headings-type-scale($r: null) {
-    @if $r == null {
-        $r: get-default-type-scale-ratio();
+@mixin headings-type-scale($factor) {
+    $scale: map-remove(type-scale($factor), '5', '6', '7', '8');
+    @each $n, $ratio in $scale {
+        'h#{$n}, .h#{$n}' {
+            @include _heading-vertical-rhythm($ratio);
+        }
     }
-    h1, .h1 {
-        @include _heading-vertical-rhythm($r * $r * $r * $r);
+    h5, .h5 {
+        font-size: 1rem;
+        line-height: $mendeleev-lead;
+        margin: ($mendeleev-lead * 1.5rem) 0 ($mendeleev-lead * 0.5rem) 0;
     }
-    h2, .h2 {
-        @include _heading-vertical-rhythm($r * $r * $r);
-    }
-    h3, .h3 {
-        @include _heading-vertical-rhythm($r * $r);
-    }
-    h4, .h4 {
-        @include _heading-vertical-rhythm($r);
+    h6, .h6 {
+        font-size: 0.875rem;
+        line-height: 1.142857143 * $mendeleev-lead;
+        margin: ($mendeleev-lead * 1.5rem) 0 ($mendeleev-lead * 0.5rem) 0;
     }
 }
+
+//------------------------------------------------------------------------------
+// CONFIGURATIONS
+//------------------------------------------------------------------------------
+
+$mendeleev-typography-config: false !default;
+@if not $mendeleev-typography-config {
+
+    // Compute type scales
+    $type-scales: ();
+    @each $bp, $factor in config('typography.scale') {
+        $type-scales: map-merge($type-scales, ($factor: type-scale($factor)));
+    }
+
+    // Create the responsive type scale
+    $scale: ();
+    @each $n in ('1', '2', '3', '4', '5', '6', '7', '8') {
+
+        $data: ();
+        @each $bp, $factor in config('typography.scale') {
+            $type-scale: map-get($type-scales, $factor);
+            $size: map-get($type-scale, $n) * 1rem;
+
+            @if $bp == 'start' {
+                $data: map-merge($data, (font-size: $size));
+            } @else {
+                $bp: config('breakpoints.#{$bp}');
+                $media: '@media' (min-width: $bp);
+                $data: map-merge($data, ($media: (font-size: $size)));
+            }
+        }
+        $scale: map-merge($scale, ('&#{$n}': $data));
+    }
+    //@error $scale;
+    $mendeleev-type-scale: $scale !global;
+    $mendeleev-typography-config: true !global;
+}
+
+//@error $mendeleev-type-scale;

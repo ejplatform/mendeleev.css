@@ -80,12 +80,12 @@ $mendeleev-variant-dark-contrast: config('color.variants.contrast.dark') !defaul
     $variant-color: color-variant($value, $cfg);
 
     // Compute contrast and save in dictionary
-    $light-contrast: color-variant($value, $mendeleev-variant-light-contrast);
-    $dark-contrast: color-variant($value, $mendeleev-variant-dark-contrast);
-    $variant-contrast: choose-contrast-color($variant, $light-contrast, $dark-contrast, $bias: $mendeleev-color-bias);
+    $light: color-variant($value, $mendeleev-variant-light-contrast);
+    $dark: color-variant($value, $mendeleev-variant-dark-contrast);
+    $contrast: choose-contrast-color($variant, $light, $dark, $mendeleev-color-bias);
     $mendeleev-color-contrast: map-merge((
-        $variant-color: $variant-contrast,
-        $variant-contrast: $variant-color,
+        $variant-color: $contrast,
+        $contrast: $variant-color,
     ), $mendeleev-color_contrast) !global;
 
     @return $variant-color;

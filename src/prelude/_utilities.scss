@@ -10,7 +10,15 @@
     @return ($prop: call(as-func($func), $value));
 }
 
+@function mendeleev-color-role($value) {
+    @return (
+        color: color($value, contrast),
+        background-color: color($value),
+    );
+}
+
 $mendeleev-make-pair-fn: as-func(mendeleev-make-pair);
+$mendeleev-color-role-fn: as-func(mendeleev-color-role);
 $mendeleev-sizing-fn: as-func(sizing);
 $mendeleev-sizing-scale-fn: as-func(sizing-scale);
 $mendeleev-special-properties: (
@@ -40,6 +48,8 @@ $mendeleev-special-properties: (
         ($mendeleev-sizing-scale-fn, (width,)),
     //
     // Colors
+    color-role:
+        ($mendeleev-color-role-fn, $fn-empty-array),
     color:
         ($mendeleev-make-pair-fn, ('color', 'color')),
     background-color:

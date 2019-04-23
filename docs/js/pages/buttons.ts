@@ -19,8 +19,8 @@ export class Buttons {
 
             m('div', [
                 m('button', 'Plain button'), ' ',
-                m('button.button-primary', 'Primary button'), ' ',
-                m('button.button-secondary', 'Secondary button'), ' ',
+                m('button.is-primary', 'Primary button'), ' ',
+                m('button.is-secondary', 'Secondary button'), ' ',
                 m('a.button', 'A link button'), ' ',
             ])
         ]);

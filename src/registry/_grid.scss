@@ -156,37 +156,32 @@
     // HARD GRID
     //------------------------------------------------------------------------------
 
-    //@function _mendeleev-hard-grid($n) {
-    //    @return L($n, 100% / $n, ($n - 1) / $n);
-    //}
-    //
-    //$mendeleev-hard-grid-scale: map-apply-values(_mendeleev-hard-grid, $mendeleev-grid-scale) !default;
-    //
-    //$do: mendeleev-module(
-    //        'hard-grid', (
-    //        // Basic definitions
-    //        '.hard-grid': (
-    //            display: grid,
-    //        ),
-    //        // Templates
-    //        '.hard-grid-': scale-of(
-    //            $scale: $mendeleev-grid-scale,
-    //            $css: (
-    //                '--grid-gap': 0,
-    //                '--grid-size': null,
-    //                display: grid,
-    //                grid-template-columns: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
-    //            )
-    //        ),
-    //        // Row templates
-    //        '.hard-rows-': scale-of(
-    //            $scale: $mendeleev-grid-scale,
-    //            $css: (
-    //                '--grid-gap': 0,
-    //                '--grid-size': null,
-    //                display: grid,
-    //                grid-template-rows: 'repeat($1, calc($2 - $3 * var(--grid-gap)))',
-    //            )
-    //        ),
-    //    ));
+    $col: ();
+    $row: ();
+    @each $k, $n in $mendeleev-grid-scale {
+        $col: map-merge($col, ('&#{$k}': (
+            '--grid-gap': 0,
+            '--grid-size': $n,
+            display: grid,
+            grid-template-columns: unquote('repeat(#{$n}, calc(#{100% / $n}$2 - #{($n - 1) / $n} * var(--grid-gap)))'),
+        )));
+
+        $row: map-merge($row, ('&#{$k}': (
+            '--grid-gap': 0,
+            '--grid-size': $n,
+            display: grid,
+            grid-template-rows: unquote('repeat(#{$n}, calc(#{100% / $n}$2 - #{($n - 1) / $n} * var(--grid-gap)))'),
+        )));
+    }
+
+    $do: mendeleev-module(
+            'hard-grid', (
+            // Basic definitions
+            '.hard-grid': (
+                display: grid,
+            ),
+            // Templates
+            '.hard-grid-': $col,
+            '.hard-rows-': $row,
+        ));
 }

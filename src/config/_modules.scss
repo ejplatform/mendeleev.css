@@ -81,7 +81,7 @@ $mendeleev-css-declarations: null !default;
 
         @if $interpolate {
             @each $prop, $value in $interpolate {
-                $value: str-replace($value, '$1', $v);
+                $value: unquote(str-replace($value, '$1', $v));
                 $css: map-merge($css, ($prop: $value));
             }
         }

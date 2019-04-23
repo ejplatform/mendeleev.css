@@ -69,10 +69,10 @@ $mendeleev-grid-scale: (
     '15': 15,
 ) !default;
 $mendeleev-grid-gap-scale: (
-    '1': size-scale(1),
-    '2': size-scale(2),
-    '3': size-scale(3),
-    '4': size-scale(4),
+    '1': 0.25 * $mendeleev-unit-size,
+    '2': 0.50 * $mendeleev-unit-size,
+    '3': 1.00 * $mendeleev-unit-size,
+    '4': 2.00 * $mendeleev-unit-size,
 ) !default;
 $mendeleev-grid-span-data: (
     1: auto / span 1,

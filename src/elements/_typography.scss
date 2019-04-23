@@ -2,28 +2,6 @@
 // HEADINGS
 //------------------------------------------------------------------------------
 
-// Generic headings styles (h1, h2, etc...)
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
-.heading, %heading {
-    @include config('typography.headings');
-    margin: 0 0 (config('typography.lead') * 0.5rem) 0;
-}
-
-// Type scale
-@include _headings-type-scale;
-
-h5, .h5 {
-    font-size: 1rem;
-    line-height: config('typography.lead');
-    margin: (config('typography.lead') * 1.5rem) 0 (config('typography.lead') * 0.5rem) 0;
-}
-
-h6, .h6 {
-    font-size: 0.875rem;
-    line-height: 1.142857143 * config('typography.lead');
-    margin: (config('typography.lead') * 1.5rem) 0 (config('typography.lead') * 0.5rem) 0;
-}
-
 // Media queries to adjust global font size
 @each $bp, $value in config('typography.size') {
     @include breakpoint($bp) {
@@ -37,11 +15,22 @@ h6, .h6 {
     }
 }
 
+// Generic headings styles (h1, h2, etc...)
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
+.heading, %heading {
+    @include config('typography.headings');
+    margin: 0 0 (config('typography.lead') * 0.5rem) 0;
+}
+
 // Type scale for different ratios (probably we should join with the previous loop)
-@each $bp, $ratio in get-responsive-type-scale-ratios() {
-    $bp: config('breakpoints#{$bp}');
-    @media screen and (min-width: nth($bp, 1)) {
-        @include _headings-type-scale($ratio);
+@each $bp, $ratio in config('typography.scale') {
+    @if $bp == 'start' {
+        @include headings-type-scale($ratio);
+    } @else {
+        $bp: config('breakpoints.#{$bp}');
+        @media screen and (min-width: nth($bp, 1)) {
+            @include headings-type-scale($ratio);
+        }
     }
 }
 

@@ -9,19 +9,19 @@
             'layout.container', (
             '.container-1': map-merge(
                     $mendeleev-container,
-                    (max-width: 44rem + size-scale(4))
+                    (max-width: 44rem + 2 * $mendeleev-unit-size)
             ),
             '.container-2': map-merge(
                     $mendeleev-container,
-                    (max-width: 38rem + size-scale(4))
+                    (max-width: 38rem + 2 * $mendeleev-unit-size)
             ),
             '.container-3': map-merge(
                     $mendeleev-container,
-                    (max-width: 29rem + size-scale(4))
+                    (max-width: 29rem + 2 * $mendeleev-unit-size)
             ),
             '.container-4': map-merge(
                     $mendeleev-container,
-                    (max-width: 20rem + size-scale(4))
+                    (max-width: 20rem + 2 * $mendeleev-unit-size)
             ),
             '.raise-first > *:first-child': (
                 margin-top: 0,
