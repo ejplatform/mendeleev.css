@@ -4,9 +4,14 @@
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
 
-$mendeleev-colors: $fn-empty-map !default;
-$mendeleev-color-contrast: $fn-empty-map !default;
-$mendeleev-color-variants: $fn-empty-map !default;
+// Configuration options
+$mendeleev-color-bias: config('color.contrast-bias') !default;
+$mendeleev-color-roles: $fn-empty-map !default;
+$mendeleev-variant-levels: map-keys(config('color.variants.levels')) !default;
+
+// Fetch dark and light contrast mixes to create contrast variants
+$mendeleev-variant-light-contrast: config('color.variants.contrast.light') !default;
+$mendeleev-variant-dark-contrast: config('color.variants.contrast.dark') !default;
 
 /// Return named color or a default value if color is not registered
 ///
@@ -21,19 +26,18 @@ $mendeleev-color-variants: $fn-empty-map !default;
         @return null;
     }
     @if type-of($name) == string {
-        $result: map-read($mendeleev-colors, $name, $default);
+        $result: map-read($mendeleev-color-palette, $name, $default);
     }
 
     // Make transformations
     @if $variant == contrast {
         $contrast: map-get($mendeleev-color-contrast, $result);
         @if $contrast == null {
-            //noinspection CssInvalidFunction
-            $contrast: choose-contrast-color($result, $bias: config('color.contrast-bias'));
+            $contrast: choose-contrast-color($result, $bias: $mendeleev-color-bias);
         }
         $result: $contrast;
     } @else if $variant != null {
-        @error 'Error', $variant, $name, $result;
+        @error 'Invalid variant for color #{$name}: #{$variant}';
     }
     @if $alpha != null {
         $result: change-color($result, $alpha: $alpha);
@@ -42,6 +46,51 @@ $mendeleev-color-variants: $fn-empty-map !default;
     // Return result
     @return $result;
 }
+
+/// Return a named variant for the given color.
+@function color-variant($color, $variant) {
+    @if not $color {
+        @return null;
+    }
+    $value: if(type-of($color) == string, map-get($mendeleev-color-palette, $color), $color);
+    @if not $value {
+        @error 'Color does not exist: #{inspect($color)}';
+    }
+
+    // Raw variant call: passing a tuple of (color-name, mix)
+    @if type-of($variant) == list {
+        $other: color(nth($variant, 1));
+        $mix: nth($variant, 2);
+        @return mix($other, $value, $mix);
+    }
+
+    // Fetch configuration
+    $cfg: map-get($mendeleev-variant-levels, $variant);
+    @if not $cfg {
+        @error 'Invalid variant: #{$variant}';
+    }
+
+    // Try color from cache
+    $res: map-get($mendeleev-color-palette, '#{$color}-#{$variant}');
+    @if $res {
+        @return $res;
+    }
+
+    // Compute variation
+    $variant-color: color-variant($value, $cfg);
+
+    // Compute contrast and save in dictionary
+    $light-contrast: color-variant($value, $mendeleev-variant-light-contrast);
+    $dark-contrast: color-variant($value, $mendeleev-variant-dark-contrast);
+    $variant-contrast: choose-contrast-color($variant, $light-contrast, $dark-contrast, $bias: $mendeleev-color-bias);
+    $mendeleev-color-contrast: map-merge((
+        $variant-color: $variant-contrast,
+        $variant-contrast: $variant-color,
+    ), $mendeleev-color_contrast) !global;
+
+    @return $variant-color;
+}
+
 
 //------------------------------------------------------------------------------
 // MIXINS
@@ -59,19 +108,81 @@ $mendeleev-color-variants: $fn-empty-map !default;
         $bg: $fg;
         $fg: $aux;
     }
-    $declarations: (color: $fg, background-color: $bg);
+    $res: (color: $fg, background-color: $bg);
 
     // Add border color
     @if $border == foreground or $border == fg {
-        $result: map-merge($declarations, (border-color: $fg));
+        $res: map-merge($res, (border-color: $fg));
     } @else if $border == background or $border == bg or $border {
-        $result: map-merge($result, (border-color: $bg));
+        $res: map-merge($res, (border-color: $bg));
     }
 
     // Set properties
-    @include from-map($declarations);
+    @include from-map($res);
 }
 
+//------------------------------------------------------------------------------
+// CONFIGURATIONS
+//------------------------------------------------------------------------------
 
-$fn-contrast-color-white: color('text-inverse');
-$fn-contrast-color-black: color('text');
+$mendeleev-color-config: false !default;
+@if not $mendeleev-color-config {
+    $variant-levels: config('color.variants.levels');
+    $bias: $mendeleev-color-bias;
+
+    /// Dictionary that stores all named colors with their respective values
+    $mendeleev-color-palette: map-merge($mendeleev-color-palette, config('palette', $fn-empty-map));
+
+    /// Dictionary mapping color values to their respective contrasts
+    $mendeleev-color-contrast: map-merge($mendeleev-color-contrast, config('contrast', $fn-empty-map));
+
+    // Create a list with all contrasts from named colors.
+    $acc: ();
+    @each $color, $value in $mendeleev-color-palette {
+        @if not map-get($mendeleev-color-contrast, $value) {
+            $light: color-variant($value, $mendeleev-variant-light-contrast);
+            $dark: color-variant($value, $mendeleev-variant-dark-contrast);
+            $contrast: choose-contrast-color($value, $light, $dark, $bias);
+            $acc: map-merge(($value: $contrast, $contrast: $value), $acc);
+        }
+    }
+    $mendeleev-color-contrast: map-merge($acc, $mendeleev-color-contrast) !global;
+
+    // Create a list of color roles used to derive the color classes.
+    // When creating that list, also save all variant colors in the default
+    // color dictionary.
+    $roles: config('color.roles');
+
+    @each $color in config('color.variants.colors') {
+        // Save main color
+        @if not contains($roles, $color) {
+            $roles: append($roles, $color);
+        }
+        $value: map-get($mendeleev-color-palette, $color);
+
+        // Compute contrasts
+        $light: color-variant($value, $mendeleev-variant-light-contrast);
+        $dark: color-variant($value, $mendeleev-variant-dark-contrast);
+        $acc: ();
+        $acc-contrast: ();
+        @each $suffix, $cfg in $variant-levels {
+            $role: '#{$color}-#{$suffix}';
+            $roles: append($roles, $role);
+            $variant: color-variant($value, $cfg);
+            $contrast: choose-contrast-color($variant, $light, $dark, $bias);
+            $acc: map-merge($acc, ($role: $variant));
+            $acc-contrast: map-merge($acc-contrast, (
+                $variant: $contrast,
+                $contrast: $variant,
+            ));
+        }
+        $mendeleev-color-contrast: map-merge($acc-contrast, $mendeleev-color-contrast) !global;
+        $mendeleev-color-palette: map-merge($acc, $mendeleev-color-palette) !global;
+    }
+
+    // Save configurations
+    $mendeleev-color-config: true !global;
+    $mendeleev-color-roles: $roles !global;
+    $fn-contrast-color-white: color('inverse-text') !global;
+    $fn-contrast-color-black: color('regular-text') !global;
+}

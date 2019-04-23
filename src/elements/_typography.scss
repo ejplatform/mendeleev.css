@@ -133,7 +133,7 @@ blockquote, .blockquote {
     //@include margin(map-get($blockquote, margin));
     //@include padding(map-get($blockquote, padding));
 
-    border-left: 0.25rem solid config('pallete.brand');
+    border-left: 0.25rem solid config('palette.brand');
 
     *:last-child {
         margin-bottom: 0;

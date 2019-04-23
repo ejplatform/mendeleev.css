@@ -54,21 +54,38 @@
     // COLORS
     //--------------------------------------------------------------------------
 
+    $data: ();
+    @each $role in $mendeleev-color-roles {
+        $value: map-get($mendeleev-color-palette, $role);
+        $data: map-merge($data, (
+            '.color-#{$role}': (
+                color: map-get($mendeleev-color-contrast, $value),
+                background-color: $value,
+            ),
+        ));
+    }
+
     $do: mendeleev-module(
             'colors',
-            $mendeleev-colors-contrast
+            $data
     );
+
+    $data: ();
+    @each $role in $mendeleev-color-roles {
+        $value: map-get($mendeleev-color-palette, $role);
+        $data: map-merge($data, ($role: $value));
+    }
 
     $do: mendeleev-utility-module(
             'colors', (
             //
             // Create all .bg-* classes
             background-color:
-                ('.bg-', $mendeleev-colors),
+                ('.bg-', $data),
             //
             // Create all .text-* classes
             color:
-                ('.text-', $mendeleev-colors),
+                ('.text-', $data),
         ));
 
     //--------------------------------------------------------------------------

@@ -7,29 +7,27 @@ $color-black: #151515 !default;
 $color-white: white !default;
 $color-dark: $color-black !default;
 $color-light: $color-white !default;
-$color-regular-text: $color-black !default;
-$color-inverse-text: $color-white !default;
 $color-grey: #a79d96 !default;
 
-$color-content: $color-black !default;
+$color-regular-text: $color-black !default;
+$color-inverse-text: $color-white !default;
 $color-background: $color-white !default;
-$color-inverse-content: $color-white !default;
 $color-inverse-background: $color-black !default;
 
-$color-subtle-content: mix($color-content, $color-grey, 50%) !default;
-$color-subtle-background: mix($color-background, $color-grey, 90%) !default;
-$color-subtle-inverse-content: mix($color-inverse-content, $color-grey, 50%) !default;
-$color-subtle-inverse-background: mix($color-inverse-background, $color-grey, 90%) !default;
+$color-muted-text: mix($color-regular-text, $color-grey, 50%) !default;
+$color-muted-background: mix($color-background, $color-grey, 90%) !default;
+$color-muted-inverse-text: mix($color-inverse-text, $color-grey, 50%) !default;
+$color-muted-inverse-background: mix($color-inverse-background, $color-grey, 90%) !default;
 
 // Colors
-$color-red: #DE011E !default;
+$color-red: #de011e !default;
 $color-orange: #f26202 !default;
 $color-yellow: #fbbd08 !default;
 $color-olive: #b5cc18 !default;
 $color-green: #16ab39 !default;
 $color-teal: #00b5ad !default;
-$color-blue: #006D93 !default;
-$color-violet: #1C0052 !default;
+$color-blue: #006d93 !default;
+$color-violet: #1c0052 !default;
 $color-purple: #9627ba !default;
 $color-pink: #e03997 !default;
 $color-brown: #a5673f !default;
@@ -46,25 +44,23 @@ $color-negative: $color-red !default;
 $color-warning: $color-yellow !default;
 
 // Default color palette
-$mendeleev-colors: () !default;
-$mendeleev-colors: map-merge((
+$mendeleev-color-palette: () !default;
+$mendeleev-color-palette: map-merge((
     //
     // Whites
     'black': $color-black,
     'white': $color-white,
     'light': $color-light,
     'dark': $color-dark,
+    'grey': $color-grey,
     'regular-text': $color-regular-text,
     'inverse-text': $color-inverse-text,
-    'grey': $color-grey,
-    'content': $color-content,
     'background': $color-background,
-    'inverse-content': $color-inverse-content,
     'inverse-background': $color-inverse-background,
-    'subtle-content': $color-subtle-content,
-    'subtle-background': $color-subtle-background,
-    'subtle-inverse-content': $color-subtle-inverse-content,
-    'subtle-inverse-background': $color-subtle-inverse-background,
+    'muted-text': $color-muted-text,
+    'muted-inverse-text': $color-muted-inverse-text,
+    'muted-background': $color-muted-background,
+    'muted-inverse-background': $color-muted-inverse-background,
     //
     // Colors
     'red': $color-red,
@@ -88,7 +84,7 @@ $mendeleev-colors: map-merge((
     'positive': $color-positive,
     'negative': $color-negative,
     'warning': $color-warning,
-), $mendeleev-colors);
+), $mendeleev-color-palette);
 
 // Default contrast overrides
 $mendeleev-color-contrast: (

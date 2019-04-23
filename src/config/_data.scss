@@ -5,7 +5,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 @import 'font-stacks';
 @import 'colors';
-@import '../fn';
 
 //------------------------------------------------------------------------------
 // CONFIGURATION DICTIONARY
@@ -85,34 +84,32 @@ $mendeleev-config: (
     ),
     //
     // COLORS
-    'palette': $mendeleev-colors,
+    'palette': $mendeleev-color-palette,
     'contrast': $mendeleev-color-contrast,
     'color': (
         'contrast-bias': 0.125,
         'roles': (
-            'simple': (
-                'primary', 'secondary', 'action',
-                'positive', 'negative', 'warning',
-                'black', 'white', 'grey', 'red', 'orange', 'yellow', 'olive',
-                'green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
-            ),
-            'variants': (
-                'brand', 'accent',
-            ),
-            'text': (
-                'inverse', 'muted',
-            )
+            'primary', 'secondary', 'action',
+            'positive', 'negative', 'warning',
+            'black', 'white', 'grey', 'red', 'orange', 'yellow', 'olive',
+            'green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
+        ),
+        'text': (
+            'inverse', 'muted', 'muted-inverse',
         ),
         'variants': (
-            'color': (
+            'colors': (
+                'brand', 'accent',
+            ),
+            'contrast': (
+                'light': ('white', 95%),
+                'dark': ('black', 95%),
+            ),
+            'levels': (
                 'lighter': ('white', 75%),
                 'light': ('white', 33%),
                 'dark': ('black', 33%),
                 'darker': ('black', 75%),
-            ),
-            'text': (
-                'light': ('light', 97.5%),
-                'dark': ('dark', 97.5%),
             ),
         ),
     ),

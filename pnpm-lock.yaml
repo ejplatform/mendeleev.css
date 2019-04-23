@@ -1,5 +1,5 @@
 dependencies:
-  fn.sass: 0.4.1
+  fn.sass: 0.5.0
 devDependencies:
   autoprefixer: 9.5.1
   ava: 1.4.1
@@ -2941,12 +2941,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-R+H8IZclI8AAkSBRQJLVOsxwAoHd6WC40b4QTNWIjzAa6BXOBfQcM587MXDTVPeYaopFNWHUFLx7eNmHDSxMWg==
-  /fn.sass/0.4.1:
+  /fn.sass/0.5.0:
     dev: false
     engines:
       node: '>=4'
     resolution:
-      integrity: sha512-V57kcNLvs/yZuUlwe4b2sXyrH5MRvt/BgyfY8vFN5Bf3g0VLEmTocRvXZrckGkbM6+TtfoGlRZ+UrBlrqYMstw==
+      integrity: sha512-s34g0xDe3thYMNKg9QkphBWz8up5TRbR1+in6CHB2eNOuyNw70G5HfSBhoAkzTbr5RZKj/ZEBncvbQPpO9rTNw==
   /fobject/0.0.3:
     dependencies:
       graceful-fs: 3.0.11
@@ -7864,7 +7864,7 @@ specifiers:
   editorconfig-tools: ^0.1.1
   eslint: ^5.16.0
   eslint-config-styled: ^0.0.2
-  fn.sass: ^0.4.1
+  fn.sass: ^0.5.0
   husky: ^1.3.1
   mithril: ^1.1.6
   node-sass: ^4.11.0
