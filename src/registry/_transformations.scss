@@ -57,7 +57,7 @@
             // Contrast
             '.contrast-': scale-of(
                 $scale: $mendeleev-transform-double-scale,
-                $css: (
+                $interpolate: (
                     filter: 'contrast($1)',
                 )),
             //

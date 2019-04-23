@@ -88,7 +88,7 @@
             'sizes', (
             // Squared height
             '.size-': scale-of(
-                $scale: $mendeleev-size-scale-auto,
+                $scale: $mendeleev-size-scale-pos-auto,
                 $css: (
                     width: null,
                     height: null,
@@ -96,7 +96,7 @@
             ),
             // Line height
             '.line-height-': scale-of(
-                $scale: $mendeleev-size-scale-auto,
+                $scale: $mendeleev-size-scale-pos-rem,
                 $css: (
                     line-height: null,
                 )
@@ -107,9 +107,9 @@
     $do: mendeleev-utility-module(
             'sizes', (
             width:
-                ('.size-x', $mendeleev-size-scale-auto),
+                ('.size-x', $mendeleev-size-scale-pos-auto),
             height:
-                ('.size-y', $mendeleev-size-scale-auto),
+                ('.size-y', $mendeleev-size-scale-pos-auto),
         ));
 
     $do: mendeleev-utility-module(

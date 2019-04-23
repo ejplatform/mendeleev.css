@@ -49,7 +49,7 @@ $mendeleev-size-scale-pos-rem: null !default;
 
 $mendeleev-size-scale-auto: map-merge((auto: auto), $mendeleev-size-scale-rem);
 $mendeleev-size-scale-pos-auto: map-merge((auto: auto), $mendeleev-size-scale-pos-rem);
-$mendeleev-radius-scale-rem: map-merge((auto: auto), map-apply-values(div, $mendeleev-size-scale-pos-rem, 2));
+$mendeleev-radius-scale-rem: map-apply-values(div, $mendeleev-size-scale-pos-rem, 2);
 
 // GRID SIZING SCALE -----------------------------------------------------------
 

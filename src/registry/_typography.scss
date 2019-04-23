@@ -49,7 +49,7 @@
             font-style:
                 ('.', (
                     italic: italic,
-                    roman: norma
+                    roman: normal,
                 )),
             text-transform:
                 ('.', (
@@ -109,7 +109,7 @@
 
     $do: mendeleev-utility-module(
             'typography.modules.leading', (
-            leading-height:
+            line-height:
                 ('.', (
                     leading: config('typography.lead'),
                     leading-title: config('typography.heading-lead'),

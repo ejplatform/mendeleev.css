@@ -163,14 +163,14 @@
             '--grid-gap': 0,
             '--grid-size': $n,
             display: grid,
-            grid-template-columns: unquote('repeat(#{$n}, calc(#{100% / $n}$2 - #{($n - 1) / $n} * var(--grid-gap)))'),
+            grid-template-columns: unquote('repeat(#{$n}, calc(#{100% / $n} - #{($n - 1) / $n} * var(--grid-gap)))'),
         )));
 
         $row: map-merge($row, ('&#{$k}': (
             '--grid-gap': 0,
             '--grid-size': $n,
             display: grid,
-            grid-template-rows: unquote('repeat(#{$n}, calc(#{100% / $n}$2 - #{($n - 1) / $n} * var(--grid-gap)))'),
+            grid-template-rows: unquote('repeat(#{$n}, calc(#{100% / $n} - #{($n - 1) / $n} * var(--grid-gap)))'),
         )));
     }
 

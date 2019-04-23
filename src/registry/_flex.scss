@@ -162,8 +162,6 @@ $mendeleev-gutter-scale: $fn-empty-map;
             flex:
                 ('.flex-', (
                     auto: auto,
-                    initial: initial,
-                    join: join,
                     '1': 1,
                     '2': 2,
                     '3': 3,
@@ -181,7 +179,6 @@ $mendeleev-gutter-scale: $fn-empty-map;
             // Flex order scale
             order:
                 ('.order-', (
-                    auto: auto,
                     '1': 1,
                     '2': 2,
                     '3': 3,
