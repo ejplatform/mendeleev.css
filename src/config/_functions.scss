@@ -1,4 +1,4 @@
-@import 'data';
+@import '../profiles/base';
 
 /// Fetch configuration value from default config dictionary.
 ///
@@ -13,25 +13,6 @@
         @error 'Path must be given as a string';
     }
     @return map-path-merge(L($mendeleev-config, $config), str-split($path, '.'), $default);
-}
-
-/// Write value into the given path in the global Mendeleev config.
-@function set-mendeleev-config($path, $value) {
-    @if type-of($path) == string {
-        $path: lst-flatten(str-split($path, '.'));
-    }
-    $n: length($path);
-    $last: nth($path, $n);
-
-    @if $n == 1 {
-        $mendeleev-config: map-merge($mendeleev-config, ($last: $value)) !global;
-    } @else {
-        $intro: slice($path, 1, $n - 1);
-        $data: map-path($mendeleev-config, $intro);
-        $data: map-merge($data, ($last: $value));
-        $do: set-mendeleev-config($intro, $data);
-    }
-    @return $value;
 }
 
 /// Include a configuration.

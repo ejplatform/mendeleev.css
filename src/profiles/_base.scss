@@ -3,8 +3,16 @@
 /// @author Fábio Macêdo Mendes
 /// @group Config
 ////////////////////////////////////////////////////////////////////////////////
-@import 'font-stacks';
-@import 'colors';
+@import 'stack-font';
+@import 'stack-color';
+
+$mendeleev-color-contrast: $fn-empty-map !default;
+$mendeleev-color-palette: $fn-empty-map !default;
+$mendeleev-typeface: null !default;
+$mendeleev-cursive: cursive !default;
+$mendeleev-monospace: monospace !default;
+$mendeleev-sans-serif: sans-serif !default;
+$mendeleev-serif: serif !default;
 
 //------------------------------------------------------------------------------
 // CONFIGURATION DICTIONARY
@@ -17,7 +25,7 @@ $config: () !default;
 /// Default configuration options.
 /// This map contains all default values for configurations that can be
 /// overridden by the `$config` or `$config-defaults` mappings.
-$mendeleev-enabled: true !default;
+$mendeleev-enable-module: true !default;
 $mendeleev-config: (
     //
     // GLOBAL
@@ -36,26 +44,26 @@ $mendeleev-config: (
         //
         // Generic
         'modules': (
-            'headings': $mendeleev-enabled,
-            'paragraph': $mendeleev-enabled,
-            'scale': $mendeleev-enabled,
-            'leading': $mendeleev-enabled,
-            'measure': $mendeleev-enabled,
-            'indent': $mendeleev-enabled,
-            'alignment': $mendeleev-enabled,
-            'styles': $mendeleev-enabled,
-            'weights': $mendeleev-enabled,
-            'fonts': $mendeleev-enabled,
-            'direction': $mendeleev-enabled,
-            'white-space': $mendeleev-enabled,
+            'headings': $mendeleev-enable-module,
+            'paragraph': $mendeleev-enable-module,
+            'scale': $mendeleev-enable-module,
+            'leading': $mendeleev-enable-module,
+            'measure': $mendeleev-enable-module,
+            'indent': $mendeleev-enable-module,
+            'alignment': $mendeleev-enable-module,
+            'styles': $mendeleev-enable-module,
+            'weights': $mendeleev-enable-module,
+            'fonts': $mendeleev-enable-module,
+            'direction': $mendeleev-enable-module,
+            'white-space': $mendeleev-enable-module,
         ),
         //
         // Typefaces
         'typeface': $mendeleev-typeface,
-        'cursive': $font-stack-system-cursive,
-        'monospace': $font-stack-ibm-plex-mono,
-        'sans-serif': $font-stack-exo,
-        'serif': $font-stack-ibm-plex-serif,
+        'cursive': $mendeleev-cursive,
+        'monospace': $mendeleev-monospace,
+        'sans-serif': $mendeleev-sans-serif,
+        'serif': $mendeleev-serif,
         //
         // Vertical rhythm and modular scale
         'size': (
@@ -78,7 +86,7 @@ $mendeleev-config: (
         'headings': (
             'letter-spacing': -0.03em,
             'font-weight': 900,
-            'color': $color-brand,
+            'color': $mendeleev-color-brand,
         ),
     ),
     //
@@ -136,31 +144,31 @@ $mendeleev-config: (
     //
     // LAYOUT
     'layout': (
-        'display': $mendeleev-enabled,
-        'float': $mendeleev-enabled,
-        'position': $mendeleev-enabled,
-        'container': $mendeleev-enabled,
-        'overflow': $mendeleev-enabled,
+        'display': $mendeleev-enable-module,
+        'float': $mendeleev-enable-module,
+        'position': $mendeleev-enable-module,
+        'container': $mendeleev-enable-module,
+        'overflow': $mendeleev-enable-module,
     ),
     //
     // OTHER MODULES
-    'background': $mendeleev-enabled,
-    'border': $mendeleev-enabled,
-    'colors': $mendeleev-enabled,
-    'flex': $mendeleev-enabled,
-    'flex-grid': $mendeleev-enabled,
-    'grid': $mendeleev-enabled,
-    'hard-grid': $mendeleev-enabled,
-    'interactivity': $mendeleev-enabled,
-    'list': $mendeleev-enabled,
-    'margin': $mendeleev-enabled,
-    'padding': $mendeleev-enabled,
-    'rounded': $mendeleev-enabled,
-    'shadow': $mendeleev-enabled,
-    'sizing': $mendeleev-enabled,
-    'sizes': $mendeleev-enabled,
-    'transform': $mendeleev-enabled,
-    'visibility': $mendeleev-enabled,
+    'background': $mendeleev-enable-module,
+    'border': $mendeleev-enable-module,
+    'colors': $mendeleev-enable-module,
+    'flex': $mendeleev-enable-module,
+    'flex-grid': $mendeleev-enable-module,
+    'grid': $mendeleev-enable-module,
+    'hard-grid': $mendeleev-enable-module,
+    'interactivity': $mendeleev-enable-module,
+    'list': $mendeleev-enable-module,
+    'margin': $mendeleev-enable-module,
+    'padding': $mendeleev-enable-module,
+    'rounded': $mendeleev-enable-module,
+    'shadow': $mendeleev-enable-module,
+    'sizing': $mendeleev-enable-module,
+    'sizes': $mendeleev-enable-module,
+    'transform': $mendeleev-enable-module,
+    'visibility': $mendeleev-enable-module,
     //
     // ELEMENT OVERRIDES
     'elements': (),

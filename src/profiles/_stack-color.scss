@@ -44,7 +44,7 @@ $color-negative: $color-red !default;
 $color-warning: $color-yellow !default;
 
 // Default color palette
-$mendeleev-color-palette: () !default;
+$mendeleev-color-palette: $fn-empty-map !default;
 $mendeleev-color-palette: map-merge((
     //
     // Whites
@@ -92,3 +92,5 @@ $mendeleev-color-contrast: (
     #00b5ad: $color-white,
     #b5cc18: $color-white,
 ) !default;
+
+$mendeleev-color-brand: $color-brand;

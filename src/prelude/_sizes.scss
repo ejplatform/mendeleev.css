@@ -50,7 +50,7 @@
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size($value));
     } @else if type-of($value) == list {
-        @return ($property: array-map(size, $value));
+        @return ($property: map(size, $value));
     } @else if type-of($value) == map {
         @return map-apply-values(map-filter-values((
             #{$property}-left: map-get-first($value, L(left, l, x, horizontal, all)),
@@ -72,7 +72,7 @@
     @if type-of($value) == number or type-of($value) == string {
         @return ($property: size-scale($value));
     } @else if type-of($value) == list {
-        @return ($property: array-map(size-scale, $value));
+        @return ($property: map(size-scale, $value));
     } @else if type-of($value) == map {
         @return map-apply-values(map-filter-values((
             #{$property}-left: map-get-first($value, left l x horizontal all, null),
