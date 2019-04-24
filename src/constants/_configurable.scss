@@ -26,30 +26,20 @@ $mendeleev-border-scale: (
 
 $mendeleev-size-scale-max-size: config('mendeleev.scales.max-size', 64) !default;
 $mendeleev-size-scale-rem: null !default;
-$mendeleev-size-scale-pos-rem: null !default;
-@if (not $mendeleev-size-scale-rem) and (not $mendeleev-size-scale-pos-rem) {
+@if not $mendeleev-size-scale-rem {
     $new: ();
-    $new-pos: ();
     @each $k, $v in $mendeleev-size-scale {
-        @if abs($v) < $mendeleev-size-scale-max-size {
-            $v: $v * $mendeleev-unit-size;
+        @if $v < $mendeleev-size-scale-max-size {
+            $v: if($v == 0, 0, $v * $mendeleev-unit-size);
             $new: map-merge($new, ($k: $v));
-            @if $v >= 0 {
-                $new-pos: map-merge($new-pos, ($k: $v));
-            }
         }
     }
     @if not  $mendeleev-size-scale-rem {
         $mendeleev-size-scale-rem: $new !global;
     }
-    @if not  $mendeleev-size-scale-pos-rem {
-        $mendeleev-size-scale-pos-rem: $new-pos !global;
-    }
 }
 
-$mendeleev-size-scale-auto: map-merge((auto: auto), $mendeleev-size-scale-rem);
-$mendeleev-size-scale-pos-auto: map-merge((auto: auto), $mendeleev-size-scale-pos-rem);
-$mendeleev-radius-scale-rem: map-apply-values(div, $mendeleev-size-scale-pos-rem, 2);
+$mendeleev-radius-scale-rem: map-apply-values(div, $mendeleev-size-scale-rem, 2);
 
 // GRID SIZING SCALE -----------------------------------------------------------
 

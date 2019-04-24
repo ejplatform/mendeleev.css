@@ -86,7 +86,9 @@
     "serve": "browser-sync start --no-notify -s test --ss dist -f dist",
     "start": "run-p build watch serve",
     "test": "run-s build lint ava",
-    "watch": "onchange src -- run-p build"
+    "watch:build": "onchange src -- run-p build",
+    "watch:serve": "python3 -m http.server --directory dist/",
+    "watch": "run-p watch:build watch:serve"
   },
   "resolutions": {
     "natives": "1.1.3"

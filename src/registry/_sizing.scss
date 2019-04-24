@@ -9,20 +9,20 @@
     $do: mendeleev-utility-module(
             'padding', (
             padding:
-                ('.pad-', $mendeleev-size-scale-pos-rem)
+                ('.pad-', $mendeleev-size-scale-rem)
         ));
 
     $do: mendeleev-module(
             'padding', (
             '.pad-x': scale-of(
-                $scale: $mendeleev-size-scale-pos-rem,
+                $scale: $mendeleev-size-scale-rem,
                 $css: (
                     padding-left: null,
                     padding-right: null,
                 )
             ),
             '.pad-y': scale-of(
-                $scale: $mendeleev-size-scale-pos-rem,
+                $scale: $mendeleev-size-scale-rem,
                 $css: (
                     padding-top: null,
                     padding-bottom: null,
@@ -33,13 +33,13 @@
     $do: mendeleev-utility-module(
             'padding', (
             padding-left:
-                ('.pad-l', $mendeleev-size-scale-pos-rem),
+                ('.pad-l', $mendeleev-size-scale-rem),
             padding-right:
-                ('.pad-r', $mendeleev-size-scale-pos-rem),
+                ('.pad-r', $mendeleev-size-scale-rem),
             padding-top:
-                ('.pad-t', $mendeleev-size-scale-pos-rem),
+                ('.pad-t', $mendeleev-size-scale-rem),
             padding-bottom:
-                ('.pad-b', $mendeleev-size-scale-pos-rem),
+                ('.pad-b', $mendeleev-size-scale-rem),
         ));
 
     //--------------------------------------------------------------------------
@@ -48,20 +48,33 @@
     $do: mendeleev-utility-module(
             'margin', (
             margin:
-                ('.margin-', $mendeleev-size-scale-rem)
+                ('.margin-', map-merge(
+                        $mendeleev-size-scale-rem,
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), n)
+                ))
         ));
 
     $do: mendeleev-module(
             'margin', (
-            '.margin-x': scale-of(
-                $scale: $mendeleev-size-scale-rem,
+            '.margin-': scale-of(
+                $scale: map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, x),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nx)
+                ),
                 $css: (
                     margin-left: null,
                     margin-right: null,
                 )
             ),
-            '.margin-y': scale-of(
-                $scale: $mendeleev-size-scale-rem,
+        ));
+
+    $do: mendeleev-module(
+            'margin', (
+            '.margin-': scale-of(
+                $scale: map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, y),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), ny)
+                ),
                 $css: (
                     margin-top: null,
                     margin-bottom: null,
@@ -72,33 +85,45 @@
     $do: mendeleev-utility-module(
             'margin', (
             margin-left:
-                ('.margin-l', $mendeleev-size-scale-rem),
+                ('.margin-', map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, l),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nl)
+                )),
             margin-right:
-                ('.margin-r', $mendeleev-size-scale-rem),
+                ('.margin-', map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, r),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nr)
+                )),
             margin-top:
-                ('.margin-t', $mendeleev-size-scale-rem),
+                ('.margin-', map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, t),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nt)
+                )),
             margin-bottom:
-                ('.margin-b', $mendeleev-size-scale-rem),
+                ('.margin-', map-merge(
+                        map-prefix-keys($mendeleev-size-scale-rem, b),
+                        map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nb)
+                )),
         ));
 
     //--------------------------------------------------------------------------
     // SIZES
 
+    $mendeleev-sizes: map-merge($mendeleev-size-scale-rem, (
+        auto: auto,
+        available: available,
+        fit-content: fit-content,
+        max-content: max-content,
+        min-content: min-content,
+    ));
+
     $do: mendeleev-module(
             'sizes', (
-            // Squared height
             '.size-': scale-of(
-                $scale: $mendeleev-size-scale-pos-auto,
+                $scale: $mendeleev-sizes,
                 $css: (
                     width: null,
                     height: null,
-                )
-            ),
-            // Line height
-            '.line-height-': scale-of(
-                $scale: $mendeleev-size-scale-pos-rem,
-                $css: (
-                    line-height: null,
                 )
             ),
         ));
@@ -107,9 +132,14 @@
     $do: mendeleev-utility-module(
             'sizes', (
             width:
-                ('.size-x', $mendeleev-size-scale-pos-auto),
+                ('.size-x', $mendeleev-sizes),
             height:
-                ('.size-y', $mendeleev-size-scale-pos-auto),
+                ('.size-y', $mendeleev-sizes),
+            line-height:
+                ('.line-height-', map-merge(
+                        $mendeleev-size-scale-rem,
+                        (normal: normal)
+                )),
         ));
 
     $do: mendeleev-utility-module(

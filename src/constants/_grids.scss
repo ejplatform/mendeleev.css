@@ -99,7 +99,7 @@ $mendeleev-grid-systems: _mendeleev-make-grid-systems() !default;
 @function add-sizing-units($scale) {
     $res: null;
     @each $k, $v in $scale {
-        $res: (($k ($v * 1%)) $res);
+        $res: (($k ($v * if($v == 0, 0, 1%))) $res);
         @if $v != 0 {
             $res: (('#{$k}vw' ($v * 1vw)) $res);
             $res: (('#{$k}vh' ($v * 1vh)) $res);
