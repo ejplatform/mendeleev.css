@@ -1,4 +1,4 @@
-> An atomic CSS framework.
+# An atomic CSS framework.
 
 [![Travis Status](https://travis-ci.org/fabiommendes/mendeleev.svg?branch=master)](https://travis-ci.org/fabiommendes/mendeleev?branch=master)
 [![AppVeyor Status](https://ci.appveyor.com/api/projects/status/xcm8meymwerq0r82?svg=true)](https://ci.appveyor.com/project/cjpatoilo/mendeleev)
@@ -9,9 +9,9 @@
 [![Gitter Chat](https://img.shields.io/badge/gitter-join_the_chat-4cc61e.svg)](https://gitter.im/fabiommendes/mendeleev)
 
 
-## Why it's awesome
+## Why Mendeleev.css?
 
-Mendelev provides a minimal setup of styles for a fast and clean starting
+Mendeleev provides a minimal setup of styles for a fast and clean starting
 point. Just it! **Only 2kb gzipped!** It's not about a UI framework. Specially
 designed for better performance and higher productivity with fewer properties
 to reset resulting in cleaner code. Hope you enjoy!

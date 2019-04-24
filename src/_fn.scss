@@ -1,5 +1,5 @@
-// Functions in this package will eventually make their way to fn.sass.
-@import '../node_modules/fn.sass/src/fn';
+// Alias to fn.sass
+@import 'fn.sass/fn';
 
 /// Log given $values and return the last argument.
 @function log($args...) {

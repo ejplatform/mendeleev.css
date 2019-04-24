@@ -1,0 +1,76 @@
+/// Ugly performance-enhancing functions for lists
+$fn-empty-map: map-remove((), null) !default;
+
+// Consume 8 elements of list and return (elem-array, tail)
+@function _lst-consume($xs) {
+    @if not $xs {
+        @return (), null;
+    }
+
+    // Length 1
+    $x1: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1,), null;
+    }
+
+    // Length 2
+    $x2: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2), null;
+    }
+
+    // Length 3
+    $x3: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2, $x3), null;
+    }
+
+    // Length 4
+    $x4: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2, $x3, $x4), null;
+    }
+
+    // Length 5
+    $x5: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2, $x3, $x4, $x5), null;
+    }
+
+    // Length 6
+    $x6: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2, $x3, $x4, $x5, $x6), null;
+    }
+
+    // Length 7
+    $x7: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @if not $xs {
+        @return ($x1, $x2, $x3, $x4, $x5, $x6, $x7), null;
+    }
+
+    // Length 8
+    $x8: nth($xs, 1);
+    $xs: nth($xs, 2);
+    @return ($x1, $x2, $x3, $x4, $x5, $x6, $x7, $x8), $xs;
+}
+
+// Consume n elements from a list of pairs and return (elem-map, tail)
+@function _lst-consume-pairs($xs, $n: 16) {
+    $res: $fn-empty-map;
+    @while $xs and $n > 0 {
+        $x: nth($xs, 1);
+        $xs: nth($xs, 2);
+        $res: map-merge($res, (nth($x, 1): nth($x, 2)));
+        $n: $n - 1;
+    }
+    @return $res, $xs;
+}
+

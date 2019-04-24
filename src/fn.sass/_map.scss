@@ -1,0 +1,310 @@
+////////////////////////////////////////////////////////////////////////////////
+/// FUNCTIONS THAT OPERATE ON BASIC SASS DATATYPES
+/// @group map functions
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+@import 'list';
+
+$fn-empty-map: map-remove((), null);
+
+/// Return value if key exists on map, otherwise return default.
+///
+/// @arg $map - map to operate from
+/// @arg $key - key
+/// @arg $default - default value. If not given and key not present, return null;
+@function map-read($map, $key, $default: null) {
+    $value: map-get($map, $key);
+    @return if($value == null, $default, $value);
+}
+
+/// Join a (linked-)list of maps together. Entries in later maps override
+/// previously defined values.
+///
+/// @arg $maps - a list of maps
+@function map-join($maps) {
+    $maps: to-lst($maps);
+    $result: map-remove((), null);
+    @while $maps != null {
+        $map: car($maps);
+        $maps: cdr($maps);
+        $result: map-merge($result, $map);
+    }
+    @return $result;
+}
+
+/// Convert argument to map. Works for lists of 2-tuples and maps.
+///
+/// @arg $obj - A map or list object.
+@function to-map($obj) {
+    @if type-of($obj) == list {
+        $result: ();
+        @each $k, $v in $obj {
+            $result: map-merge($result, ($k: $v))
+        }
+        @return $result
+    } @else if (type-of($obj) == map) {
+        @return $obj;
+    } @else {
+        @error "Cannot convert argument to map."
+    }
+}
+
+/// Merge two maps up to one level of nesting.
+///
+/// @arg $map1
+/// @arg $map2
+///
+/// @example scss
+///     map-merge-nested((foo: (x: 1, y: 3)),
+///                      (foo: (y: 2, z: 3), bar: baz));
+///     // (foo: (x: 1, y: 2, z: 3), bar: baz)
+@function map-merge-nested($map1, $map2) {
+    $result: map-merge($map1, $map2);
+
+    // Merge sub-maps from map1
+    @each $key, $value in $map1 {
+        @if type-of($value) == map and map-has-key($map2, $key) {
+            $value: map-merge($value, map-get($map2, $key));
+            $result: map-merge($result, ($key: $value));
+        }
+    }
+    @return $result;
+}
+
+/// Merge two maps with arbitrary nesting.
+///
+/// Maps are merged. If a value is a map in one dictionary, but not in the
+/// other, it is merged and saved into the ($key-name: $value). Null values
+/// are omitted.
+///
+/// @arg $map1
+/// @arg $map2
+///
+/// @example scss
+///     map-merge-nested((foo: (x: 1, y: (z: 3)),
+///                      (foo: (y: (w: 4), bar: baz));
+///     // (foo: (x: 1, y: (z: 3, w: 4), bar: baz)
+@function map-merge-deep($map1, $map2, $key: value) {
+    $result: map-merge($map1, $map2);
+
+    // Merge sub-maps from map1
+    @each $k, $v1 in $map1 {
+        $v2: map-get($map2, $k);
+        @if type-of($v1) == map and type-of($v2) == map {
+            $value: map-merge-deep($v1, $v2, $key);
+            $result: map-merge($result, ($k: $value));
+        } @else if type-of($v1) == map {
+            @if $v2 != null and $key != null {
+                $value: map-merge($v1, ($key: $v2));
+                $result: map-merge($result, ($k: $value));
+            } @else {
+                $result: map-merge($result, ($k: $v1));
+            }
+        } @else if type-of($v2) == map and $v1 != null and $key != null {
+            $value: map-merge(($key: $v1), $v2);
+            $result: map-merge($result, ($k: $value));
+        }
+    }
+    @return $result;
+}
+
+/// Fetch keys in path recursively.
+///
+/// @example scss
+///     map-path(('foo': ('bar': 'baz')), L('foo', 'bar')) ==> 'baz'
+///
+/// @arg $map - a map to extract the value from
+/// @arg $path - (linked-)list of values
+/// @arg $default - fallback value if key is not present
+@function map-path($map, $path, $default: null) {
+    $path: coerce-to-lst($path);
+    @if $path == null {
+        @error 'Empty path';
+    }
+    $key: car($path);
+    @while cdr($path) != null {
+        $path: cdr($path);
+        $map: map-get($map, $key);
+        @if $map == null {
+            @return $default;
+        }
+        $key: car($path);
+    }
+    @return map-read($map, $key, $default);
+}
+
+/// Return true if map has all keys in the (linked-)list
+///
+/// @arg $map - A mapping
+/// @arg $keys - A (linked-)list of test keys.
+@function map-has-keys($map, $keys) {
+    $keys: to-lst($keys);
+    @while $keys != null {
+        $key: car($keys);
+        $keys: cdr($keys);
+        @if not map-has-key($map, $key) {
+            @return false;
+        }
+    }
+    @return true;
+}
+
+/// Keep only the given keys on map.
+///
+/// @arg $map - A mapping
+/// @arg $keys - A (linked-)list of test keys.
+@function map-select($map, $keys) {
+    $keys: to-lst($keys);
+    $result: map-remove((), null);
+
+    @while $keys != null {
+        $key: car($keys);
+        $keys: cdr($keys);
+        @if map-has-key($map, $key) {
+            $result: map-merge($result, ($key: map-get($map, $key)));
+        }
+    }
+    @return $result;
+}
+
+/// Remove the given keys from map
+///
+/// @arg $map - A mapping
+/// @arg $keys - A (linked-)list of test keys.
+@function map-exclude($map, $keys) {
+    $keys: to-lst($keys);
+    $result: $map;
+
+    @while $keys != null {
+        $key: car($keys);
+        $keys: cdr($keys);
+        $result: map-remove($result, $key);
+    }
+    @return $result;
+}
+
+/// Select first element that matches one element from a list of keys or return
+/// the given default
+///
+/// @arg $map - map to operate from
+/// @arg $keys - array of keys
+/// @arg $default - default value.
+@function map-get-first($map, $keys, $default: null) {
+    $keys: coerce-to-lst($keys);
+
+    @while $keys != null {
+        $key: nth($keys, 1);
+        $keys: nth($keys, 2);
+        $value: map-get($map, $key);
+        @if $value != null {
+            @return $value;
+        }
+    }
+    @return $default;
+}
+
+/// Filter map to include only items in which the value passes a predicate
+///
+/// @arg $pred - Function or name of boolean function that is used to filter items.
+/// @arg $map - Input map
+@function map-filter-values($pred, $map, $args...) {
+    $pred: as-func($pred);
+    $result: ();
+    @each $key, $value in $map {
+        @if call($pred, $value, $args...) {
+            $result: map-merge($result, ($key: $value));
+        }
+    }
+    @return $result;
+}
+
+/// Apply function to all values in map
+///
+/// @arg $fn - Function
+/// @arg $map - Input map
+@function map-apply-values($fn, $map, $args...) {
+    $func: as-func($fn);
+    $result: ();
+    @each $key, $value in $map {
+        $result: map-merge($result, ($key: call($func, $value, $args...)));
+    }
+    @return $result;
+}
+
+/// Apply function to the keys of a given map.
+///
+/// @arg $fn - Function
+/// @arg $map - Input map
+@function map-apply-keys($fn, $map, $args...) {
+    $fn: as-func($fn);
+    $acc: $fn-empty-map;
+    @each $k, $v in $map {
+        $acc: map-merge($acc, (call($fn, $k, $args...): $v));
+    }
+    @return $acc;
+}
+
+@function _fn-with-prefix($x, $prefix) {
+    @return '#{$prefix}#{$x}';
+}
+
+/// Add prefixes to all keys of map
+///
+/// @arg $map - Input map
+/// @arg $prefixes... - Strings to add as prefix
+@function map-prefix-keys($map, $prefixes...) {
+    $res: map-remove((), null);
+    @each $prefix in $prefixes {
+        $res: map-merge($res, map-apply-keys(_fn-with-prefix, $map, $prefix));
+    }
+    @return $res;
+}
+
+/// Extract information on $path from a (linked-)list of multiple $maps.
+///
+/// This function is useful to implement access to nested configuration maps,
+/// when we want to merge the results of different sources to work as a single
+/// nested mapping.
+///
+/// @arg $maps - a (linked-)list of maps.
+/// @arg $path - a (linked-)list location of entry on maps.
+/// @arg $default - result this value, if given, when requested data is not
+///                 present on maps
+@function map-path-merge($maps, $path, $default: null) {
+    $maps: to-lst($maps);
+    @if $maps== null {
+        @error 'Maps cannot be empty';
+    }
+
+    //noinspection CssInvalidFunction
+    @while $maps {
+        $map: nth($maps, 1);
+        $maps: nth($maps, 2);
+        $default: _fn-merge-default($default, map-path($map, $path));
+    }
+
+    @return $default;
+}
+
+@function _fn-merge-default($value, $new) {
+    @if $new == null {
+        @return $value;
+    } @else if $value == null {
+        @return $new;
+    } @else if type-of($new) == map and type-of($value) == map {
+        @return map-merge-nested($value, $new);
+    } @else if type-of($new) == map {
+        @return map-merge((value: $value), $new);
+    } @else if type-of($value) == map {
+        @return map-merge($value, (value: $new));
+    } @else {
+        @return $new;
+    }
+}
+
+//------------------------------------------------------------------------------
+// Auxiliary non-api functions
+//------------------------------------------------------------------------------
+@function _map-get2($map, $key1, $key2) {
+    @return map-get(map-get($map, $key1), $key2);
+}

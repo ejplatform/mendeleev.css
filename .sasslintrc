@@ -2,15 +2,18 @@
 ## Sass Lint File
 ## See rules https://github.com/sasstools/sass-lint/tree/master/docs/rules
 #########################
+
 # Linter Options
 options:
   # Don't merge default rules
   merge-default-rules: false
+
 # File Options
 files:
   include: 'src/**/*.s+(a|c)ss'
   ignore:
     - 'node_modules/**/*.*'
+
 # Rule Configuration
 rules:
   attribute-quotes:

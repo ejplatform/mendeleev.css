@@ -42,6 +42,9 @@
     "src",
     "test"
   ],
+  "dependencies": {
+    "fn.sass": "^0.6.0"
+  },
   "optionalDependencies": {
     "mithril": "^1.1.6"
   },
@@ -49,7 +52,7 @@
     "autoprefixer": "^9.5.1",
     "ava": "^1.4.1",
     "backstopjs": "^3.8.8",
-    "banner-cli": "^0.11.1",
+    "banner-cli": "^0.12.0",
     "browser-sync": "^2.26.3",
     "editorconfig-tools": "^0.1.1",
     "husky": "^1.3.1",
@@ -59,34 +62,29 @@
     "onchange": "^5.2.0",
     "postcss-cli": "^6.1.2",
     "sass-lint": "^1.12.1",
-    "sassdoc": "^2.6.0",
-    "sassdoc-theme-flippant": "^0.1.0"
   },
   "engines": {
     "node": ">=4"
   },
   "scripts": {
     "ava": "nyc ava",
-    "autoprefixer": "postcss -u autoprefixer --no-map.inline --autoprefixer.browsers \"last 1 versions\" -r dist/*.css",
     "backstop": "run-s build && run-p serve compare",
-    "banner": "banner-cli 'dist/*.css'",
+    "banner": "banner-cli dist/*.css",
     "build": "run-s clean sass autoprefixer banner",
-    "clean": "rm -rf dist/*",
-    "compare": "backstop test --configPath=backstop.conf.js",
-    "docs": "run-p docs:sassdoc docs:app",
-    "docs:sassdoc": "sassdoc -t flippant src && mv sassdoc docs/sassdoc",
-    "docs:app": "echo 'building app... (TODO)'",
-    "dump": "sassc src/mendeleev.scss",
+    "clean": "rm -rf dist/",
+    "fn:link": "rm -rf src/fn.sass && ln -s ../fn.sass/src/ src/fn.sass",
     "fn:update": "rm -rf src/fn.sass && cp -rv ../fn.sass/src/ src/fn.sass",
-    "lint": "sass-lint -c .sasslintrc src --verbose --no-exit",
-    "precommit_": "run-p test",
-    "reference": "backstop reference --configPath=backstop.conf.js",
-    "release": "run-s fn:update docs",
-    "sass": "sassc -t expanded src/mendeleev.scss dist/mendeleev.css && sassc -t compressed src/mendeleev.scss dist/mendeleev.min.css",
-    "serve": "browser-sync start --no-notify -s test --ss dist -f dist",
+    "print": "sassc -I node_modules src/mendeleev.scss",
     "start": "run-p build watch serve",
+    "sass": "node-sass --output-style expanded src/mendeleev.sass dist/mendeleev.css && node-sass --output-style compressed src/mendeleev.sass dist/mendeleev.min.css",
+    "autoprefixer": "postcss -u autoprefixer --no-map.inline --autoprefixer.browsers \"last 1 versions\" -r dist/*.css",
+    "watch": "onchange src -- run-p build",
+    "serve": "browser-sync start --no-notify -s test --ss dist -f dist",
+    "reference": "backstop reference --configPath=backstop.conf.js",
+    "compare": "backstop test --configPath=backstop.conf.js",
+    "lint": "sass-lint -c .sasslintrc src --verbose --no-exit && eslint test -c styled && editorconfig-tools check .",
     "test": "run-s build lint ava",
-    "watch": "onchange src -- run-p build"
+    "precommit_": "run-p test"
   },
   "resolutions": {
     "natives": "1.1.3"
