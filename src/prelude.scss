@@ -29,6 +29,7 @@ $mendeleev-registering-utilities: true !default;
 @import 'registry/transformations';
 @import 'registry/visibility';
 @import 'registry/misc';
+@import 'prelude/utilities-cache';
 
 $mendeleev-registering-utilities: false;
 $mendeleev-prelude-loaded: true;

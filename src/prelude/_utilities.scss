@@ -3,8 +3,6 @@
 /// @group Utilities
 /// @author Fábio Macêdo Mendes
 ////////////////////////////////////////////////////////////////////////////////
-@import 'color';
-@import 'sizes';
 
 @function mendeleev-make-pair($prop, $func, $value) {
     @return ($prop: call(as-func($func), $value));
@@ -15,6 +13,14 @@
         color: color($value, contrast),
         background-color: color($value),
     );
+}
+
+/// Declares a css variable with a possible fallback.
+///
+/// @args $var - Name of css variable (prefix dashes, included)
+/// @args $fallback - Optional fallback value
+@function css-var($var, $fallback: null) {
+    @return if($fallback, unquote('var(#{$var}, #{$fallback})'), unquote('var(#{$var})'));
 }
 
 $mendeleev-make-pair-fn: as-func(mendeleev-make-pair);
@@ -57,7 +63,6 @@ $mendeleev-special-properties: (
     border-color:
         ($mendeleev-make-pair-fn, ('border-color', 'color')),
 );
-
 
 /// Include all items on map as pairs of `property: value`.
 ///

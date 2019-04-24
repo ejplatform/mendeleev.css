@@ -183,18 +183,18 @@ $fn-empty-map: map-remove((), null);
     @return $result;
 }
 
-/// Select first element that matches one element from a list of keys or return
+/// Select first element that matches one element from an array of keys or return
 /// the given default
 ///
 /// @arg $map - map to operate from
 /// @arg $keys - array of keys
 /// @arg $default - default value.
 @function map-get-first($map, $keys, $default: null) {
-    $keys: coerce-to-lst($keys);
+    $keys: to-lst($keys);
 
     @while $keys != null {
-        $key: nth($keys, 1);
-        $keys: nth($keys, 2);
+        $key: car($keys);
+        $keys: cdr($keys);
         $value: map-get($map, $key);
         @if $value != null {
             @return $value;

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 
 // Set root variables
-$_mendeleev-root-defaults: (
+$mendeleev-root-defaults: (
     //
     // Typography
     lead: config('typography.lead'),
@@ -12,81 +12,85 @@ $_mendeleev-root-defaults: (
     unit: calc(var(--lead) * 1rem),
     remPx: config('typography.size.start') * 1px,
     boxSizing: border-box,
-);
+) !default;
 
-:root {
-    @each $k, $v in map-merge($_mendeleev-root-defaults, config('root', ())) {
-        --#{$k}: #{$v};
+@if not global-variable-exists(MENDELEEV-ELEMENTS-BASE) {
+    :root {
+        @each $k, $v in map-merge($mendeleev-root-defaults, config('root', ())) {
+            --#{$k}: #{$v};
+        }
     }
-}
 
-// Set box-sizing globally to handle padding and border widths
-$_animation: config('animation.duration') config('animation.timing-function');
-*, *:after, *:before {
-    @include var-fallback((
-        box-sizing: (border-box boxSizing)
-    ));
-    @if config('animation.duration') > 0 {
-        transition: (
-            all $_animation,
-            font-size 0s, // makes animation very sluggish due to many layout re-calculations
-        );
+    // Set box-sizing globally to handle padding and border widths
+    $_animation: config('animation.duration') config('animation.timing-function');
+    *, *:after, *:before {
+        @include var-fallback((
+            box-sizing: (border-box boxSizing)
+        ));
+        @if config('animation.duration') > 0 {
+            transition: (
+                all $_animation,
+                font-size 0s, // makes animation very sluggish due to many layout re-calculations
+            );
+        }
+        background-repeat: no-repeat;
     }
-    background-repeat: no-repeat;
+
+    // Utility to remove global reset of box-sizing
+    .reset-box-sizing {
+        --boxSizing: content-box;
+    }
+
+    // 1. Define global font size and base REM
+    // 2. Correct the line height in all browsers.
+    // 3. Prevent adjustments of font size after orientation changes in iOS.
+    html {
+        //font-size: get-base-size() / 16px;
+        line-height: config('typography.lead');
+        -webkit-text-size-adjust: 100%;
+    }
+
+    // Remove the margin and padding in all browsers.
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: #{config('typography.typeface') or config('typography.sans-serif')};
+        @include config('typography.body');
+    }
+
+    // Render the `main` element consistently in IE.
+    main {
+        display: block;
+    }
+
+    //------------------------------------------------------------------------------
+    // Default spacings
+    //------------------------------------------------------------------------------
+
+    ////.button,
+    ////button,
+    //dd, dt, li {
+    //    margin-bottom: size-scale(2);
+    //}
+    //
+    //fieldset,
+    //input,
+    //select,
+    //textarea {
+    //    margin-bottom: size-scale(3);
+    //}
+    //
+    //blockquote,
+    //dl,
+    //figure,
+    //form,
+    //ol,
+    //p,
+    //pre,
+    //table,
+    //ul {
+    //    margin-bottom: size-scale(4);
+    //}
 }
 
-// Utility to remove global reset of box-sizing
-.reset-box-sizing {
-    --boxSizing: content-box;
-}
-
-// 1. Define global font size and base REM
-// 2. Correct the line height in all browsers.
-// 3. Prevent adjustments of font size after orientation changes in iOS.
-html {
-    //font-size: get-base-size() / 16px;
-    line-height: config('typography.lead');
-    -webkit-text-size-adjust: 100%;
-}
-
-// Remove the margin and padding in all browsers.
-body {
-    margin: 0;
-    padding: 0;
-    font-family: #{config('typography.typeface') or config('typography.sans-serif')};
-    @include config('typography.body');
-}
-
-// Render the `main` element consistently in IE.
-main {
-    display: block;
-}
-
-//------------------------------------------------------------------------------
-// Default spacings
-//------------------------------------------------------------------------------
-
-////.button,
-////button,
-//dd, dt, li {
-//    margin-bottom: size-scale(2);
-//}
-//
-//fieldset,
-//input,
-//select,
-//textarea {
-//    margin-bottom: size-scale(3);
-//}
-//
-//blockquote,
-//dl,
-//figure,
-//form,
-//ol,
-//p,
-//pre,
-//table,
-//ul {
-//    margin-bottom: size-scale(4);
-//}
+$MENDELEEV-ELEMENTS-BASE: true;

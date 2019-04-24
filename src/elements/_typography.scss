@@ -1,235 +1,238 @@
-//------------------------------------------------------------------------------
-// HEADINGS
-//------------------------------------------------------------------------------
+@if not global-variable-exists(MENDELEEV-ELEMENTS-TYPOGRAPHY) {
+    //--------------------------------------------------------------------------
+    // HEADINGS
+    //--------------------------------------------------------------------------
 
-// Media queries to adjust global font size
-@each $bp, $value in config('typography.size') {
-    @include breakpoint($bp) {
-        :root {
-            --remPx: #{$value * 1px};
-            --rem: #{$value};
-        }
-        html {
-            font-size: pc($value / 16);
+    // Media queries to adjust global font size
+    @each $bp, $value in config('typography.size') {
+        @include breakpoint($bp) {
+            :root {
+                --remPx: #{$value * 1px};
+                --rem: #{$value};
+            }
+            html {
+                font-size: pc($value / 16);
+            }
         }
     }
-}
 
-// Generic headings styles (h1, h2, etc...)
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
-.heading, %heading {
-    @include config('typography.headings');
-    margin: 0 0 (config('typography.lead') * 0.5rem) 0;
-}
+    // Generic headings styles (h1, h2, etc...)
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
+    .heading, %heading {
+        @include config('typography.headings');
+        margin: 0 0 (config('typography.lead') * 0.5rem) 0;
+    }
 
-// Type scale for different ratios (probably we should join with the previous loop)
-@each $bp, $ratio in config('typography.scale') {
-    @if $bp == 'start' {
-        @include headings-type-scale($ratio);
-    } @else {
-        $bp: config('breakpoints.#{$bp}');
-        @media screen and (min-width: nth($bp, 1)) {
+    // Type scale for different ratios (probably we should join with the previous loop)
+    @each $bp, $ratio in config('typography.scale') {
+        @if $bp == 'start' {
             @include headings-type-scale($ratio);
+        } @else {
+            $bp: config('breakpoints.#{$bp}');
+            @media screen and (min-width: nth($bp, 1)) {
+                @include headings-type-scale($ratio);
+            }
         }
     }
-}
 
-//------------------------------------------------------------------------------
-// INLINE STYLES
-//------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    // INLINE STYLES
+    //--------------------------------------------------------------------------
 
-// Normalize font weight in Chrome, Edge, and Safari.
-b, strong {
-    font-weight: bolder;
-}
+    // Normalize font weight in Chrome, Edge, and Safari.
+    b, strong {
+        font-weight: bolder;
+    }
 
-// Add the correct font size in all browsers.
-small {
-    font-size: 75%;
-    @include config('elements.small');
-}
+    // Add the correct font size in all browsers.
+    small {
+        font-size: 75%;
+        @include config('elements.small');
+    }
 
-// Prevent `sub` and `sup` elements from affecting the line height in all browsers
-sub, sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-}
+    // Prevent `sub` and `sup` elements from affecting the line height in all browsers
+    sub, sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+    }
 
-sub {
-    bottom: -0.25em;
-    @include config('elements.sub');
-}
+    sub {
+        bottom: -0.25em;
+        @include config('elements.sub');
+    }
 
-sup {
-    top: -0.5em;
-    @include config('elements.sup');
-}
+    sup {
+        top: -0.5em;
+        @include config('elements.sup');
+    }
 
-// 1. Remove the bottom border in Chrome 57-
-// 2-3. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
-abbr[title] {
-    border-bottom: none;
-    text-decoration: underline;
-    text-decoration: underline dotted;
-}
+    // 1. Remove the bottom border in Chrome 57-
+    // 2-3. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+    abbr[title] {
+        border-bottom: none;
+        text-decoration: underline dotted;
+    }
 
-// 1. Correct the inheritance and scaling of font size in all browsers.
-// 2. Correct the odd `em` font sizing in all browsers.
-code, kbd, samp {
-    font-family: config('typography.monospace');
-    font-size: 1em;
-}
+    // 1. Correct the inheritance and scaling of font size in all browsers.
+    // 2. Correct the odd `em` font sizing in all browsers.
+    code, kbd, samp {
+        font-family: config('typography.monospace');
+        font-size: 1em;
+    }
 
-//code {
-//    @include extend-from($code, ('.color-subtle'));
-//    border-radius: 0.25rem;
-//    font-size: 87.5%;
-//    margin: 0 0.25rem;
-//    padding: 0.25rem 0.75rem;
-//}
+    //code {
+    //    @include extend-from($code, ('.color-subtle'));
+    //    border-radius: 0.25rem;
+    //    font-size: 87.5%;
+    //    margin: 0 0.25rem;
+    //    padding: 0.25rem 0.75rem;
+    //}
 
-//------------------------------------------------------------------------------
-// PARAGRAPH STYLES
-//------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    // PARAGRAPH STYLES
+    //--------------------------------------------------------------------------
 
-p, .paragraph {
-    margin: 0 0 (config('typography.lead') * 1rem) 0;
-}
+    p, .paragraph {
+        margin: 0 0 (config('typography.lead') * 1rem) 0;
+    }
 
-// 1. Correct the inheritance and scaling of font size in all browsers.
-// 2. Correct the odd `em` font sizing in all browsers.
-pre, .pre {
-    font-family: config('typography.monospace');
-    font-size: 1em;
-    //@include extend-from($pre, ('.color-subtle'));
-    //border-left: 3px solid color('primary');
-    overflow-y: hidden;
-    overflow-x: auto;
-    white-space: pre;
-
-    & > code {
-        border-radius: 0;
-        display: block;
-        padding: 1rem 1.5rem;
+    // 1. Correct the inheritance and scaling of font size in all browsers.
+    // 2. Correct the odd `em` font sizing in all browsers.
+    pre, .pre {
+        font-family: config('typography.monospace');
+        font-size: 1em;
+        //@include extend-from($pre, ('.color-subtle'));
+        //border-left: 3px solid color('primary');
+        overflow-y: hidden;
+        overflow-x: auto;
         white-space: pre;
+
+        & > code {
+            border-radius: 0;
+            display: block;
+            padding: 1rem 1.5rem;
+            white-space: pre;
+        }
     }
-}
 
-blockquote, .blockquote {
-    //@include extend-from($blockquote);
-    //@include margin(map-get($blockquote, margin));
-    //@include padding(map-get($blockquote, padding));
+    blockquote, .blockquote {
+        //@include extend-from($blockquote);
+        //@include margin(map-get($blockquote, margin));
+        //@include padding(map-get($blockquote, padding));
 
-    border-left: 0.25rem solid config('palette.brand');
+        border-left: 0.25rem solid config('palette.brand');
 
-    *:last-child {
-        margin-bottom: 0;
+        *:last-child {
+            margin-bottom: 0;
+        }
     }
-}
 
-// 1-2. Add the correct box sizing in Firefox.
-// 3. Show the overflow in Edge and IE.
-hr {
-    box-sizing: content-box;
-    height: 0;
-    overflow: visible;
-}
+    // 1-2. Add the correct box sizing in Firefox.
+    // 3. Show the overflow in Edge and IE.
+    hr {
+        box-sizing: content-box;
+        height: 0;
+        overflow: visible;
+    }
 
-//hr {
-//    border: 0;
-//    border-top: .125rem solid map-get($hr, color);
-//    margin: 2.0rem 0;
-//
-//    @each $name in map-get($hr, color-roles) {
-//        &.color-#{$name} {
-//            border-top-color: color($name);
-//        }
-//    }
-//}
+    //hr {
+    //    border: 0;
+    //    border-top: .125rem solid map-get($hr, color);
+    //    margin: 2.0rem 0;
+    //
+    //    @each $name in map-get($hr, color-roles) {
+    //        &.color-#{$name} {
+    //            border-top-color: color($name);
+    //        }
+    //    }
+    //}
 
-//------------------------------------------------------------------------------
-// LISTS
-//------------------------------------------------------------------------------
-
-dl,
-ol,
-ul {
-    list-style: none;
-    margin-top: 0;
-    padding-left: 0;
+    //--------------------------------------------------------------------------
+    // LISTS
+    //--------------------------------------------------------------------------
 
     dl,
     ol,
     ul {
-        font-size: 90%;
-        margin: 1.5rem 0 1.5rem 3rem;
-    }
-}
-
-ol {
-    list-style: decimal inside;
-}
-
-ul {
-    list-style: circle inside;
-}
-
-//------------------------------------------------------------------------------
-// TABLES
-//------------------------------------------------------------------------------
-table {
-    border-spacing: 0;
-    width: 100%;
-}
-
-td,
-th {
-    padding: size(0.5);
-    text-align: left;
-
-    &:first-child {
+        list-style: none;
+        margin-top: 0;
         padding-left: 0;
+
+        dl,
+        ol,
+        ul {
+            font-size: 90%;
+            margin: 1.5rem 0 1.5rem 3rem;
+        }
     }
 
-    &:last-child {
-        padding-right: 0;
+    ol {
+        list-style: decimal inside;
     }
-}
 
-//------------------------------------------------------------------------------
-// LINK
-//------------------------------------------------------------------------------
-a {
-    color: color('primary');
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
+    ul {
+        list-style: circle inside;
+    }
 
-    &:focus,
-    &:hover {
+    //--------------------------------------------------------------------------
+    // TABLES
+    //--------------------------------------------------------------------------
+    table {
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    td,
+    th {
+        padding: size(0.5);
+        text-align: left;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // LINK
+    //--------------------------------------------------------------------------
+    a {
         color: color('primary');
-        text-decoration: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+
+        &:focus,
+        &:hover {
+            color: color('primary');
+            text-decoration: inherit;
+        }
     }
-}
 
-a.text {
-    color: color('primary');
-
-    &:focus,
-    &:hover {
+    a.text {
         color: color('primary');
+
+        &:focus,
+        &:hover {
+            color: color('primary');
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // MISC
+    //--------------------------------------------------------------------------
+
+    // 1. Remove the border on images inside links in IE 10.
+    // 2. Prevent responsive images from overflowing in small viewports
+    img {
+        border-style: none;
+        max-width: 100%;
     }
 }
 
-//------------------------------------------------------------------------------
-// MISC
-//------------------------------------------------------------------------------
-
-// 1. Remove the border on images inside links in IE 10.
-// 2. Prevent responsive images from overflowing in small viewports
-img {
-    border-style: none;
-    max-width: 100%;
-}
+$MENDELEEV-ELEMENTS-TYPOGRAPHY: true;

@@ -1,0 +1,96 @@
+////////////////////////////////////////////////////////////////////////////////
+/// INTERPOLATE UTILITY CLASSES
+/// @group Utilities
+/// @author Fábio Macêdo Mendes
+////////////////////////////////////////////////////////////////////////////////
+
+$mendeleev-classes-cache: $fn-empty-map !default;
+
+@function css-from-utilities($args...) {
+    $res: $fn-empty-map;
+    $classes: lst-map(radd, lst-from-array($args), '.');
+    @while $classes {
+        $cls: nth($classes, 1);
+        $css: map-get($mendeleev-classes-cache, $cls);
+        $classes: nth($classes, 2);
+        @if $css {
+            $res: map-merge($res, $css);
+        } @else {
+            @error 'Utility not found: #{$cls}';
+        }
+    }
+    @return $res;
+}
+
+//------------------------------------------------------------------------------
+// MIXINS
+//------------------------------------------------------------------------------
+
+/// Includes definitions from the listed utility classes in argument
+///
+/// @example scss
+///     .foo {
+///         @include utilities('color-brand margin-2 pad-4');
+///     }
+@mixin utilities($args...) {
+    $args: if(length($args) == 1, nth($args, 1), $args);
+    @if length($args) == 1 and type-of($args) == string {
+        $args: lst-to-array(str-split($args, ' '));
+    }
+    @include from-map(css-from-utilities($args...));
+}
+
+//------------------------------------------------------------------------------
+// GLOBAL configurations
+//------------------------------------------------------------------------------
+
+@if not global-variable-exists(MENDELEEV_UTILITIES_CACHE) {
+    $aux: lst-separate(keys-equal, $mendeleev-css, (type: multiple));
+    $css-multiple: nth($aux, 1);
+    $css-simple: nth($aux, 2);
+
+    // Flatten all declarations made with mendeleev-utility-module (type==multiple)
+    // into a single dictionary.
+    $cache: lst-flatten-map(lst-map(map-get, $css-multiple, data));
+
+    // Extract declarations that uses mendeleev-utility. (TODO)
+    // Those declarations can be trickier since it might include nested mappings
+    // and other complications.
+    $entries: null;
+    @while $css-simple {
+        $css: nth($css-simple, 1);
+        $css-simple: nth($css-simple, 2);
+
+        $name: map-get($css, name);
+        $data: map-get($css, data);
+
+        @if not map-some-keys(str-index, $data, '&') {
+            $entries: (($name: $data) $entries);
+        } @else {
+            $flat-css: null;
+            $common: $fn-empty-map;
+            @each $k, $v in $data {
+                @if str-index($k, '&') {
+                    $selector: selector-nest($name, $k);
+                    $selector: if(length($selector) == 1, inspect($selector), $selector);
+                    $flat-css: (($selector: $v) $flat-css);
+                } @else {
+                    $common: map-merge($common, ($k: $v));
+                }
+            }
+            @if length($common) != 0 {
+                $flat-css: lst-rmap(map-merge, $flat-css, $common);
+            }
+            $flat-css: lst-flatten-map($flat-css);
+            $entries: ($flat-css $entries);
+        }
+    }
+    $cache-from-modules: lst-flatten-map($entries);
+
+    // Consolidate all declarations
+    $cache: map-merge($cache, $cache-from-modules);
+    $mendeleev-classes-cache: map-merge($mendeleev-classes-cache, $cache) !global;
+}
+
+$MENDELEEV_UTILITIES_CACHE: true;
+

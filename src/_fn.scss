@@ -15,3 +15,47 @@
         #{$prop}: unquote('var(--#{$var-name})');
     }
 }
+
+@function map-some-keys($pred, $map, $args...) {
+    $fn: as-func($pred);
+
+    @each $k, $v in $map {
+        @if call($fn, $k, $args...) {
+            @return true;
+        }
+    }
+    @return false;
+}
+
+@function map-some-values($pred, $map, $args...) {
+    $fn: as-func($pred);
+
+    @each $k, $v in $map {
+        @if call($fn, $v, $args...) {
+            @return true;
+        }
+    }
+    @return false;
+}
+
+@function map-every-key($pred, $map, $args...) {
+    $fn: as-func($pred);
+
+    @each $k, $v in $map {
+        @if not call($fn, $k, $args...) {
+            @return false;
+        }
+    }
+    @return true;
+}
+
+@function map-every-value($pred, $map, $args...) {
+    $fn: as-func($pred);
+
+    @each $k, $v in $map {
+        @if not call($fn, $v, $args...) {
+            @return false;
+        }
+    }
+    @return true;
+}

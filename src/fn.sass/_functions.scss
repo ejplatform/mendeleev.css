@@ -5,12 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Convert function or string to a function handle.
-@function as-func($key) {
-    @if type-of($key) == string {
+@function as-func($fn) {
+    @if type-of($fn) == function {
+        @return $fn
+    } @else if type-of($fn) == string {
         //noinspection CssInvalidFunction
-        @return get-function($key);
+        @return get-function($fn);
     } @else {
-        @return $key;
+        @error "Invalid function: #{$fn}";
     }
 }
 
@@ -205,4 +207,18 @@
 /// @arg $n - Divisor
 @function is-divisible-by($x, $n) {
     @return $x % $n == 0;
+}
+
+/// Return true if all the given keys are replicated with the same values in
+/// the argument map.
+///
+/// @arg $map - Input map
+/// @arg $keys - A map of keys to values to compare with the lhs
+@function keys-equal($map, $keys) {
+    @each $k, $v in $keys {
+        @if map-get($map, $k) != $v {
+            @return false;
+        }
+    }
+    @return true;
 }

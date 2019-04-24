@@ -11,6 +11,7 @@ devDependencies:
   nyc: 13.3.0
   onchange: 5.2.0
   postcss-cli: 6.1.2
+  postcss-custom-properties: 8.0.10
   sass-lint: 1.12.1
   sassdoc: 2.7.0
   sassdoc-theme-flippant: 0.1.0
@@ -2884,6 +2885,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-VwyB3Lkgacfik2vhqR4uv2rvebqmDvFu4jlN/C1RzWoJEo8I7z4Q404oiqYCkq41mni8EzQnm95emU9seckwtg==
+  /flatten/1.0.2:
+    dev: true
+    resolution:
+      integrity: sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
   /fobject/0.0.3:
     dependencies:
       graceful-fs: 3.0.11
@@ -3647,6 +3652,10 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-Sl/W0nzDMvN+VBmlBNu4NxBckok=
+  /indexes-of/1.0.1:
+    dev: true
+    resolution:
+      integrity: sha1-8w9xbI4r00bHtn0985FVZqfAVgc=
   /indexof/0.0.1:
     dev: true
     resolution:
@@ -6034,6 +6043,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-jIWfIkqt8cTThSpH8DBaNxHlBf99OKSem2RseRpfVPqWayxHKQB0IWdS/IF5XSGeFU5QslSDTdVHnw6qggXGkA==
+  /postcss-custom-properties/8.0.10:
+    dependencies:
+      postcss: 7.0.14
+      postcss-values-parser: 2.0.1
+    dev: true
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-GDL0dyd7++goDR4SSasYdRNNvp4Gqy1XMzcCnTijiph7VB27XXpJ8bW/AI0i2VSBZ55TpdGhMr37kMSpRfYD0Q==
   /postcss-load-config/2.0.0:
     dependencies:
       cosmiconfig: 4.0.0
@@ -6058,6 +6076,16 @@ packages:
     dev: true
     resolution:
       integrity: sha512-pISE66AbVkp4fDQ7VHBwRNXzAAKJjw4Vw7nWI/+Q3vuly7SNfgYXvm6i5IgFylHGK5sP/xHAbB7N49OS4gWNyQ==
+  /postcss-values-parser/2.0.1:
+    dependencies:
+      flatten: 1.0.2
+      indexes-of: 1.0.1
+      uniq: 1.0.1
+    dev: true
+    engines:
+      node: '>=6.14.4'
+    resolution:
+      integrity: sha512-2tLuBsA6P4rYTNKCXYG/71C7j1pU6pK503suYOmn4xYrQIzW+opD+7FAFNuGSdZC/3Qfy334QbeMu7MEb8gOxg==
   /postcss/7.0.14:
     dependencies:
       chalk: 2.4.2
@@ -7887,6 +7915,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-XHHDTLW61dzr4+oM0IIHulqhrqQ=
+  /uniq/1.0.1:
+    dev: true
+    resolution:
+      integrity: sha1-sxxa6CVIRKOoKBVBzisEuGWnNP8=
   /unique-stream/2.3.1:
     dependencies:
       json-stable-stringify-without-jsonify: 1.0.1
@@ -8452,6 +8484,7 @@ specifiers:
   nyc: ^13.3.0
   onchange: ^5.2.0
   postcss-cli: ^6.1.2
+  postcss-custom-properties: ^8.0.10
   sass-lint: ^1.12.1
   sassdoc: ^2.6.0
   sassdoc-theme-flippant: ^0.1.0

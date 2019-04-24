@@ -58,6 +58,7 @@
     "nyc": "^13.3.0",
     "onchange": "^5.2.0",
     "postcss-cli": "^6.1.2",
+    "postcss-custom-properties": "^8.0.10",
     "sass-lint": "^1.12.1",
     "sassdoc": "^2.6.0",
     "sassdoc-theme-flippant": "^0.1.0"
@@ -73,6 +74,7 @@
     "build": "run-s clean sass autoprefixer banner",
     "clean": "rm -rf dist/*",
     "compare": "backstop test --configPath=backstop.conf.js",
+    "cssvars": "postcss -u postcss-custom-properties --no-map.inline --custom-properties.preserve true -r dist/*.css",
     "docs": "run-p docs:sassdoc docs:app",
     "docs:sassdoc": "sassdoc -t flippant src && mv sassdoc docs/sassdoc",
     "docs:app": "echo 'building app... (TODO)'",
