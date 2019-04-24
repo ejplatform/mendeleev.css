@@ -114,9 +114,9 @@
     $mendeleev-sizes: map-merge($mendeleev-size-scale-rem, (
         auto: auto,
         available: available,
-        fit-content: fit-content,
-        max-content: max-content,
-        min-content: min-content,
+        fit: fit-content,
+        max: max-content,
+        min: min-content,
     ));
 
     $do: mendeleev-module(

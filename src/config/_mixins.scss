@@ -67,7 +67,8 @@ $mendeleev-registered-utilities: false !default;
 @mixin mendeleev-register-utilities() {
     @if not $mendeleev-registered-utilities {
 
-        $lst: lst-reverse($mendeleev-css-declarations);
+        $lst: lst-reverse($mendeleev-css);
+        $lst: lst-stitch($mendeleev-css-classes, $lst);
 
         @while $lst {
             $info: nth($lst, 1);

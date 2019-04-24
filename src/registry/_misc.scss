@@ -135,7 +135,9 @@
                 margin: 0,
                 list-style: none,
             ),
-        ));
+        ),
+        $is-class: true
+    );
 
     $do: mendeleev-utility-module(
             'list', (

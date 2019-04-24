@@ -3,7 +3,8 @@
 //------------------------------------------------------------------------------
 
 // Default dictionary with Mendeleev state.
-$mendeleev-css-declarations: null !default;
+$mendeleev-css: null !default;
+$mendeleev-css-classes: null !default;
 
 /// Declare a Mendeleev module of CSS declarations.
 ///
@@ -11,14 +12,18 @@ $mendeleev-css-declarations: null !default;
 ///             Mendeleev config
 /// @arg $spec - Dictionary of declarations mapping CSS selector with CSS
 ///              definitions
-@function mendeleev-module($cfg, $spec) {
+@function mendeleev-module($cfg, $spec, $is-class: false) {
     $emit: config($cfg);
     $res: null;
 
     @each $selector, $data in $spec {
         @if type-of($data) == map {
             $info: (name: $selector, data: $data, emit: $emit, type: simple);
-            $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
+            @if $is-class {
+                $mendeleev-css-classes: ($info $mendeleev-css-classes) !global;
+            } @else {
+                $mendeleev-css: ($info $mendeleev-css) !global;
+            }
             $res: ($info $res);
 
         } @else {
@@ -54,7 +59,7 @@ $mendeleev-css-declarations: null !default;
             }
             $info: (prefix: $prefix, data: $data, type: multiple, emit: $emit);
             $res: ($info $res);
-            $mendeleev-css-declarations: ($info $mendeleev-css-declarations) !global;
+            $mendeleev-css: ($info $mendeleev-css) !global;
         } @else {
             @error "Invalid specification for #{$prop}."
         }
