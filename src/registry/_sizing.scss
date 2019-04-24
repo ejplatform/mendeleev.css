@@ -45,11 +45,13 @@
     //--------------------------------------------------------------------------
     // MARGIN SCALE
 
+    $mendeleev-sizes-auto: map-merge((auto: auto), $mendeleev-size-scale-rem);
+
     $do: mendeleev-utility-module(
             'margin', (
             margin:
                 ('.margin-', map-merge(
-                        $mendeleev-size-scale-rem,
+                        $mendeleev-sizes-auto,
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), n)
                 ))
         ));
@@ -58,7 +60,7 @@
             'margin', (
             '.margin-': scale-of(
                 $scale: map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, x),
+                        map-prefix-keys($mendeleev-sizes-auto, x),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nx)
                 ),
                 $css: (
@@ -72,7 +74,7 @@
             'margin', (
             '.margin-': scale-of(
                 $scale: map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, y),
+                        map-prefix-keys($mendeleev-sizes-auto, y),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), ny)
                 ),
                 $css: (
@@ -86,22 +88,22 @@
             'margin', (
             margin-left:
                 ('.margin-', map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, l),
+                        map-prefix-keys($mendeleev-sizes-auto, l),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nl)
                 )),
             margin-right:
                 ('.margin-', map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, r),
+                        map-prefix-keys($mendeleev-sizes-auto, r),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nr)
                 )),
             margin-top:
                 ('.margin-', map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, t),
+                        map-prefix-keys($mendeleev-sizes-auto, t),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nt)
                 )),
             margin-bottom:
                 ('.margin-', map-merge(
-                        map-prefix-keys($mendeleev-size-scale-rem, b),
+                        map-prefix-keys($mendeleev-sizes-auto, b),
                         map-prefix-keys(map-apply-values(negate, $mendeleev-size-scale-rem), nb)
                 )),
         ));

@@ -45,19 +45,19 @@ select {
     font: inherit;
 }
 
-input[type='email' i],
-input[type='number' i],
-input[type='password' i],
-input[type='search' i],
-input[type='tel' i],
-input[type='text' i],
-input[type='url' i],
-input[type='color' i],
-input[type='date' i],
-input[type='month' i],
-input[type='week' i],
-input[type='datetime' i],
-input[type='datetime-local' i],
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+input[type='color'],
+input[type='date'],
+input[type='month'],
+input[type='week'],
+input[type='datetime'],
+input[type='datetime-local'],
 input:not([type]),
 textarea,
 select {
@@ -67,7 +67,8 @@ select {
         background-color: #fafafa;
     }
     &:focus {
-        box-shadow: inset 0 0 0.5rem 2px rgba(0, 0, 0, 0.08), 0 0 0 2px adjust-color($MENDELEEV_INPUT_ELEMENT_FORM_COLOR, $alpha: 50%);
+        $_color: adjust-color($MENDELEEV_INPUT_ELEMENT_FORM_COLOR, $alpha: 0.5);
+        box-shadow: inset 0 0 0.5rem 2px rgba(0, 0, 0, 0.08), 0 0 0 2px #{$_color};
         filter: none;
         outline: 0;
     }
@@ -85,20 +86,20 @@ select {
 
 }
 
-input[type='color' i] {
+input[type='color'] {
     padding: size(0.25) size(0.75);
 }
 
-input[type='date' i],
-input[type='month' i],
-input[type='week' i],
-input[type='datetime-local' i],
+input[type='date'],
+input[type='month'],
+input[type='week'],
+input[type='datetime-local'],
 textarea {
     font-size: var(--remPx);
 }
 
-input[type='checkbox' i],
-input[type='radio' i] {
+input[type='checkbox'],
+input[type='radio'] {
     display: inline;
     margin-right: 1em;
 }
@@ -112,16 +113,16 @@ $_style-controls: true;
     $check-mark-width: 0.2em;
 
     // Hide controls
-    input[type='checkbox' i],
-    input[type='radio' i] {
+    input[type='checkbox'],
+    input[type='radio'] {
         z-index: -1;
         transform: scale(1.5);
         outline: none;
     }
 
     // Default input button styles
-    input[type='checkbox' i]::after,
-    input[type='radio' i]::after {
+    input[type='checkbox']::after,
+    input[type='radio']::after {
         // Display
         display: block;
         content: "";
@@ -140,13 +141,13 @@ $_style-controls: true;
         outline-color: $color;
     }
 
-    input[type='checkbox' i]::after {
+    input[type='checkbox']::after {
         bottom: 0.9em;
         right: 0.15em;
         border-radius: 0.2em;
     }
 
-    input[type='checkbox' i]::before {
+    input[type='checkbox']::before {
         // Display
         content: "";
         display: block;
@@ -165,50 +166,50 @@ $_style-controls: true;
         bottom: 0.1em;
     }
 
-    input[type='radio' i]::after {
+    input[type='radio']::after {
         border-radius: 50%;
         bottom: 0.25em;
         right: 0.1em;
     }
 
     // Checked state
-    input[type='checkbox' i]:checked::before {
+    input[type='checkbox']:checked::before {
         border-color: white;
     }
-    input[type='checkbox' i]:checked::after {
+    input[type='checkbox']:checked::after {
         background-color: $color;
         transition: background-color 0ms;
     }
-    input[type='radio' i]:checked::after {
+    input[type='radio']:checked::after {
         border: ($size / 3) solid $color;
         box-shadow: none;
     }
 
     // Hover effect
-    input[type='checkbox' i]:hover:not(:disabled)::after,
-    input[type='radio' i]:hover:not(:disabled)::after {
+    input[type='checkbox']:hover:not(:disabled)::after,
+    input[type='radio']:hover:not(:disabled)::after {
         background-color: #eee;
     }
 
     // Checked hover effect
-    input[type='checkbox' i]:checked:hover:not(:disabled)::after {
+    input[type='checkbox']:checked:hover:not(:disabled)::after {
         background-color: $color-dark;
     }
-    input[type='radio' i]:checked:hover:not(:disabled)::after {
+    input[type='radio']:checked:hover:not(:disabled)::after {
         background-color: white;
         border-color: $color-dark;
     }
 
     // Disabled
-    input[type='radio' i]:disabled::after {
+    input[type='radio']:disabled::after {
         filter: brightness(110%);
     }
 
     // Checked and disabled
-    input[type='checkbox' i]:checked:disabled::after {
+    input[type='checkbox']:checked:disabled::after {
         background-color: $color-light;
     }
-    input[type='radio' i]:checked:disabled::after {
+    input[type='radio']:checked:disabled::after {
         border: ($size / 3) solid mix(white, grayscale($color), 50%);
     }
 }

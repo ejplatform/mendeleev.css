@@ -88,7 +88,8 @@ $mendeleev-type-scale: () !default;
 @mixin headings-type-scale($factor) {
     $scale: map-remove(type-scale($factor), '5', '6', '7', '8');
     @each $n, $ratio in $scale {
-        'h#{$n}, .h#{$n}' {
+        $selector: unquote('h#{$n}, .h#{$n}');
+        #{$selector} {
             @include _heading-vertical-rhythm($ratio);
         }
     }

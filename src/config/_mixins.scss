@@ -21,7 +21,11 @@
     @each $k, $v in $map {
         @if type-of($v) == map {
             @if type-of($k) == list and nth($k, 1) == '@media' {
-                @media screen and #{nth($k, 2)} {
+                $min: map-get(nth($k, 2), min-width);
+                @if not $min {
+                    @error 'Invalid media specification: #{nth($k, 2)}';
+                }
+                @media screen and (min-width: #{$min}) {
                     @include from-map($v, $suffix);
                 }
             } @else {
