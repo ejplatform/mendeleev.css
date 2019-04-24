@@ -5,6 +5,7 @@
 $config: ();
 
 // Import mendeleev
+@import '../src/profiles/default';
 @import '../src/prelude';
 
 // Define element styles

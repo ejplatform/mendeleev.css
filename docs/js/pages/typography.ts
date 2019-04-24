@@ -1,6 +1,6 @@
 import m from "mithril";
 import {ipsum, makePage, RawMarkdown, sub, title} from "../base";
-import {row} from "../../../integrations/mendeleev-mithril/mendeleev-mithril";
+import {row} from "../../../integrations/mendeleev-mithril/src/mendeleev-mithril";
 
 let md = data => m(RawMarkdown, data);
 let ipsumWords = ipsum.split(' ');

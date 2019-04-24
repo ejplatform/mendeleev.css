@@ -1,6 +1,6 @@
 import m from "mithril";
 import {page, RawMarkdown, title} from "../base";
-import {olist, ulist} from "../../../integrations/mendeleev-mithril/mendeleev-mithril";
+import {olist, ulist} from "../../../integrations/mendeleev-mithril/src/mendeleev-mithril";
 let md = data => m(RawMarkdown, data);
 
 

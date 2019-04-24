@@ -1,10 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// Define the main configuration maps
+/// Base configuration
 /// @author Fábio Macêdo Mendes
 /// @group Config
 ////////////////////////////////////////////////////////////////////////////////
-@import 'stack-font';
-@import 'stack-color';
+@import '../fn';
 
 $mendeleev-color-contrast: $fn-empty-map !default;
 $mendeleev-color-palette: $fn-empty-map !default;
@@ -13,6 +12,7 @@ $mendeleev-cursive: cursive !default;
 $mendeleev-monospace: monospace !default;
 $mendeleev-sans-serif: sans-serif !default;
 $mendeleev-serif: serif !default;
+$mendeleev-color-brand: black !default;
 
 //------------------------------------------------------------------------------
 // CONFIGURATION DICTIONARY

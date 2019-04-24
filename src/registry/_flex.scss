@@ -99,7 +99,7 @@ $mendeleev-gutter-scale: $fn-empty-map;
             //
             // Alignment along the flex axis
             justify-content:
-                ('flex-', (
+                ('.flex-', (
                     start: flex-start,
                     center: center,
                     end: flex-end,

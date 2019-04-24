@@ -48,6 +48,7 @@ $mendeleev-css-declarations: null !default;
         @if type-of($content) == map {
             $data: ();
             @each $suffix, $value in $content {
+                $suffix: if(type-of($suffix) == string, $suffix, inspect($suffix));
                 $name: $prefix + $suffix;
                 $data: map-merge($data, ($name: (#{$prop}: $value)));
             }
@@ -81,6 +82,7 @@ $mendeleev-css-declarations: null !default;
 
         @if $interpolate {
             @each $prop, $value in $interpolate {
+                $prop: if(type-of($prop) == string, $prop, inspect($prop));
                 $value: unquote(str-replace($value, '$1', $v));
                 $css: map-merge($css, ($prop: $value));
             }

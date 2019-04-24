@@ -1,6 +1,6 @@
 import m from "mithril";
 import {makePage, title, sub, subsub, RawMarkdown} from "../base";
-import {row} from "../../../integrations/mendeleev-mithril/mendeleev-mithril";
+import {row} from "../../../integrations/mendeleev-mithril/src/mendeleev-mithril";
 
 let md = data => m(RawMarkdown, data);
 
@@ -8,7 +8,7 @@ export class Layout {
     view() {
         let verticalDirections = ["center", "baseline", "left", "right"];
         let horizontalDirections = ["center", "baseline", "top", "bottom"];
-        let Cell = '.size-y4.text-center.color-accent.line-height-4';
+        let Cell = '.size-y4.center.color-accent.line-height-4';
         let triad = (x, props = ['', '', '']) => [
             m(x + '.color-accent-lighter' + props[0], 1),
             m(x + '.color-accent-light' + props[1], 2),

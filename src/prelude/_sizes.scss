@@ -16,7 +16,7 @@
     @return $x;
 }
 
-///  Convert value to a unit on the size scale.
+/// Convert value to a unit on the size scale.
 ///
 /// @arg $x - input value
 @function size-scale($x) {
@@ -42,6 +42,17 @@
     }
 }
 
+/// Return a map of sizings with property-(left/right/top) etc to the values
+/// defined in vmap.
+@function sizing-map($prop, $vmap) {
+    @return (
+        #{$prop}-left: map-get-first($vmap, L(left, l, x, horizontal, all)),
+        #{$prop}-right: map-get-first($vmap, L(right, r, x, horizontal, all)),
+        #{$prop}-top: map-get-first($vmap, L(top, t, y, vertical, all)),
+        #{$prop}-bottom: map-get-first($vmap, L(bottom, b, y, vertical, all)),
+    );
+}
+
 /// Return a map with sizing values for the given property.
 ///
 /// @arg $property - Property name
@@ -52,12 +63,8 @@
     } @else if type-of($value) == list {
         @return ($property: map(size, $value));
     } @else if type-of($value) == map {
-        @return map-apply-values(map-filter-values((
-            #{$property}-left: map-get-first($value, L(left, l, x, horizontal, all)),
-            #{$property}-right: map-get-first($value, L(right, r, x, horizontal, all)),
-            #{$property}-top: map-get-first($value, L(top, t, y, vertical, all)),
-            #{$property}-bottom: map-get-first($value, L(bottom, b, y, vertical, all)),
-        ), not-null), size);
+        $value: sizing-map($property, $value);
+        @return map-apply-values(size, map-filter-values(not-null, $value));
     } @else {
         @return ($property: $value);
     }
@@ -74,12 +81,8 @@
     } @else if type-of($value) == list {
         @return ($property: map(size-scale, $value));
     } @else if type-of($value) == map {
-        @return map-apply-values(map-filter-values((
-            #{$property}-left: map-get-first($value, left l x horizontal all, null),
-            #{$property}-right: map-get-first($value, right r x horizontal all, null),
-            #{$property}-top: map-get-first($value, top t y vertical all, null),
-            #{$property}-bottom: map-get-first($value, bottom b y vertical all, null),
-        ), not-null), size-scale);
+        $value: sizing-map($property, $value);
+        @return map-apply-values(size-scale, map-filter-values(not-null, $value));
     } @else {
         @return ($property: $value);
     }

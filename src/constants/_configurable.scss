@@ -34,7 +34,7 @@ $mendeleev-size-scale-pos-rem: null !default;
         @if abs($v) < $mendeleev-size-scale-max-size {
             $v: $v * $mendeleev-unit-size;
             $new: map-merge($new, ($k: $v));
-            @if $v > 0 {
+            @if $v >= 0 {
                 $new-pos: map-merge($new-pos, ($k: $v));
             }
         }

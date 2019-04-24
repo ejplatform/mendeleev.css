@@ -48,7 +48,7 @@ export class Colors {
     }
 
     palette(roles) {
-        let Color = '.size-5.margin-1.pad-1.text-center.text-8.rounded-2.shadow-1.col.flex-center';
+        let Color = '.size-5.margin-1.pad-1.center.text-8.rounded-2.shadow-1.col.flex-center';
         return m('p.row.row-wrap.row-center.row.wrap.flex-center', [
             ...roles.map(color =>
                 m(Color, {class: `color-${color} border-${color} center-vertically`},
