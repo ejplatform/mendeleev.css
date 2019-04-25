@@ -67,30 +67,21 @@ $mendeleev-root-defaults: (
     // Default spacings
     //------------------------------------------------------------------------------
 
-    ////.button,
-    ////button,
-    //dd, dt, li {
-    //    margin-bottom: size-scale(2);
-    //}
-    //
-    //fieldset,
-    //input,
-    //select,
-    //textarea {
-    //    margin-bottom: size-scale(3);
-    //}
-    //
-    //blockquote,
-    //dl,
-    //figure,
-    //form,
-    //ol,
-    //p,
-    //pre,
-    //table,
-    //ul {
-    //    margin-bottom: size-scale(4);
-    //}
+    dd, dt, li {
+        margin-bottom: size-scale(2);
+    }
+
+    blockquote,
+    dl,
+    figure,
+    form,
+    ol,
+    p,
+    pre,
+    table,
+    ul {
+        margin-bottom: size-scale(4);
+    }
 }
 
 $MENDELEEV-ELEMENTS-BASE: true;
