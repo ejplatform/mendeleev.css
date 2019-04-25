@@ -45,7 +45,7 @@ $mendeleev-classes-cache: $fn-empty-map !default;
 //------------------------------------------------------------------------------
 
 @if not global-variable-exists(MENDELEEV_UTILITIES_CACHE) {
-    $aux: lst-separate(keys-equal, $mendeleev-css, (type: multiple));
+    $aux: lst-separate(keys-equal, lst-stitch($mendeleev-css-classes, $mendeleev-css), (type: multiple));
     $css-multiple: nth($aux, 1);
     $css-simple: nth($aux, 2);
 
