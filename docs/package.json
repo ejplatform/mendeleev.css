@@ -4,7 +4,8 @@
   "description": "Example usage of Mendeleev.css library",
   "main": "js/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "parcel watch index.html"
   },
   "author": "Fábio Macêdo Mendes",
   "license": "MIT",
@@ -20,5 +21,8 @@
     "normalize.css": "^8.0.1",
     "typescript": "^3.3.1",
     "uc.micro": "^1.0.6"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.3"
   }
 }

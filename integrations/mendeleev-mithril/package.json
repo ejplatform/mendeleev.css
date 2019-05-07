@@ -62,6 +62,7 @@
     "onchange": "^5.2.0",
     "postcss-cli": "^6.1.2",
     "sass-lint": "^1.12.1",
+    "typescript": "^3.4.5"
   },
   "engines": {
     "node": ">=4"

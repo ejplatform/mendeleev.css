@@ -79,7 +79,7 @@ opportunities to reuse styles and discover good organization of CSS code.
 
 Atomic inverts this logic and declares that the primary use of classes is
 to define presentation rather than giving semantic hints (to whom?). Markup
-should preferebly treat CSS as a dependendency and not the other way around.
+should preferebly treat CSS as a dependendency in you r HTML and not the other way around.
 This beautiful [post](https://adamwathan.me/css-utility-classes-and-separation-of-concerns/)
 by the author of Tailwinds, currently the most popular Atomic CSS library,
 nicely explains this point.
