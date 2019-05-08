@@ -28,7 +28,6 @@ rel="stylesheet">`);
 
 export class Installation {
     view(){
-        let htmlCode = m(Prism, {lang: 'html'}, code);
 
         return makePage([
             title("Installation"),
@@ -40,7 +39,7 @@ export class Installation {
             start building something.
             `),
             md('We use jsdelivr:'),
-            m("pre", m("code", htmlCode)),
+            m(Prism, {lang: 'html'}, code),
             sub("NPM + Sass + Configuration"),
             subsub("Parcel"),
             subsub("Webpack")
