@@ -19,6 +19,7 @@
     "mithril": "^2.0.0-rc.4",
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
+    "prismjs": "^1.16.0",
     "typescript": "^3.3.1",
     "uc.micro": "^1.0.6"
   },
