@@ -2,6 +2,22 @@ import m from "mithril";
 import MarkdownIt = require("markdown-it");
 import Prismjs = require("prismjs");
 
+// CSS Table component
+export let CssTable = {
+    view: (vnode) => {
+        let classes = vnode.attrs.classes;
+        return m("table.table.table-striped",[
+
+            m("tr", [m('th', 'Property'), m('th', 'Style')]),
+            ...classes.map(x =>
+                m('tr', [
+                    m('td', m('code', '.' + x)),
+                    m(`td.${x}`, x),
+                ]))
+        ])
+    }
+}
+
 //Prism component
 export let Prism = {
     view: (vnode) => {

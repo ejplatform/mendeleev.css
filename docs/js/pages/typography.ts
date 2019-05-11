@@ -1,5 +1,5 @@
 import m from "mithril";
-import {ipsum, makePage, RawMarkdown, sub, title} from "../base";
+import {ipsum, makePage, RawMarkdown, sub, title, CssTable} from "../base";
 import {row} from "../../../integrations/mendeleev-mithril/src/mendeleev-mithril";
 
 let md = data => m(RawMarkdown, data);
@@ -72,14 +72,7 @@ export class Typography {
             ]),
 
             sub('Font styles and decoration'),
-            m('table', [
-                m('tr', [m('th', 'Property'), m('th', 'Style')]),
-                ...fontStyles.map(x =>
-                    m('tr', [
-                        m('td', m('code', '.' + x)),
-                        m(`td.${x}`, x),
-                    ]))
-            ]),
+            m(CssTable, {classes: fontStyles}),
 
             sub('Paragraph alignment'),
             ...alignments.map(x => m('div', [
