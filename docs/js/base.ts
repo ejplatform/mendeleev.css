@@ -1,6 +1,6 @@
 import m from "mithril";
-import MarkdownIt = require("markdown-it");
-import Prismjs = require("prismjs");
+import MarkdownIt from "markdown-it";
+import Prismjs from "prismjs";
 
 // CSS Table component
 export let CssTable = {
@@ -25,9 +25,11 @@ export let Prism = {
         let code = vnode.children[0];
         switch(vnode.attrs.lang) {
             case 'html':
-            return m("pre", m("code", m(`.prismjs-${lang}`,  m.trust(Prismjs.highlight(code, Prismjs.languages.html, `${lang}`)))));
+            return m("pre", m("code", 
+                m(`.prismjs-${lang}`,  m.trust(Prismjs.highlight(code, Prismjs.languages.html, `${lang}`)))));
             case 'javascript':
-            return m("pre", m("code",m(`.prismjs-${lang}`,  m.trust(Prismjs.highlight(code, Prismjs.languages.javascript, `${lang}`)))));
+            return m("pre", m("code",
+                m(`.prismjs-${lang}`,  m.trust(Prismjs.highlight(code, Prismjs.languages.javascript, `${lang}`)))));
         }
     }
 };
