@@ -1,7 +1,6 @@
 import m from "mithril";
 import {Intro} from './pages/intro';
 import {Faq} from "./pages/faq";
-import {Typography} from "./pages/typography";
 import {Lists} from "./pages/lists";
 import {Colors} from "./pages/colors";
 import {Layout} from "./pages/layout";
@@ -9,6 +8,9 @@ import {Installation} from "./pages/installation";
 import {Organization} from "./pages/organization";
 import {Buttons} from "./pages/buttons";
 import {Forms} from "./pages/forms";
+import {FontSize} from "./pages/font-size";
+import {FontStyle} from "./pages/font-style";
+import {TextAlign} from "./pages/text-align";
 
 
 let appStart = () => {
@@ -22,8 +24,12 @@ let appStart = () => {
 
         // Configurations
         '/colors': Colors,
-        '/typography': Typography,
         '/layout': Layout,
+
+        //Typography
+        '/font-size': FontSize,
+        '/font-style': FontStyle,
+        '/text-align': TextAlign,
 
         // Utility
         '/buttons': Buttons,

@@ -109,7 +109,12 @@ let navbar = () => m('nav.pad-x2.pad-y3.height-full.overflow-y.color-grey', [
     section('Configuration', [
         'Colors </colors>',
         'Layout </layout>',
-        'Typography </typography>',
+    ]),
+
+    section('Typography', [
+        'Font size </font-size>',
+        'Font style </font-style>',
+        'Text align </text-align>'
     ]),
 
     section('Utility', [
