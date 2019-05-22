@@ -1,6 +1,7 @@
 import m from "mithril";
-import { ipsum, makePage, sub, title } from "../base";
+import { ipsum, makePage, RawMarkdown, sub, title } from "../base";
 
+let md = data => m(RawMarkdown, data);
 
 export class TextAlign {
   view() {
@@ -8,6 +9,10 @@ export class TextAlign {
 
     return makePage([
       title('Text Align'),
+      md(" Here you can see the MDN web documentation about " +
+      "[text-align](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align), " +
+      "[text-indent](https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent) and " +
+      "[line-height](https://developer.mozilla.org/en-US/docs/Web/CSS/line-height)."),
       sub('Paragraph alignment'),
       ...alignments.map(x => m('div', [
         m('h2.h4', m('code', `.text-${x}`)),

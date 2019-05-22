@@ -18,6 +18,10 @@ export class FontSize {
       "responsive breakpoints for your project. Remember that 1rem = 16px, " +
       "which is the default font-size."),
 
+      md(" Here you can see the MDN web documentation about " +
+      "[font-size](https://developer.mozilla.org/en-US/docs/Web/CSS/font-size) " +
+      "and [heading](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements)."
+      ),
       // HEADINGS
       sub('Font sizes and headings'),
       md("HTML headings go from `<h1>` to `<h6>`. The default font size of " +

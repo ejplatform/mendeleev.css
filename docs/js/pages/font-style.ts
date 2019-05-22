@@ -1,7 +1,9 @@
 import m from "mithril";
-import {makePage, sub, title, CssTable } from "../base";
+import {makePage, sub, RawMarkdown, title, CssTable } from "../base";
 
+let md = data => m(RawMarkdown, data);
 export class FontStyle {
+
   view() {
     let fontStyles = [
       // font-weight
@@ -28,7 +30,10 @@ export class FontStyle {
 
 
       title('Font Style'),
-
+      md(" Here you can see the MDN web documentation about " +
+      "[font](https://developer.mozilla.org/en-US/docs/Web/CSS/font), " +
+      "[text-decoration](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration) and " +
+      "[text-transform](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform)."),
       sub('Default inline styles'),
       ...['You can <mark>highlight</mark> text.',
         'Delete <del>parts</del><ins>fragments</ins> of text as in revision control',
