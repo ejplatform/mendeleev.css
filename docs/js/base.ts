@@ -2,16 +2,32 @@ import m from "mithril";
 import MarkdownIt from "markdown-it";
 import Prismjs from "prismjs";
 
+// Function that returns the CSS definition for a specific rule
+function cssDefinitions(sel){
+    let pos = 1;
+    let rules = document.styleSheets[pos].cssRules;
+    let cssDeclarations = {};
+    
+    for (var rule of rules) {
+        var body = rule.cssText.split("{");
+        body = body[1].split("}")[0].trim();
+            
+        cssDeclarations[rule.selectorText] = body;
+    }
+    return cssDeclarations[`.${sel}`];
+}
+
 // CSS Table component
 export let CssTable = {
     view: (vnode) => {
         let classes = vnode.attrs.classes;
-        return m("table.table.table-striped",[
+        return m("table.table",[
 
-            m("tr", [m('th', 'Property'), m('th', 'Style')]),
+            m("tr", [m('th', 'Property'), m('th', 'Definition'), m('th', 'Style')]),
             ...classes.map(x =>
                 m('tr', [
                     m('td', m('code', '.' + x)),
+                    m('td', cssDefinitions(x)),
                     m(`td.${x}`, x),
                 ]))
         ])
